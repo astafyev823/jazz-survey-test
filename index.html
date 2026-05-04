@@ -7,15 +7,17 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- Supabase client loaded FIRST so it's available to all subsequent scripts -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <style>
   :root {
-    /* Jazz Pharma palette */
     --purple: #5C1F61;
     --purple-deep: #3F1442;
     --purple-soft: #8E4D93;
     --purple-pale: #F3EAF4;
     --purple-mist: #FAF6FB;
-
     --navy: #0E2A5C;
     --navy-deep: #061640;
     --gold: #C99A1F;
@@ -23,1315 +25,237 @@
     --orange: #C56F18;
     --pink: #B0608A;
     --teal: #1F8A7B;
-
     --white: #ffffff;
     --bg: #F7F6F8;
     --surface: #ffffff;
     --border: #E4E0E6;
     --border-strong: #C8C2CC;
-
     --ink: #1A1320;
     --ink-soft: #4D4452;
     --ink-mute: #7E7585;
     --ink-faint: #A6A0AC;
   }
-
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
-
   body {
-    background: var(--bg);
-    color: var(--ink);
+    background: var(--bg); color: var(--ink);
     font-family: 'Inter', -apple-system, sans-serif;
-    font-weight: 400;
-    font-size: 15px;
-    line-height: 1.5;
-    min-height: 100vh;
-    -webkit-font-smoothing: antialiased;
+    font-weight: 400; font-size: 15px; line-height: 1.5;
+    min-height: 100vh; -webkit-font-smoothing: antialiased;
   }
-
-  /* ============ IN PROGRESS BANNER ============ */
   .progress-banner {
-    background: repeating-linear-gradient(
-      45deg,
-      #2A1A2E,
-      #2A1A2E 12px,
-      #3F1442 12px,
-      #3F1442 24px
-    );
-    color: #F4D976;
-    padding: 8px 24px;
-    text-align: center;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    position: sticky;
-    top: 0;
-    z-index: 110;
-    border-bottom: 2px solid var(--gold);
+    background: repeating-linear-gradient(45deg, #2A1A2E, #2A1A2E 12px, #3F1442 12px, #3F1442 24px);
+    color: #F4D976; padding: 8px 24px; text-align: center;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.25em; text-transform: uppercase;
+    position: sticky; top: 0; z-index: 110; border-bottom: 2px solid var(--gold);
   }
-  .progress-banner span {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-  }
-  .progress-banner span::before,
-  .progress-banner span::after {
-    content: '◆';
-    font-size: 9px;
-    color: var(--gold);
-  }
-
-  /* ============ TOP BAR ============ */
-  .topbar {
-    background: var(--white);
-    border-bottom: 1px solid var(--border);
-    padding: 16px 0;
-    position: sticky;
-    top: 32px;
-    z-index: 100;
-  }
-
-  .topbar-inner {
-    max-width: 1180px;
-    margin: 0 auto;
-    padding: 0 40px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .logo-block {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-  }
-
-  .logo-mark {
-    width: 32px;
-    height: 32px;
-    background: var(--purple);
-    border-radius: 4px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-family: 'Source Serif 4', serif;
-    font-weight: 600;
-    font-size: 18px;
-    font-style: italic;
-  }
-
-  .logo-text {
-    display: flex;
-    flex-direction: column;
-    gap: 1px;
-  }
-  .logo-name {
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--ink);
-    letter-spacing: -0.01em;
-  }
-  .logo-sub {
-    font-size: 11px;
-    color: var(--ink-mute);
-    letter-spacing: 0.02em;
-  }
-
-  .topbar-meta {
-    display: flex;
-    gap: 24px;
-    align-items: center;
-    font-size: 12px;
-    color: var(--ink-mute);
-  }
+  .progress-banner span { display: inline-flex; align-items: center; gap: 10px; }
+  .progress-banner span::before, .progress-banner span::after { content: '◆'; font-size: 9px; color: var(--gold); }
+  .topbar { background: var(--white); border-bottom: 1px solid var(--border); padding: 16px 0; position: sticky; top: 32px; z-index: 100; }
+  .topbar-inner { max-width: 1180px; margin: 0 auto; padding: 0 40px; display: flex; justify-content: space-between; align-items: center; }
+  .logo-block { display: flex; align-items: center; gap: 14px; }
+  .logo-mark { width: 32px; height: 32px; background: var(--purple); border-radius: 4px; display: flex; align-items: center; justify-content: center; color: white; font-family: 'Source Serif 4', serif; font-weight: 600; font-size: 18px; font-style: italic; }
+  .logo-text { display: flex; flex-direction: column; gap: 1px; }
+  .logo-name { font-size: 13px; font-weight: 600; color: var(--ink); letter-spacing: -0.01em; }
+  .logo-sub { font-size: 11px; color: var(--ink-mute); letter-spacing: 0.02em; }
+  .topbar-meta { display: flex; gap: 24px; align-items: center; font-size: 12px; color: var(--ink-mute); }
   .meta-item strong { color: var(--ink); font-weight: 500; }
-  .meta-divider {
-    width: 1px;
-    height: 18px;
-    background: var(--border);
-  }
-
-  /* ============ LAYOUT ============ */
-  .layout {
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 24px 24px 80px;
-    display: grid;
-    grid-template-columns: 180px 1fr 280px;
-    gap: 20px;
-    align-items: start;
-  }
-
-  /* ============ SIDEBAR NAV ============ */
-  .sidebar {
-    position: sticky;
-    top: 122px;
-  }
-
-  .sidebar-label {
-    font-size: 11px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--ink-mute);
-    margin-bottom: 14px;
-    padding-left: 4px;
-  }
-
-  .nav-list {
-    list-style: none;
-    border-left: 1px solid var(--border);
-  }
-
-  .nav-list li {
-    position: relative;
-  }
-
-  .nav-list button {
-    width: 100%;
-    background: transparent;
-    border: none;
-    text-align: left;
-    padding: 10px 16px;
-    font-family: inherit;
-    font-size: 13px;
-    color: var(--ink-soft);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    transition: all 0.15s;
-    border-left: 2px solid transparent;
-    margin-left: -1px;
-  }
-
-  .nav-list button:hover {
-    color: var(--purple);
-    background: var(--purple-mist);
-  }
-
-  .nav-list button.active {
-    color: var(--purple);
-    border-left-color: var(--purple);
-    font-weight: 500;
-  }
-
-  .nav-num {
-    font-family: 'Source Serif 4', serif;
-    font-size: 12px;
-    color: var(--ink-faint);
-    font-weight: 500;
-    width: 16px;
-    flex-shrink: 0;
-  }
+  .meta-divider { width: 1px; height: 18px; background: var(--border); }
+  .layout { max-width: 1400px; margin: 0 auto; padding: 24px 24px 80px; display: grid; grid-template-columns: 180px 1fr 280px; gap: 20px; align-items: start; }
+  .sidebar { position: sticky; top: 122px; }
+  .sidebar-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-mute); margin-bottom: 14px; padding-left: 4px; }
+  .nav-list { list-style: none; border-left: 1px solid var(--border); }
+  .nav-list li { position: relative; }
+  .nav-list button { width: 100%; background: transparent; border: none; text-align: left; padding: 10px 16px; font-family: inherit; font-size: 13px; color: var(--ink-soft); cursor: pointer; display: flex; align-items: center; gap: 12px; transition: all 0.15s; border-left: 2px solid transparent; margin-left: -1px; }
+  .nav-list button:hover { color: var(--purple); background: var(--purple-mist); }
+  .nav-list button.active { color: var(--purple); border-left-color: var(--purple); font-weight: 500; }
+  .nav-num { font-family: 'Source Serif 4', serif; font-size: 12px; color: var(--ink-faint); font-weight: 500; width: 16px; flex-shrink: 0; }
   .nav-list button.active .nav-num { color: var(--purple); }
-
-  .nav-badge {
-    margin-left: auto;
-    font-size: 9px;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    background: linear-gradient(135deg, var(--purple) 0%, var(--blue) 100%);
-    color: white;
-    padding: 2px 6px;
-    border-radius: 4px;
-    line-height: 1.3;
-  }
-
-  .nav-progress {
-    margin-top: 24px;
-    padding: 16px;
-    background: var(--white);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-  }
-  .progress-label {
-    font-size: 11px;
-    color: var(--ink-mute);
-    margin-bottom: 8px;
-    font-weight: 500;
-  }
-  .progress-bar {
-    height: 4px;
-    background: var(--border);
-    border-radius: 999px;
-    overflow: hidden;
-  }
-  .progress-fill {
-    height: 100%;
-    background: var(--purple);
-    width: 25%;
-    transition: width 0.3s;
-  }
-  .progress-text {
-    font-size: 11px;
-    color: var(--ink-mute);
-    margin-top: 6px;
-  }
-
-  /* ============ MAIN CONTENT ============ */
-  .main {
-    min-width: 0;
-  }
-
-  .section-panel {
-    display: none;
-  }
-  .section-panel.active {
-    display: block;
-    animation: fade 0.25s ease;
-  }
-  @keyframes fade {
-    from { opacity: 0; transform: translateY(6px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  .section-header {
-    margin-bottom: 32px;
-    padding-bottom: 24px;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .section-eyebrow {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 11px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--purple);
-    margin-bottom: 12px;
-  }
-  .section-eyebrow::before {
-    content: '';
-    width: 24px;
-    height: 1px;
-    background: var(--purple);
-  }
-
-  .section-title {
-    font-family: 'Source Serif 4', serif;
-    font-weight: 500;
-    font-size: 38px;
-    line-height: 1.15;
-    letter-spacing: -0.015em;
-    color: var(--ink);
-    margin-bottom: 12px;
-    max-width: 720px;
-  }
-
-  .section-desc {
-    font-size: 15px;
-    line-height: 1.55;
-    color: var(--ink-soft);
-    max-width: 640px;
-  }
-
-  /* ============ MOCKUP NOTE ============ */
-  .mockup-note {
-    background: #FFF8E1;
-    border-left: 3px solid var(--gold);
-    padding: 12px 16px;
-    margin-bottom: 28px;
-    font-size: 13px;
-    color: var(--ink-soft);
-    border-radius: 0 6px 6px 0;
-    display: flex;
-    gap: 10px;
-    align-items: flex-start;
-  }
-  .mockup-note strong {
-    color: var(--ink);
-    font-weight: 600;
-  }
-
-  /* ============ QUESTION BLOCKS ============ */
-  .question {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 24px 28px;
-    margin-bottom: 16px;
-    transition: border-color 0.15s;
-  }
+  .nav-badge { margin-left: auto; font-size: 9px; font-weight: 700; letter-spacing: 0.08em; background: linear-gradient(135deg, var(--purple) 0%, var(--blue) 100%); color: white; padding: 2px 6px; border-radius: 4px; line-height: 1.3; }
+  .nav-progress { margin-top: 24px; padding: 16px; background: var(--white); border: 1px solid var(--border); border-radius: 8px; }
+  .progress-label { font-size: 11px; color: var(--ink-mute); margin-bottom: 8px; font-weight: 500; }
+  .progress-bar { height: 4px; background: var(--border); border-radius: 999px; overflow: hidden; }
+  .progress-fill { height: 100%; background: var(--purple); width: 25%; transition: width 0.3s; }
+  .progress-text { font-size: 11px; color: var(--ink-mute); margin-top: 6px; }
+  .main { min-width: 0; }
+  .section-panel { display: none; }
+  .section-panel.active { display: block; animation: fade 0.25s ease; }
+  @keyframes fade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+  .section-header { margin-bottom: 32px; padding-bottom: 24px; border-bottom: 1px solid var(--border); }
+  .section-eyebrow { display: inline-flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--purple); margin-bottom: 12px; }
+  .section-eyebrow::before { content: ''; width: 24px; height: 1px; background: var(--purple); }
+  .section-title { font-family: 'Source Serif 4', serif; font-weight: 500; font-size: 38px; line-height: 1.15; letter-spacing: -0.015em; color: var(--ink); margin-bottom: 12px; max-width: 720px; }
+  .section-desc { font-size: 15px; line-height: 1.55; color: var(--ink-soft); max-width: 640px; }
+  .mockup-note { background: #FFF8E1; border-left: 3px solid var(--gold); padding: 12px 16px; margin-bottom: 28px; font-size: 13px; color: var(--ink-soft); border-radius: 0 6px 6px 0; display: flex; gap: 10px; align-items: flex-start; }
+  .mockup-note strong { color: var(--ink); font-weight: 600; }
+  .question { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 24px 28px; margin-bottom: 16px; transition: border-color 0.15s; }
   .question:hover { border-color: var(--border-strong); }
   .question:focus-within { border-color: var(--purple); }
-
-  .q-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 16px;
-    margin-bottom: 4px;
-  }
-
-  .q-label {
-    font-size: 16px;
-    font-weight: 600;
-    color: var(--ink);
-    line-height: 1.4;
-    letter-spacing: -0.005em;
-  }
-
-  .q-required {
-    font-size: 11px;
-    color: var(--ink-mute);
-    font-weight: 500;
-    flex-shrink: 0;
-    padding-top: 3px;
-  }
-
-  .q-helper {
-    font-size: 13px;
-    color: var(--ink-mute);
-    line-height: 1.5;
-    margin-bottom: 16px;
-  }
-
-  /* ============ INPUTS ============ */
-  .input,
-  .textarea,
-  .select {
-    width: 100%;
-    background: var(--white);
-    border: 1px solid var(--border-strong);
-    color: var(--ink);
-    padding: 10px 14px;
-    font-family: inherit;
-    font-size: 14px;
-    border-radius: 6px;
-    transition: all 0.15s;
-    line-height: 1.4;
-  }
-  .input:focus,
-  .textarea:focus,
-  .select:focus {
-    outline: none;
-    border-color: var(--purple);
-    box-shadow: 0 0 0 3px var(--purple-pale);
-  }
-  .textarea {
-    min-height: 80px;
-    resize: vertical;
-  }
-  .select {
-    appearance: none;
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'><path d='M3 4.5L6 7.5L9 4.5' stroke='%237E7585' stroke-width='1.5' fill='none'/></svg>");
-    background-repeat: no-repeat;
-    background-position: right 12px center;
-    padding-right: 36px;
-  }
-
-  .input-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-  }
+  .q-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; margin-bottom: 4px; }
+  .q-label { font-size: 16px; font-weight: 600; color: var(--ink); line-height: 1.4; letter-spacing: -0.005em; }
+  .q-required { font-size: 11px; color: var(--ink-mute); font-weight: 500; flex-shrink: 0; padding-top: 3px; }
+  .q-helper { font-size: 13px; color: var(--ink-mute); line-height: 1.5; margin-bottom: 16px; }
+  .input, .textarea, .select { width: 100%; background: var(--white); border: 1px solid var(--border-strong); color: var(--ink); padding: 10px 14px; font-family: inherit; font-size: 14px; border-radius: 6px; transition: all 0.15s; line-height: 1.4; }
+  .input:focus, .textarea:focus, .select:focus { outline: none; border-color: var(--purple); box-shadow: 0 0 0 3px var(--purple-pale); }
+  .textarea { min-height: 80px; resize: vertical; }
+  .select { appearance: none; background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'><path d='M3 4.5L6 7.5L9 4.5' stroke='%237E7585' stroke-width='1.5' fill='none'/></svg>"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 36px; }
+  .input-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
   .input-row + .input-row { margin-top: 12px; }
-
-  /* anonymous toggle */
-  .anon-toggle {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    margin-top: 12px;
-    padding: 5px 11px;
-    background: transparent;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 12px;
-    color: var(--ink-mute);
-    transition: all 0.15s;
-    user-select: none;
-    font-weight: 500;
-  }
-  .anon-toggle:hover {
-    border-color: var(--purple-soft);
-    color: var(--purple);
-  }
+  .anon-toggle { display: inline-flex; align-items: center; gap: 8px; margin-top: 12px; padding: 5px 11px; background: transparent; border: 1px solid var(--border); border-radius: 6px; cursor: pointer; font-size: 12px; color: var(--ink-mute); transition: all 0.15s; user-select: none; font-weight: 500; }
+  .anon-toggle:hover { border-color: var(--purple-soft); color: var(--purple); }
   .anon-toggle input { accent-color: var(--purple); cursor: pointer; }
-  .anon-toggle.checked {
-    background: var(--purple-pale);
-    color: var(--purple);
-    border-color: var(--purple-soft);
-  }
-  .anon-toggle .lock {
-    font-size: 11px;
-  }
-
-  /* ============ RATING SCALE ============ */
-  .rating-scale {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 8px;
-  }
-  .rating-option {
-    background: var(--white);
-    border: 1px solid var(--border-strong);
-    border-radius: 6px;
-    padding: 14px 8px;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.15s;
-  }
-  .rating-option:hover {
-    border-color: var(--purple);
-    background: var(--purple-mist);
-  }
-  .rating-option.selected {
-    background: var(--purple);
-    border-color: var(--purple);
-    color: white;
-  }
-  .rating-num {
-    font-family: 'Source Serif 4', serif;
-    font-size: 22px;
-    font-weight: 500;
-    line-height: 1;
-    display: block;
-    margin-bottom: 4px;
-  }
-  .rating-label {
-    font-size: 11px;
-    color: var(--ink-mute);
-    font-weight: 500;
-  }
-  .rating-option.selected .rating-label {
-    color: rgba(255,255,255,0.85);
-  }
-
-  /* ============ TOPIC CARDS ============ */
-  .topic {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 24px 28px;
-    margin-bottom: 14px;
-    border-left: 3px solid var(--purple);
-  }
+  .anon-toggle.checked { background: var(--purple-pale); color: var(--purple); border-color: var(--purple-soft); }
+  .anon-toggle .lock { font-size: 11px; }
+  .rating-scale { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+  .rating-option { background: var(--white); border: 1px solid var(--border-strong); border-radius: 6px; padding: 14px 8px; text-align: center; cursor: pointer; transition: all 0.15s; }
+  .rating-option:hover { border-color: var(--purple); background: var(--purple-mist); }
+  .rating-option.selected { background: var(--purple); border-color: var(--purple); color: white; }
+  .rating-num { font-family: 'Source Serif 4', serif; font-size: 22px; font-weight: 500; line-height: 1; display: block; margin-bottom: 4px; }
+  .rating-label { font-size: 11px; color: var(--ink-mute); font-weight: 500; }
+  .rating-option.selected .rating-label { color: rgba(255,255,255,0.85); }
+  .topic { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 24px 28px; margin-bottom: 14px; border-left: 3px solid var(--purple); }
   .topic:nth-of-type(2) { border-left-color: var(--blue); }
   .topic:nth-of-type(3) { border-left-color: var(--gold); }
   .topic:nth-of-type(4) { border-left-color: var(--teal); }
   .topic:nth-of-type(5) { border-left-color: var(--orange); }
   .topic:nth-of-type(6) { border-left-color: var(--pink); }
-
-  .topic-meta {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 8px;
-  }
-  .topic-tag {
-    font-size: 10px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--ink-mute);
-  }
-  .topic-dot {
-    width: 5px;
-    height: 5px;
-    border-radius: 50%;
-    background: var(--ink-faint);
-  }
-  .topic-status {
-    font-size: 11px;
-    color: var(--ink-mute);
-  }
-
-  .topic-title {
-    font-family: 'Source Serif 4', serif;
-    font-size: 21px;
-    font-weight: 500;
-    line-height: 1.3;
-    color: var(--ink);
-    letter-spacing: -0.01em;
-    margin-bottom: 6px;
-  }
-
-  .topic-summary {
-    font-size: 14px;
-    color: var(--ink-soft);
-    line-height: 1.55;
-    margin-bottom: 18px;
-  }
-
-  .reaction-row {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 6px;
-    margin-bottom: 12px;
-  }
-
-  .reaction-pill {
-    background: var(--white);
-    border: 1px solid var(--border-strong);
-    color: var(--ink-soft);
-    padding: 9px 8px;
-    font-family: inherit;
-    font-size: 12px;
-    font-weight: 500;
-    cursor: pointer;
-    border-radius: 6px;
-    transition: all 0.15s;
-    text-align: center;
-    line-height: 1.3;
-  }
-  .reaction-pill:hover {
-    border-color: var(--purple);
-    color: var(--purple);
-    background: var(--purple-mist);
-  }
-  .reaction-pill.active {
-    background: var(--purple);
-    color: white;
-    border-color: var(--purple);
-  }
-
-  .topic-why textarea {
-    width: 100%;
-    background: var(--white);
-    border: 1px solid var(--border);
-    padding: 9px 12px;
-    font-family: inherit;
-    font-size: 13px;
-    border-radius: 6px;
-    min-height: 44px;
-    resize: vertical;
-    color: var(--ink);
-  }
-  .topic-why textarea:focus {
-    outline: none;
-    border-color: var(--purple);
-    box-shadow: 0 0 0 3px var(--purple-pale);
-  }
-
-  /* ============ THREE LENS ============ */
-  .three-lens {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 12px;
-  }
-  .lens {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 20px;
-    border-top: 3px solid var(--purple);
-  }
+  .topic-meta { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+  .topic-tag { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-mute); }
+  .topic-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--ink-faint); }
+  .topic-status { font-size: 11px; color: var(--ink-mute); }
+  .topic-title { font-family: 'Source Serif 4', serif; font-size: 21px; font-weight: 500; line-height: 1.3; color: var(--ink); letter-spacing: -0.01em; margin-bottom: 6px; }
+  .topic-summary { font-size: 14px; color: var(--ink-soft); line-height: 1.55; margin-bottom: 18px; }
+  .reaction-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-bottom: 12px; }
+  .reaction-pill { background: var(--white); border: 1px solid var(--border-strong); color: var(--ink-soft); padding: 9px 8px; font-family: inherit; font-size: 12px; font-weight: 500; cursor: pointer; border-radius: 6px; transition: all 0.15s; text-align: center; line-height: 1.3; }
+  .reaction-pill:hover { border-color: var(--purple); color: var(--purple); background: var(--purple-mist); }
+  .reaction-pill.active { background: var(--purple); color: white; border-color: var(--purple); }
+  .topic-why textarea { width: 100%; background: var(--white); border: 1px solid var(--border); padding: 9px 12px; font-family: inherit; font-size: 13px; border-radius: 6px; min-height: 44px; resize: vertical; color: var(--ink); }
+  .topic-why textarea:focus { outline: none; border-color: var(--purple); box-shadow: 0 0 0 3px var(--purple-pale); }
+  .three-lens { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+  .lens { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; border-top: 3px solid var(--purple); }
   .lens-2 { border-top-color: var(--gold); }
   .lens-3 { border-top-color: var(--navy); }
-
-  .lens-name {
-    font-family: 'Source Serif 4', serif;
-    font-size: 17px;
-    font-weight: 500;
-    color: var(--ink);
-    margin-bottom: 4px;
-    letter-spacing: -0.005em;
-  }
-  .lens-intro {
-    font-size: 12px;
-    color: var(--ink-mute);
-    line-height: 1.5;
-    margin-bottom: 14px;
-  }
-
-  /* ============ RANK LIST ============ */
-  .rank-list {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-  .rank-item {
-    background: var(--white);
-    border: 1px solid var(--border-strong);
-    border-radius: 6px;
-    padding: 12px 16px;
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    cursor: grab;
-    transition: all 0.15s;
-  }
-  .rank-item:hover {
-    border-color: var(--purple);
-    box-shadow: 0 1px 4px rgba(92, 31, 97, 0.08);
-  }
-  .rank-num {
-    font-family: 'Source Serif 4', serif;
-    font-size: 18px;
-    font-weight: 500;
-    color: var(--purple);
-    width: 22px;
-    text-align: center;
-  }
-  .rank-text {
-    font-size: 14px;
-    color: var(--ink);
-    flex: 1;
-  }
-  .rank-handle {
-    color: var(--ink-faint);
-    font-size: 14px;
-    letter-spacing: 1px;
-    user-select: none;
-  }
-
-  /* ============ COMMITMENT ============ */
-  .commit-block {
-    background: var(--purple);
-    color: white;
-    border-radius: 8px;
-    padding: 32px 32px;
-    margin-bottom: 16px;
-    border: 1px solid var(--purple);
-  }
-  .commit-eyebrow {
-    font-size: 11px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: rgba(255,255,255,0.7);
-    margin-bottom: 14px;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .commit-eyebrow::before {
-    content: '';
-    width: 24px;
-    height: 1px;
-    background: rgba(255,255,255,0.5);
-  }
-
-  .commit-title {
-    font-family: 'Source Serif 4', serif;
-    font-size: 28px;
-    font-weight: 500;
-    line-height: 1.2;
-    margin-bottom: 10px;
-    letter-spacing: -0.01em;
-  }
-  .commit-sub {
-    font-size: 14px;
-    line-height: 1.5;
-    color: rgba(255,255,255,0.8);
-    margin-bottom: 22px;
-    max-width: 540px;
-  }
-
-  .commit-input {
-    width: 100%;
-    background: rgba(255,255,255,0.1);
-    border: 1px solid rgba(255,255,255,0.25);
-    color: white;
-    padding: 14px 18px;
-    font-family: inherit;
-    font-size: 15px;
-    border-radius: 6px;
-    transition: all 0.15s;
-  }
+  .lens-name { font-family: 'Source Serif 4', serif; font-size: 17px; font-weight: 500; color: var(--ink); margin-bottom: 4px; letter-spacing: -0.005em; }
+  .lens-intro { font-size: 12px; color: var(--ink-mute); line-height: 1.5; margin-bottom: 14px; }
+  .rank-list { display: flex; flex-direction: column; gap: 8px; }
+  .rank-item { background: var(--white); border: 1px solid var(--border-strong); border-radius: 6px; padding: 12px 16px; display: flex; align-items: center; gap: 14px; cursor: grab; transition: all 0.15s; }
+  .rank-item:hover { border-color: var(--purple); box-shadow: 0 1px 4px rgba(92, 31, 97, 0.08); }
+  .rank-num { font-family: 'Source Serif 4', serif; font-size: 18px; font-weight: 500; color: var(--purple); width: 22px; text-align: center; }
+  .rank-text { font-size: 14px; color: var(--ink); flex: 1; }
+  .rank-handle { color: var(--ink-faint); font-size: 14px; letter-spacing: 1px; user-select: none; }
+  .commit-block { background: var(--purple); color: white; border-radius: 8px; padding: 32px 32px; margin-bottom: 16px; border: 1px solid var(--purple); }
+  .commit-eyebrow { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255,255,255,0.7); margin-bottom: 14px; display: inline-flex; align-items: center; gap: 8px; }
+  .commit-eyebrow::before { content: ''; width: 24px; height: 1px; background: rgba(255,255,255,0.5); }
+  .commit-title { font-family: 'Source Serif 4', serif; font-size: 28px; font-weight: 500; line-height: 1.2; margin-bottom: 10px; letter-spacing: -0.01em; }
+  .commit-sub { font-size: 14px; line-height: 1.5; color: rgba(255,255,255,0.8); margin-bottom: 22px; max-width: 540px; }
+  .commit-input { width: 100%; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.25); color: white; padding: 14px 18px; font-family: inherit; font-size: 15px; border-radius: 6px; transition: all 0.15s; }
   .commit-input::placeholder { color: rgba(255,255,255,0.45); }
-  .commit-input:focus {
-    outline: none;
-    border-color: rgba(255,255,255,0.6);
-    background: rgba(255,255,255,0.16);
-  }
-
-  .commit-note {
-    font-size: 11px;
-    color: rgba(255,255,255,0.6);
-    margin-top: 12px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-
-  /* ============ ACTION BAR ============ */
-  .action-bar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 32px;
-    padding-top: 24px;
-    border-top: 1px solid var(--border);
-  }
-
-  .btn {
-    background: var(--white);
-    border: 1px solid var(--border-strong);
-    color: var(--ink);
-    padding: 10px 18px;
-    font-family: inherit;
-    font-size: 13px;
-    font-weight: 500;
-    cursor: pointer;
-    border-radius: 6px;
-    transition: all 0.15s;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-  }
-  .btn:hover {
-    border-color: var(--purple);
-    color: var(--purple);
-  }
-  .btn-primary {
-    background: var(--purple);
-    color: white;
-    border-color: var(--purple);
-  }
-  .btn-primary:hover {
-    background: var(--purple-deep);
-    border-color: var(--purple-deep);
-    color: white;
-  }
-  .btn-arrow {
-    font-size: 14px;
-    line-height: 1;
-  }
-
-  .save-status {
-    font-size: 12px;
-    color: var(--ink-mute);
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-  .save-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--teal);
-  }
-
-  /* ============ COMMENTS RAIL ============ */
-  .comments {
-    position: sticky;
-    top: 122px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    max-height: calc(100vh - 140px);
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-  }
-
-  .comments-header {
-    padding: 16px 18px;
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-shrink: 0;
-  }
-  .comments-title {
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--ink);
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .comments-title-icon {
-    width: 16px; height: 16px;
-    color: var(--purple);
-  }
-  .comments-count {
-    font-size: 11px;
-    color: var(--ink-mute);
-    background: var(--purple-pale);
-    color: var(--purple);
-    padding: 2px 8px;
-    border-radius: 999px;
-    font-weight: 600;
-  }
-
-  .comments-section-label {
-    padding: 10px 18px;
-    font-size: 10px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--ink-mute);
-    background: var(--bg);
-    border-bottom: 1px solid var(--border);
-    flex-shrink: 0;
-  }
-
-  .comments-list {
-    flex: 1;
-    overflow-y: auto;
-    padding: 8px 0;
-  }
+  .commit-input:focus { outline: none; border-color: rgba(255,255,255,0.6); background: rgba(255,255,255,0.16); }
+  .commit-note { font-size: 11px; color: rgba(255,255,255,0.6); margin-top: 12px; display: flex; align-items: center; gap: 6px; }
+  .action-bar { display: flex; justify-content: space-between; align-items: center; margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--border); }
+  .btn { background: var(--white); border: 1px solid var(--border-strong); color: var(--ink); padding: 10px 18px; font-family: inherit; font-size: 13px; font-weight: 500; cursor: pointer; border-radius: 6px; transition: all 0.15s; display: inline-flex; align-items: center; gap: 6px; }
+  .btn:hover { border-color: var(--purple); color: var(--purple); }
+  .btn-primary { background: var(--purple); color: white; border-color: var(--purple); }
+  .btn-primary:hover { background: var(--purple-deep); border-color: var(--purple-deep); color: white; }
+  .btn-arrow { font-size: 14px; line-height: 1; }
+  .save-status { font-size: 12px; color: var(--ink-mute); display: flex; align-items: center; gap: 6px; }
+  .save-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--teal); }
+  .comments { position: sticky; top: 122px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; max-height: calc(100vh - 140px); display: flex; flex-direction: column; overflow: hidden; }
+  .comments-header { padding: 16px 18px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
+  .comments-title { font-size: 13px; font-weight: 600; color: var(--ink); display: flex; align-items: center; gap: 8px; }
+  .comments-title-icon { width: 16px; height: 16px; color: var(--purple); }
+  .comments-count { font-size: 11px; background: var(--purple-pale); color: var(--purple); padding: 2px 8px; border-radius: 999px; font-weight: 600; }
+  .comments-section-label { padding: 10px 18px; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-mute); background: var(--bg); border-bottom: 1px solid var(--border); flex-shrink: 0; }
+  .comments-list { flex: 1; overflow-y: auto; padding: 8px 0; }
   .comments-list::-webkit-scrollbar { width: 6px; }
   .comments-list::-webkit-scrollbar-track { background: transparent; }
   .comments-list::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 3px; }
-
-  .comment {
-    padding: 14px 18px;
-    border-bottom: 1px solid var(--border);
-  }
+  .comment { padding: 14px 18px; border-bottom: 1px solid var(--border); }
   .comment:last-child { border-bottom: none; }
-
-  .comment-head {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 6px;
-  }
-  .comment-author {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .comment-avatar {
-    width: 22px; height: 22px;
-    border-radius: 50%;
-    background: var(--purple);
-    color: white;
-    font-size: 10px;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-  }
+  .comment-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+  .comment-author { display: flex; align-items: center; gap: 8px; }
+  .comment-avatar { width: 22px; height: 22px; border-radius: 50%; background: var(--purple); color: white; font-size: 10px; font-weight: 600; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
   .comment-avatar.c2 { background: var(--blue); }
   .comment-avatar.c3 { background: var(--teal); }
   .comment-avatar.c4 { background: var(--orange); }
   .comment-avatar.c5 { background: var(--gold); color: var(--ink); }
-
-  .comment-name {
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--ink);
-  }
-  .comment-time {
-    font-size: 10px;
-    color: var(--ink-faint);
-  }
-
-  .comment-body {
-    font-size: 13px;
-    color: var(--ink-soft);
-    line-height: 1.45;
-    margin-left: 30px;
-  }
-
-  .comment-actions {
-    margin-left: 30px;
-    margin-top: 6px;
-    display: flex;
-    gap: 12px;
-    font-size: 11px;
-    color: var(--ink-mute);
-  }
-  .comment-action {
-    background: none;
-    border: none;
-    color: var(--ink-mute);
-    cursor: pointer;
-    font-family: inherit;
-    font-size: 11px;
-    padding: 0;
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-  }
+  .comment-name { font-size: 12px; font-weight: 600; color: var(--ink); }
+  .comment-time { font-size: 10px; color: var(--ink-faint); }
+  .comment-body { font-size: 13px; color: var(--ink-soft); line-height: 1.45; margin-left: 30px; word-wrap: break-word; }
+  .comment-actions { margin-left: 30px; margin-top: 6px; display: flex; gap: 12px; font-size: 11px; color: var(--ink-mute); }
+  .comment-action { background: none; border: none; color: var(--ink-mute); cursor: pointer; font-family: inherit; font-size: 11px; padding: 0; display: inline-flex; align-items: center; gap: 4px; }
   .comment-action:hover { color: var(--purple); }
-
-  .comment-reply {
-    margin-left: 30px;
-    margin-top: 8px;
-    padding: 8px 10px;
-    background: var(--bg);
-    border-left: 2px solid var(--purple-soft);
-    border-radius: 0 4px 4px 0;
-    font-size: 12px;
-    color: var(--ink-soft);
-    line-height: 1.4;
-  }
-  .comment-reply-author {
-    font-weight: 600;
-    color: var(--ink);
-    font-size: 11px;
-    margin-right: 6px;
-  }
-
-  .comment-input-area {
-    border-top: 1px solid var(--border);
-    padding: 12px;
-    background: var(--bg);
-    flex-shrink: 0;
-  }
-  .comment-input {
-    width: 100%;
-    background: var(--white);
-    border: 1px solid var(--border-strong);
-    color: var(--ink);
-    padding: 8px 10px;
-    font-family: inherit;
-    font-size: 13px;
-    border-radius: 6px;
-    resize: none;
-    min-height: 60px;
-    line-height: 1.4;
-  }
-  .comment-input:focus {
-    outline: none;
-    border-color: var(--purple);
-    box-shadow: 0 0 0 3px var(--purple-pale);
-  }
-  .comment-input-actions {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 8px;
-  }
-  .comment-input-meta {
-    font-size: 11px;
-    color: var(--ink-mute);
-  }
-  .comment-submit {
-    background: var(--purple);
-    color: white;
-    border: none;
-    padding: 6px 12px;
-    border-radius: 4px;
-    font-family: inherit;
-    font-size: 12px;
-    font-weight: 500;
-    cursor: pointer;
-  }
+  .comment-input-area { border-top: 1px solid var(--border); padding: 12px; background: var(--bg); flex-shrink: 0; }
+  .comment-input { width: 100%; background: var(--white); border: 1px solid var(--border-strong); color: var(--ink); padding: 8px 10px; font-family: inherit; font-size: 13px; border-radius: 6px; resize: none; min-height: 60px; line-height: 1.4; }
+  .comment-input:focus { outline: none; border-color: var(--purple); box-shadow: 0 0 0 3px var(--purple-pale); }
+  .comment-input-actions { display: flex; justify-content: space-between; align-items: center; margin-top: 8px; }
+  .comment-input-meta { font-size: 11px; color: var(--ink-mute); }
+  .comment-name-input { background: var(--white); border: 1px solid var(--border); padding: 6px 10px; font-family: inherit; font-size: 12px; border-radius: 4px; width: 100%; margin-bottom: 6px; color: var(--ink); }
+  .comment-name-input:focus { outline: none; border-color: var(--purple); }
+  .comment-submit { background: var(--purple); color: white; border: none; padding: 6px 12px; border-radius: 4px; font-family: inherit; font-size: 12px; font-weight: 500; cursor: pointer; }
   .comment-submit:hover { background: var(--purple-deep); }
-  .comment-submit:disabled {
-    background: var(--border-strong);
-    cursor: not-allowed;
-  }
-
-  .comments-empty {
-    padding: 32px 18px;
-    text-align: center;
-    color: var(--ink-mute);
-    font-size: 12px;
-    line-height: 1.5;
-  }
-  .comments-empty-icon {
-    font-size: 24px;
-    color: var(--ink-faint);
-    margin-bottom: 8px;
-    display: block;
-  }
-
-  /* ============ SUMMARY SECTION ============ */
-  .summary-tabs {
-    display: flex;
-    gap: 4px;
-    background: var(--white);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 4px;
-    margin-bottom: 24px;
-    width: fit-content;
-  }
-  .summary-tab {
-    background: transparent;
-    border: none;
-    padding: 8px 16px;
-    font-family: inherit;
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--ink-soft);
-    cursor: pointer;
-    border-radius: 6px;
-    transition: all 0.15s;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-  }
+  .comment-submit:disabled { background: var(--border-strong); cursor: not-allowed; }
+  .comments-empty { padding: 32px 18px; text-align: center; color: var(--ink-mute); font-size: 12px; line-height: 1.5; }
+  .comments-empty-icon { font-size: 24px; color: var(--ink-faint); margin-bottom: 8px; display: block; }
+  .summary-tabs { display: flex; gap: 4px; background: var(--white); border: 1px solid var(--border); border-radius: 8px; padding: 4px; margin-bottom: 24px; width: fit-content; }
+  .summary-tab { background: transparent; border: none; padding: 8px 16px; font-family: inherit; font-size: 13px; font-weight: 500; color: var(--ink-soft); cursor: pointer; border-radius: 6px; transition: all 0.15s; display: inline-flex; align-items: center; gap: 8px; }
   .summary-tab:hover { color: var(--purple); }
-  .summary-tab.active {
-    background: var(--purple);
-    color: white;
-  }
-  .summary-tab-count {
-    background: rgba(255,255,255,0.25);
-    padding: 1px 7px;
-    border-radius: 999px;
-    font-size: 11px;
-    font-weight: 600;
-  }
-  .summary-tab:not(.active) .summary-tab-count {
-    background: var(--purple-pale);
-    color: var(--purple);
-  }
-
-  .summary-banner {
-    background: linear-gradient(135deg, rgba(92,31,97,0.04) 0%, rgba(61,123,203,0.04) 100%);
-    border: 1px solid var(--border);
-    border-left: 3px solid var(--purple);
-    padding: 14px 18px;
-    border-radius: 0 8px 8px 0;
-    margin-bottom: 20px;
-    display: flex;
-    gap: 12px;
-    align-items: flex-start;
-    font-size: 13px;
-    color: var(--ink-soft);
-    line-height: 1.5;
-  }
-  .summary-banner-icon {
-    color: var(--purple);
-    font-size: 16px;
-    flex-shrink: 0;
-    line-height: 1.4;
-  }
+  .summary-tab.active { background: var(--purple); color: white; }
+  .summary-tab-count { background: rgba(255,255,255,0.25); padding: 1px 7px; border-radius: 999px; font-size: 11px; font-weight: 600; }
+  .summary-tab:not(.active) .summary-tab-count { background: var(--purple-pale); color: var(--purple); }
+  .summary-banner { background: linear-gradient(135deg, rgba(92,31,97,0.04) 0%, rgba(61,123,203,0.04) 100%); border: 1px solid var(--border); border-left: 3px solid var(--purple); padding: 14px 18px; border-radius: 0 8px 8px 0; margin-bottom: 20px; display: flex; gap: 12px; align-items: flex-start; font-size: 13px; color: var(--ink-soft); line-height: 1.5; }
+  .summary-banner-icon { color: var(--purple); font-size: 16px; flex-shrink: 0; line-height: 1.4; }
   .summary-banner strong { color: var(--ink); font-weight: 600; }
-
-  .summary-locked {
-    background: var(--white);
-    border: 1px dashed var(--border-strong);
-    border-radius: 8px;
-    padding: 48px 32px;
-    text-align: center;
-  }
-  .summary-locked-icon {
-    font-size: 28px;
-    color: var(--ink-faint);
-    margin-bottom: 12px;
-  }
-  .summary-locked-title {
-    font-family: 'Source Serif 4', serif;
-    font-size: 20px;
-    color: var(--ink);
-    margin-bottom: 6px;
-    font-weight: 500;
-  }
-  .summary-locked-body {
-    font-size: 13px;
-    color: var(--ink-mute);
-    max-width: 420px;
-    margin: 0 auto 20px;
-    line-height: 1.5;
-  }
-
-  .summary-card {
-    background: var(--white);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 24px 28px;
-    margin-bottom: 14px;
-    border-left: 3px solid var(--purple);
-    position: relative;
-  }
+  .summary-locked { background: var(--white); border: 1px dashed var(--border-strong); border-radius: 8px; padding: 48px 32px; text-align: center; }
+  .summary-locked-icon { font-size: 28px; color: var(--ink-faint); margin-bottom: 12px; }
+  .summary-locked-title { font-family: 'Source Serif 4', serif; font-size: 20px; color: var(--ink); margin-bottom: 6px; font-weight: 500; }
+  .summary-locked-body { font-size: 13px; color: var(--ink-mute); max-width: 420px; margin: 0 auto 20px; line-height: 1.5; }
+  .summary-card { background: var(--white); border: 1px solid var(--border); border-radius: 8px; padding: 24px 28px; margin-bottom: 14px; border-left: 3px solid var(--purple); position: relative; }
   .summary-card-2 { border-left-color: var(--blue); }
   .summary-card-3 { border-left-color: var(--gold); }
   .summary-card-4 { border-left-color: var(--teal); }
   .summary-card-5 { border-left-color: var(--orange); }
   .summary-card-6 { border-left-color: var(--pink); }
   .summary-card-7 { border-left-color: var(--navy); }
-
-  .summary-card-head {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 14px;
-    margin-bottom: 12px;
-  }
-  .summary-card-meta {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    flex-wrap: wrap;
-  }
-  .summary-card-num {
-    font-size: 10px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--ink-mute);
-  }
-  .summary-card-title {
-    font-family: 'Source Serif 4', serif;
-    font-size: 19px;
-    font-weight: 500;
-    line-height: 1.3;
-    color: var(--ink);
-    letter-spacing: -0.005em;
-    margin-bottom: 4px;
-  }
-  .summary-card-body {
-    font-size: 14px;
-    color: var(--ink-soft);
-    line-height: 1.6;
-  }
+  .summary-card-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 14px; margin-bottom: 12px; }
+  .summary-card-meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .summary-card-num { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-mute); }
+  .summary-card-title { font-family: 'Source Serif 4', serif; font-size: 19px; font-weight: 500; line-height: 1.3; color: var(--ink); letter-spacing: -0.005em; margin-bottom: 4px; }
+  .summary-card-body { font-size: 14px; color: var(--ink-soft); line-height: 1.6; }
   .summary-card-body p { margin-bottom: 10px; }
   .summary-card-body p:last-child { margin-bottom: 0; }
-  .summary-card-body em {
-    background: var(--purple-pale);
-    color: var(--purple);
-    padding: 0 4px;
-    border-radius: 3px;
-    font-style: normal;
-    font-weight: 500;
-  }
-
-  .summary-edit-link {
-    font-size: 11px;
-    color: var(--purple);
-    background: none;
-    border: 1px solid var(--border);
-    padding: 4px 10px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-family: inherit;
-    font-weight: 500;
-    flex-shrink: 0;
-    transition: all 0.15s;
-  }
-  .summary-edit-link:hover {
-    background: var(--purple-pale);
-    border-color: var(--purple-soft);
-  }
-
-  /* aggregate-specific */
-  .summary-stat-row {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
-    margin-bottom: 14px;
-    padding: 12px;
-    background: var(--bg);
-    border-radius: 6px;
-  }
-  .summary-stat {
-    text-align: center;
-  }
-  .summary-stat-value {
-    font-family: 'Source Serif 4', serif;
-    font-size: 22px;
-    font-weight: 500;
-    color: var(--purple);
-    line-height: 1;
-  }
-  .summary-stat-label {
-    font-size: 10px;
-    color: var(--ink-mute);
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    margin-top: 4px;
-  }
-
-  .summary-quote-list {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-  .summary-quote {
-    background: var(--bg);
-    border-left: 2px solid var(--border-strong);
-    padding: 10px 14px;
-    font-size: 13px;
-    color: var(--ink-soft);
-    font-style: italic;
-    line-height: 1.5;
-    border-radius: 0 4px 4px 0;
-  }
-  .summary-quote-attr {
-    font-size: 11px;
-    color: var(--ink-mute);
-    margin-top: 4px;
-    font-style: normal;
-  }
-
-  .summary-regenerate {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 24px;
-    padding: 16px 20px;
-    background: var(--bg);
-    border: 1px dashed var(--border-strong);
-    border-radius: 8px;
-  }
-  .summary-regenerate-text {
-    font-size: 12px;
-    color: var(--ink-mute);
-    line-height: 1.5;
-  }
+  .summary-card-body em { background: var(--purple-pale); color: var(--purple); padding: 0 4px; border-radius: 3px; font-style: normal; font-weight: 500; }
+  .summary-edit-link { font-size: 11px; color: var(--purple); background: none; border: 1px solid var(--border); padding: 4px 10px; border-radius: 6px; cursor: pointer; font-family: inherit; font-weight: 500; flex-shrink: 0; transition: all 0.15s; }
+  .summary-edit-link:hover { background: var(--purple-pale); border-color: var(--purple-soft); }
+  .summary-stat-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 14px; padding: 12px; background: var(--bg); border-radius: 6px; }
+  .summary-stat { text-align: center; }
+  .summary-stat-value { font-family: 'Source Serif 4', serif; font-size: 22px; font-weight: 500; color: var(--purple); line-height: 1; }
+  .summary-stat-label { font-size: 10px; color: var(--ink-mute); text-transform: uppercase; letter-spacing: 0.06em; margin-top: 4px; }
+  .summary-quote-list { display: flex; flex-direction: column; gap: 8px; }
+  .summary-quote { background: var(--bg); border-left: 2px solid var(--border-strong); padding: 10px 14px; font-size: 13px; color: var(--ink-soft); font-style: italic; line-height: 1.5; border-radius: 0 4px 4px 0; }
+  .summary-quote-attr { font-size: 11px; color: var(--ink-mute); margin-top: 4px; font-style: normal; }
+  .summary-regenerate { display: flex; justify-content: space-between; align-items: center; margin-top: 24px; padding: 16px 20px; background: var(--bg); border: 1px dashed var(--border-strong); border-radius: 8px; }
+  .summary-regenerate-text { font-size: 12px; color: var(--ink-mute); line-height: 1.5; }
   .summary-regenerate-text strong { color: var(--ink); }
-
-  .summary-loading {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 13px;
-    color: var(--ink-mute);
-  }
-  .summary-loading-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--purple);
-    animation: pulse 1.4s ease-in-out infinite;
-  }
+  .summary-loading { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--ink-mute); }
+  .summary-loading-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--purple); animation: pulse 1.4s ease-in-out infinite; }
   .summary-loading-dot:nth-child(2) { animation-delay: 0.2s; }
   .summary-loading-dot:nth-child(3) { animation-delay: 0.4s; }
-  @keyframes pulse {
-    0%, 80%, 100% { opacity: 0.3; transform: scale(0.8); }
-    40% { opacity: 1; transform: scale(1); }
-  }
-
+  @keyframes pulse { 0%, 80%, 100% { opacity: 0.3; transform: scale(0.8); } 40% { opacity: 1; transform: scale(1); } }
   @media (max-width: 1100px) {
     .layout { grid-template-columns: 160px 1fr 250px; gap: 14px; padding: 20px 14px 80px; }
     .section-title { font-size: 30px; }
     .nav-list button { padding: 8px 12px; font-size: 12px; }
   }
-
   @media (max-width: 900px) {
     .layout { grid-template-columns: 1fr 280px; gap: 16px; }
     .sidebar { display: none; }
   }
-
   @media (max-width: 700px) {
     .layout { grid-template-columns: 1fr; gap: 24px; padding: 20px 16px 80px; }
-    .comments {
-      position: fixed;
-      right: -340px;
-      top: 100px;
-      width: 320px;
-      max-height: calc(100vh - 120px);
-      transition: right 0.25s;
-      box-shadow: -8px 0 24px rgba(0,0,0,0.06);
-      z-index: 90;
-    }
+    .comments { position: fixed; right: -340px; top: 100px; width: 320px; max-height: calc(100vh - 120px); transition: right 0.25s; box-shadow: -8px 0 24px rgba(0,0,0,0.06); z-index: 90; }
     .comments.open { right: 16px; }
-    .comments-toggle {
-      display: flex;
-      position: fixed;
-      right: 16px;
-      bottom: 16px;
-      background: var(--purple);
-      color: white;
-      border: none;
-      width: 52px;
-      height: 52px;
-      border-radius: 50%;
-      cursor: pointer;
-      box-shadow: 0 4px 12px rgba(92,31,97,0.3);
-      z-index: 95;
-      font-size: 18px;
-      align-items: center;
-      justify-content: center;
-    }
+    .comments-toggle { display: flex; position: fixed; right: 16px; bottom: 16px; background: var(--purple); color: white; border: none; width: 52px; height: 52px; border-radius: 50%; cursor: pointer; box-shadow: 0 4px 12px rgba(92,31,97,0.3); z-index: 95; font-size: 18px; align-items: center; justify-content: center; }
     .topbar-inner { padding: 0 16px; }
     .three-lens { grid-template-columns: 1fr; }
     .input-row { grid-template-columns: 1fr; }
@@ -1344,12 +268,8 @@
 </head>
 <body>
 
-<!-- ============ IN PROGRESS BANNER ============ -->
-<div class="progress-banner">
-  <span>In Progress · Draft for Review · Not for Distribution</span>
-</div>
+<div class="progress-banner"><span>In Progress · Draft for Review · Not for Distribution</span></div>
 
-<!-- ============ TOP BAR ============ -->
 <div class="topbar">
   <div class="topbar-inner">
     <div class="logo-block">
@@ -1364,15 +284,13 @@
       <div class="meta-divider"></div>
       <div class="meta-item">~12 minutes</div>
       <div class="meta-divider"></div>
-      <div class="meta-item save-status"><span class="save-dot"></span> Auto-saved</div>
+      <div class="meta-item save-status"><span class="save-dot"></span> <span id="saveStatusText">Auto-saved</span></div>
     </div>
   </div>
 </div>
 
-<!-- ============ LAYOUT ============ -->
 <div class="layout">
 
-  <!-- ============ SIDEBAR ============ -->
   <aside class="sidebar">
     <div class="sidebar-label">Sections</div>
     <ul class="nav-list">
@@ -1389,18 +307,16 @@
     <div class="nav-progress">
       <div class="progress-label">Progress</div>
       <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
-      <div class="progress-text" id="progressText">2 of 8 sections</div>
+      <div class="progress-text" id="progressText">1 of 9 sections</div>
     </div>
   </aside>
 
-  <!-- ============ MAIN ============ -->
   <main class="main">
 
     <div class="mockup-note">
       <span><strong>Mockup:</strong> Topic cards, regional list, and priority items are placeholders. Real content drops in once meeting context arrives.</span>
     </div>
 
-    <!-- ============ 0 · INTRODUCTION ============ -->
     <section class="section-panel active" id="welcome">
       <div class="section-header">
         <div class="section-eyebrow">Section 00 · Introduction</div>
@@ -1415,8 +331,8 @@
         </div>
         <div class="q-helper">Responses are attributed by default. Where candor is more useful than attribution, individual fields offer an "answer anonymously" option.</div>
         <div class="input-row">
-          <input class="input" type="text" placeholder="Full name" />
-          <select class="select">
+          <input class="input" id="fullName" type="text" placeholder="Full name" />
+          <select class="select" id="region">
             <option>Region / market</option>
             <option>North America</option>
             <option>Europe</option>
@@ -1426,7 +342,7 @@
           </select>
         </div>
         <div class="input-row">
-          <select class="select">
+          <select class="select" id="function">
             <option>Function</option>
             <option>Sales leadership</option>
             <option>Marketing leadership</option>
@@ -1435,7 +351,7 @@
             <option>Medical affairs</option>
             <option>General management</option>
           </select>
-          <input class="input" type="text" placeholder="Therapeutic area / business unit" />
+          <input class="input" id="businessUnit" type="text" placeholder="Therapeutic area / business unit" />
         </div>
       </div>
 
@@ -1445,7 +361,6 @@
       </div>
     </section>
 
-    <!-- ============ 1 · MEETING EFFECTIVENESS ============ -->
     <section class="section-panel" id="pulse">
       <div class="section-header">
         <div class="section-eyebrow">Section 01 · 2 minutes</div>
@@ -1456,27 +371,27 @@
       <div class="question">
         <div class="q-label">Overall, how would you rate last week's meetings?</div>
         <div class="q-helper">Consider clarity of objectives, quality of discussion, and outcomes reached.</div>
-        <div class="rating-scale">
-          <div class="rating-option"><span class="rating-num">1</span><span class="rating-label">Poor</span></div>
-          <div class="rating-option"><span class="rating-num">2</span><span class="rating-label">Below avg.</span></div>
-          <div class="rating-option"><span class="rating-num">3</span><span class="rating-label">Average</span></div>
-          <div class="rating-option selected"><span class="rating-num">4</span><span class="rating-label">Strong</span></div>
-          <div class="rating-option"><span class="rating-num">5</span><span class="rating-label">Excellent</span></div>
+        <div class="rating-scale" id="meetingRating">
+          <div class="rating-option" data-value="1"><span class="rating-num">1</span><span class="rating-label">Poor</span></div>
+          <div class="rating-option" data-value="2"><span class="rating-num">2</span><span class="rating-label">Below avg.</span></div>
+          <div class="rating-option" data-value="3"><span class="rating-num">3</span><span class="rating-label">Average</span></div>
+          <div class="rating-option" data-value="4"><span class="rating-num">4</span><span class="rating-label">Strong</span></div>
+          <div class="rating-option" data-value="5"><span class="rating-num">5</span><span class="rating-label">Excellent</span></div>
         </div>
       </div>
 
       <div class="question">
         <div class="q-label">What landed most clearly?</div>
         <div class="q-helper">A specific moment, decision, or message that was effectively communicated.</div>
-        <textarea class="textarea" placeholder="The clearest takeaway for me was…"></textarea>
+        <textarea class="textarea" id="meetingLanded" placeholder="The clearest takeaway for me was…"></textarea>
       </div>
 
       <div class="question">
         <div class="q-label">What felt unresolved or unclear?</div>
         <div class="q-helper">Where additional substance, alignment, or detail would have been useful.</div>
-        <textarea class="textarea" placeholder="An area that still needs work…"></textarea>
+        <textarea class="textarea" id="meetingUnresolved" placeholder="An area that still needs work…"></textarea>
         <label class="anon-toggle">
-          <input type="checkbox" /> <span class="lock">🔒</span> Submit this response anonymously
+          <input type="checkbox" id="meetingUnresolvedAnon" /> <span class="lock">🔒</span> Submit this response anonymously
         </label>
       </div>
 
@@ -1486,7 +401,6 @@
       </div>
     </section>
 
-    <!-- ============ 2 · REACTIONS TO TOPICS ============ -->
     <section class="section-panel" id="reactions">
       <div class="section-header">
         <div class="section-eyebrow">Section 02 · 4 minutes</div>
@@ -1494,80 +408,56 @@
         <p class="section-desc">For each major topic from last week, indicate your position. Add a brief rationale where useful.</p>
       </div>
 
-      <div class="topic">
-        <div class="topic-meta">
-          <span class="topic-tag">Topic 01</span>
-          <span class="topic-dot"></span>
-          <span class="topic-status">Decision · placeholder</span>
-        </div>
+      <div class="topic" data-topic="1">
+        <div class="topic-meta"><span class="topic-tag">Topic 01</span><span class="topic-dot"></span><span class="topic-status">Decision · placeholder</span></div>
         <h3 class="topic-title">[Topic name to be inserted]</h3>
         <p class="topic-summary">One- or two-sentence summary of what was discussed and where the conversation landed in the room.</p>
         <div class="reaction-row">
-          <div class="reaction-pill active">Aligned</div>
-          <div class="reaction-pill">Need to discuss</div>
-          <div class="reaction-pill">Building on this</div>
-          <div class="reaction-pill">Not enough yet</div>
+          <div class="reaction-pill" data-value="aligned">Aligned</div>
+          <div class="reaction-pill" data-value="discuss">Need to discuss</div>
+          <div class="reaction-pill" data-value="building">Building on this</div>
+          <div class="reaction-pill" data-value="not_enough">Not enough yet</div>
         </div>
-        <div class="topic-why">
-          <textarea placeholder="Brief rationale (optional)"></textarea>
-        </div>
+        <div class="topic-why"><textarea placeholder="Brief rationale (optional)"></textarea></div>
       </div>
 
-      <div class="topic">
-        <div class="topic-meta">
-          <span class="topic-tag">Topic 02</span>
-          <span class="topic-dot"></span>
-          <span class="topic-status">Workstream · placeholder</span>
-        </div>
+      <div class="topic" data-topic="2">
+        <div class="topic-meta"><span class="topic-tag">Topic 02</span><span class="topic-dot"></span><span class="topic-status">Workstream · placeholder</span></div>
         <h3 class="topic-title">[Topic name to be inserted]</h3>
         <p class="topic-summary">Summary line — what was proposed, who owns it, what's expected to shift.</p>
         <div class="reaction-row">
-          <div class="reaction-pill">Aligned</div>
-          <div class="reaction-pill active">Need to discuss</div>
-          <div class="reaction-pill">Building on this</div>
-          <div class="reaction-pill">Not enough yet</div>
+          <div class="reaction-pill" data-value="aligned">Aligned</div>
+          <div class="reaction-pill" data-value="discuss">Need to discuss</div>
+          <div class="reaction-pill" data-value="building">Building on this</div>
+          <div class="reaction-pill" data-value="not_enough">Not enough yet</div>
         </div>
-        <div class="topic-why">
-          <textarea placeholder="Brief rationale (optional)"></textarea>
-        </div>
+        <div class="topic-why"><textarea placeholder="Brief rationale (optional)"></textarea></div>
       </div>
 
-      <div class="topic">
-        <div class="topic-meta">
-          <span class="topic-tag">Topic 03</span>
-          <span class="topic-dot"></span>
-          <span class="topic-status">Strategic theme · placeholder</span>
-        </div>
+      <div class="topic" data-topic="3">
+        <div class="topic-meta"><span class="topic-tag">Topic 03</span><span class="topic-dot"></span><span class="topic-status">Strategic theme · placeholder</span></div>
         <h3 class="topic-title">[Topic name to be inserted]</h3>
         <p class="topic-summary">Summary line — the tension named in the room and where leadership leaned.</p>
         <div class="reaction-row">
-          <div class="reaction-pill">Aligned</div>
-          <div class="reaction-pill">Need to discuss</div>
-          <div class="reaction-pill active">Building on this</div>
-          <div class="reaction-pill">Not enough yet</div>
+          <div class="reaction-pill" data-value="aligned">Aligned</div>
+          <div class="reaction-pill" data-value="discuss">Need to discuss</div>
+          <div class="reaction-pill" data-value="building">Building on this</div>
+          <div class="reaction-pill" data-value="not_enough">Not enough yet</div>
         </div>
-        <div class="topic-why">
-          <textarea placeholder="Brief rationale (optional)"></textarea>
-        </div>
+        <div class="topic-why"><textarea placeholder="Brief rationale (optional)"></textarea></div>
       </div>
 
-      <div class="topic">
-        <div class="topic-meta">
-          <span class="topic-tag">Topic 04</span>
-          <span class="topic-dot"></span>
-          <span class="topic-status">Investment area · placeholder</span>
-        </div>
+      <div class="topic" data-topic="4">
+        <div class="topic-meta"><span class="topic-tag">Topic 04</span><span class="topic-dot"></span><span class="topic-status">Investment area · placeholder</span></div>
         <h3 class="topic-title">[Topic name to be inserted]</h3>
         <p class="topic-summary">Summary line — the proposal and its implications across regions and functions.</p>
         <div class="reaction-row">
-          <div class="reaction-pill">Aligned</div>
-          <div class="reaction-pill">Need to discuss</div>
-          <div class="reaction-pill">Building on this</div>
-          <div class="reaction-pill">Not enough yet</div>
+          <div class="reaction-pill" data-value="aligned">Aligned</div>
+          <div class="reaction-pill" data-value="discuss">Need to discuss</div>
+          <div class="reaction-pill" data-value="building">Building on this</div>
+          <div class="reaction-pill" data-value="not_enough">Not enough yet</div>
         </div>
-        <div class="topic-why">
-          <textarea placeholder="Brief rationale (optional)"></textarea>
-        </div>
+        <div class="topic-why"><textarea placeholder="Brief rationale (optional)"></textarea></div>
       </div>
 
       <div class="action-bar">
@@ -1576,7 +466,6 @@
       </div>
     </section>
 
-    <!-- ============ 3 · REGIONAL PERSPECTIVE ============ -->
     <section class="section-panel" id="region">
       <div class="section-header">
         <div class="section-eyebrow">Section 03 · 2 minutes</div>
@@ -1587,28 +476,26 @@
       <div class="question">
         <div class="q-label">What translates well to your market?</div>
         <div class="q-helper">Where the global direction fits your regional context naturally.</div>
-        <textarea class="textarea" placeholder="In our market, this works because…"></textarea>
+        <textarea class="textarea" id="regionTranslatesWell" placeholder="In our market, this works because…"></textarea>
       </div>
 
       <div class="question">
         <div class="q-label">What translates poorly or requires adaptation?</div>
         <div class="q-helper">Where the global plan will not land as-is and needs local modification.</div>
-        <textarea class="textarea" placeholder="The piece that needs adjustment is…"></textarea>
+        <textarea class="textarea" id="regionTranslatesPoorly" placeholder="The piece that needs adjustment is…"></textarea>
       </div>
 
       <div class="question">
         <div class="q-label">One regional risk leadership should know about.</div>
         <div class="q-helper">Specific to your geography or market — not visible in the global discussion.</div>
-        <textarea class="textarea" placeholder="A risk specific to our region is…"></textarea>
-        <label class="anon-toggle">
-          <input type="checkbox" /> <span class="lock">🔒</span> Submit this response anonymously
-        </label>
+        <textarea class="textarea" id="regionRisk" placeholder="A risk specific to our region is…"></textarea>
+        <label class="anon-toggle"><input type="checkbox" id="regionRiskAnon" /> <span class="lock">🔒</span> Submit this response anonymously</label>
       </div>
 
       <div class="question">
         <div class="q-label">One regional accelerator we could lean into.</div>
         <div class="q-helper">Something working locally that could scale globally.</div>
-        <textarea class="textarea" placeholder="What we could lean into is…"></textarea>
+        <textarea class="textarea" id="regionAccelerator" placeholder="What we could lean into is…"></textarea>
       </div>
 
       <div class="action-bar">
@@ -1617,7 +504,6 @@
       </div>
     </section>
 
-    <!-- ============ 4 · FRICTION ============ -->
     <section class="section-panel" id="friction">
       <div class="section-header">
         <div class="section-eyebrow">Section 04 · 2 minutes</div>
@@ -1629,20 +515,20 @@
         <div class="lens lens-1">
           <div class="lens-name">Customer-facing</div>
           <div class="lens-intro">Where patients, HCPs, and payers experience friction.</div>
-          <textarea class="textarea" placeholder="The primary friction is…"></textarea>
-          <label class="anon-toggle"><input type="checkbox" /> <span class="lock">🔒</span> Anonymous</label>
+          <textarea class="textarea" id="frictionCustomer" placeholder="The primary friction is…"></textarea>
+          <label class="anon-toggle"><input type="checkbox" id="frictionCustomerAnon" /> <span class="lock">🔒</span> Anonymous</label>
         </div>
         <div class="lens lens-2">
           <div class="lens-name">Field &amp; commercial</div>
           <div class="lens-intro">What slows the people executing in market.</div>
-          <textarea class="textarea" placeholder="The primary friction is…"></textarea>
-          <label class="anon-toggle"><input type="checkbox" /> <span class="lock">🔒</span> Anonymous</label>
+          <textarea class="textarea" id="frictionField" placeholder="The primary friction is…"></textarea>
+          <label class="anon-toggle"><input type="checkbox" id="frictionFieldAnon" /> <span class="lock">🔒</span> Anonymous</label>
         </div>
         <div class="lens lens-3">
           <div class="lens-name">Internal &amp; enablement</div>
           <div class="lens-intro">Process, tooling, decision rights, handoffs.</div>
-          <textarea class="textarea" placeholder="The primary friction is…"></textarea>
-          <label class="anon-toggle"><input type="checkbox" /> <span class="lock">🔒</span> Anonymous</label>
+          <textarea class="textarea" id="frictionInternal" placeholder="The primary friction is…"></textarea>
+          <label class="anon-toggle"><input type="checkbox" id="frictionInternalAnon" /> <span class="lock">🔒</span> Anonymous</label>
         </div>
       </div>
 
@@ -1652,7 +538,6 @@
       </div>
     </section>
 
-    <!-- ============ 5 · PRIORITIES ============ -->
     <section class="section-panel" id="priorities">
       <div class="section-header">
         <div class="section-eyebrow">Section 05 · 3 minutes</div>
@@ -1675,18 +560,16 @@
       <div class="question">
         <div class="q-label">If you could only do three things next quarter, what would they be?</div>
         <div class="q-helper">Your top three. Does not need to match the list above.</div>
-        <input class="input" type="text" placeholder="1." style="margin-bottom: 8px;" />
-        <input class="input" type="text" placeholder="2." style="margin-bottom: 8px;" />
-        <input class="input" type="text" placeholder="3." />
+        <input class="input" id="topThree1" type="text" placeholder="1." style="margin-bottom: 8px;" />
+        <input class="input" id="topThree2" type="text" placeholder="2." style="margin-bottom: 8px;" />
+        <input class="input" id="topThree3" type="text" placeholder="3." />
       </div>
 
       <div class="question">
         <div class="q-label">What should we stop, pause, or de-prioritize?</div>
         <div class="q-helper">Subtraction is a strategic act. What is currently consuming capacity that shouldn't be?</div>
-        <textarea class="textarea" placeholder="Consider stopping or pausing…"></textarea>
-        <label class="anon-toggle">
-          <input type="checkbox" /> <span class="lock">🔒</span> Submit this response anonymously
-        </label>
+        <textarea class="textarea" id="stopDoing" placeholder="Consider stopping or pausing…"></textarea>
+        <label class="anon-toggle"><input type="checkbox" id="stopDoingAnon" /> <span class="lock">🔒</span> Submit this response anonymously</label>
       </div>
 
       <div class="action-bar">
@@ -1695,7 +578,6 @@
       </div>
     </section>
 
-    <!-- ============ 6 · COMMITMENT ============ -->
     <section class="section-panel" id="commit">
       <div class="section-header">
         <div class="section-eyebrow">Section 06 · 1 minute</div>
@@ -1707,14 +589,14 @@
         <div class="commit-eyebrow">Your commitment</div>
         <h2 class="commit-title">The one initiative I will personally drive is…</h2>
         <p class="commit-sub">Specific. Owned. Visible to peers in the synthesis. This section is attributed — commitments belong to the people making them.</p>
-        <input class="commit-input" type="text" placeholder="I will…" />
+        <input class="commit-input" id="commitment" type="text" placeholder="I will…" />
         <div class="commit-note">Visible to peer leadership in the response synthesis</div>
       </div>
 
       <div class="question">
         <div class="q-label">What do you need from the team to deliver this?</div>
         <div class="q-helper">Optional. Air cover, resourcing, a decision, a partner — whatever unblocks you.</div>
-        <textarea class="textarea" placeholder="To execute on this, I need…"></textarea>
+        <textarea class="textarea" id="commitmentNeeds" placeholder="To execute on this, I need…"></textarea>
       </div>
 
       <div class="action-bar">
@@ -1723,7 +605,6 @@
       </div>
     </section>
 
-    <!-- ============ 7 · OPEN INPUT ============ -->
     <section class="section-panel" id="open">
       <div class="section-header">
         <div class="section-eyebrow">Section 07 · Final</div>
@@ -1734,19 +615,15 @@
       <div class="question">
         <div class="q-label">What is this survey missing?</div>
         <div class="q-helper">A topic, question, or perspective the structure did not cover.</div>
-        <textarea class="textarea" placeholder="A question you should have asked…"></textarea>
-        <label class="anon-toggle">
-          <input type="checkbox" /> <span class="lock">🔒</span> Submit this response anonymously
-        </label>
+        <textarea class="textarea" id="openMissing" placeholder="A question you should have asked…"></textarea>
+        <label class="anon-toggle"><input type="checkbox" id="openMissingAnon" /> <span class="lock">🔒</span> Submit this response anonymously</label>
       </div>
 
       <div class="question">
         <div class="q-label">Anything you wanted to raise in the meetings but did not?</div>
         <div class="q-helper">Use this space for points that didn't get the right airtime in the room.</div>
-        <textarea class="textarea" placeholder="What I would have raised…"></textarea>
-        <label class="anon-toggle">
-          <input type="checkbox" /> <span class="lock">🔒</span> Submit this response anonymously
-        </label>
+        <textarea class="textarea" id="openUnsaid" placeholder="What I would have raised…"></textarea>
+        <label class="anon-toggle"><input type="checkbox" id="openUnsaidAnon" /> <span class="lock">🔒</span> Submit this response anonymously</label>
       </div>
 
       <div class="action-bar">
@@ -1755,7 +632,6 @@
       </div>
     </section>
 
-    <!-- ============ 8 · SUMMARY ============ -->
     <section class="section-panel" id="summary">
       <div class="section-header">
         <div class="section-eyebrow">Section 08 · Review &amp; submit</div>
@@ -1763,13 +639,11 @@
         <p class="section-desc">An AI-generated summary of what you've shared, plus what the broader leadership team is saying. Review your responses, edit any section, then submit.</p>
       </div>
 
-      <!-- View tabs -->
       <div class="summary-tabs" id="summaryTabs">
         <button class="summary-tab active" data-view="mine">Your responses <span class="summary-tab-count">8</span></button>
         <button class="summary-tab" data-view="team">Team aggregate <span class="summary-tab-count" id="aggregateCount">—</span></button>
       </div>
 
-      <!-- ===== MY SUMMARY VIEW ===== -->
       <div id="summaryMine">
         <div class="summary-banner">
           <span class="summary-banner-icon">✨</span>
@@ -1778,10 +652,8 @@
 
         <div class="summary-card summary-card-1">
           <div class="summary-card-head">
-            <div>
-              <div class="summary-card-meta"><span class="summary-card-num">Section 01 · Meeting effectiveness</span></div>
-              <h3 class="summary-card-title">A strong week, with one area unresolved</h3>
-            </div>
+            <div><div class="summary-card-meta"><span class="summary-card-num">Section 01 · Meeting effectiveness</span></div>
+            <h3 class="summary-card-title">A strong week, with one area unresolved</h3></div>
             <button class="summary-edit-link" data-edit="pulse">Edit section</button>
           </div>
           <div class="summary-card-body">
@@ -1792,10 +664,8 @@
 
         <div class="summary-card summary-card-2">
           <div class="summary-card-head">
-            <div>
-              <div class="summary-card-meta"><span class="summary-card-num">Section 02 · Reactions to topics</span></div>
-              <h3 class="summary-card-title">Aligned on three of four; pushing back on Topic 02</h3>
-            </div>
+            <div><div class="summary-card-meta"><span class="summary-card-num">Section 02 · Reactions to topics</span></div>
+            <h3 class="summary-card-title">Aligned on three of four; pushing back on Topic 02</h3></div>
             <button class="summary-edit-link" data-edit="reactions">Edit section</button>
           </div>
           <div class="summary-card-body">
@@ -1806,10 +676,8 @@
 
         <div class="summary-card summary-card-3">
           <div class="summary-card-head">
-            <div>
-              <div class="summary-card-meta"><span class="summary-card-num">Section 03 · Regional perspective</span></div>
-              <h3 class="summary-card-title">Translates well in core markets, less so in newer ones</h3>
-            </div>
+            <div><div class="summary-card-meta"><span class="summary-card-num">Section 03 · Regional perspective</span></div>
+            <h3 class="summary-card-title">Translates well in core markets, less so in newer ones</h3></div>
             <button class="summary-edit-link" data-edit="region">Edit section</button>
           </div>
           <div class="summary-card-body">
@@ -1820,10 +688,8 @@
 
         <div class="summary-card summary-card-4">
           <div class="summary-card-head">
-            <div>
-              <div class="summary-card-meta"><span class="summary-card-num">Section 04 · Friction points</span></div>
-              <h3 class="summary-card-title">Friction concentrated at internal handoffs</h3>
-            </div>
+            <div><div class="summary-card-meta"><span class="summary-card-num">Section 04 · Friction points</span></div>
+            <h3 class="summary-card-title">Friction concentrated at internal handoffs</h3></div>
             <button class="summary-edit-link" data-edit="friction">Edit section</button>
           </div>
           <div class="summary-card-body">
@@ -1833,10 +699,8 @@
 
         <div class="summary-card summary-card-5">
           <div class="summary-card-head">
-            <div>
-              <div class="summary-card-meta"><span class="summary-card-num">Section 05 · Priorities &amp; trade-offs</span></div>
-              <h3 class="summary-card-title">Customer access first; pause Initiative D</h3>
-            </div>
+            <div><div class="summary-card-meta"><span class="summary-card-num">Section 05 · Priorities &amp; trade-offs</span></div>
+            <h3 class="summary-card-title">Customer access first; pause Initiative D</h3></div>
             <button class="summary-edit-link" data-edit="priorities">Edit section</button>
           </div>
           <div class="summary-card-body">
@@ -1847,10 +711,8 @@
 
         <div class="summary-card summary-card-6">
           <div class="summary-card-head">
-            <div>
-              <div class="summary-card-meta"><span class="summary-card-num">Section 06 · Personal commitment</span></div>
-              <h3 class="summary-card-title">Owning the regional commercial review</h3>
-            </div>
+            <div><div class="summary-card-meta"><span class="summary-card-num">Section 06 · Personal commitment</span></div>
+            <h3 class="summary-card-title">Owning the regional commercial review</h3></div>
             <button class="summary-edit-link" data-edit="commit">Edit section</button>
           </div>
           <div class="summary-card-body">
@@ -1861,10 +723,8 @@
 
         <div class="summary-card summary-card-7">
           <div class="summary-card-head">
-            <div>
-              <div class="summary-card-meta"><span class="summary-card-num">Section 07 · Open input</span></div>
-              <h3 class="summary-card-title">Two themes the structured questions missed</h3>
-            </div>
+            <div><div class="summary-card-meta"><span class="summary-card-num">Section 07 · Open input</span></div>
+            <h3 class="summary-card-title">Two themes the structured questions missed</h3></div>
             <button class="summary-edit-link" data-edit="open">Edit section</button>
           </div>
           <div class="summary-card-body">
@@ -1883,9 +743,7 @@
         </div>
       </div>
 
-      <!-- ===== AGGREGATE VIEW (locked until user submits) ===== -->
       <div id="summaryTeam" style="display:none;">
-
         <div id="aggregateLocked">
           <div class="summary-locked">
             <div class="summary-locked-icon">🔒</div>
@@ -1902,189 +760,39 @@
           </div>
 
           <div class="summary-stat-row">
-            <div class="summary-stat">
-              <div class="summary-stat-value" id="statSubmitted">14</div>
-              <div class="summary-stat-label">Responses submitted</div>
-            </div>
-            <div class="summary-stat">
-              <div class="summary-stat-value">22</div>
-              <div class="summary-stat-label">Invited</div>
-            </div>
-            <div class="summary-stat">
-              <div class="summary-stat-value">4.1</div>
-              <div class="summary-stat-label">Avg meeting rating</div>
-            </div>
+            <div class="summary-stat"><div class="summary-stat-value" id="statSubmitted">0</div><div class="summary-stat-label">Responses submitted</div></div>
+            <div class="summary-stat"><div class="summary-stat-value">22</div><div class="summary-stat-label">Invited</div></div>
+            <div class="summary-stat"><div class="summary-stat-value" id="statAvgRating">—</div><div class="summary-stat-label">Avg meeting rating</div></div>
           </div>
 
           <div class="summary-card summary-card-1">
-            <div class="summary-card-head">
-              <div>
-                <div class="summary-card-meta"><span class="summary-card-num">Section 01 · Meeting effectiveness</span></div>
-                <h3 class="summary-card-title">Generally rated strong; pacing &amp; ownership clarity flagged most</h3>
-              </div>
-            </div>
-            <div class="summary-card-body">
-              <p>Average rating <em>4.1 / 5</em>. Most cited "what landed": clarity around customer segmentation and the unified narrative on growth priorities. Most cited "unresolved": <em>cross-functional ownership</em> of new initiatives, and pacing of the second day.</p>
-              <div class="summary-quote-list">
-                <div class="summary-quote">"Felt like we got somewhere on segmentation we hadn't before. The growth narrative is finally one story, not three."<div class="summary-quote-attr">— Marcus Webb, Europe</div></div>
-                <div class="summary-quote">"Day two ran out of runway. The hardest conversations got compressed."<div class="summary-quote-attr">— Anonymous, APAC</div></div>
-              </div>
-            </div>
-          </div>
-
-          <div class="summary-card summary-card-2">
-            <div class="summary-card-head">
-              <div>
-                <div class="summary-card-meta"><span class="summary-card-num">Section 02 · Reactions to topics</span></div>
-                <h3 class="summary-card-title">Strongest pushback: Topic 02. Strongest alignment: Topic 01</h3>
-              </div>
-            </div>
-            <div class="summary-card-body">
-              <p>Topic 01: <em>11 aligned</em>, 2 building on, 1 need to discuss. Topic 02: <em>3 aligned, 8 need to discuss</em>, 2 not enough yet — the most contested in the survey, with sequencing concerns dominant. Topic 03: 4 aligned, 7 building on. Topic 04: 9 aligned, 4 building on.</p>
-              <div class="summary-quote-list">
-                <div class="summary-quote">"Topic 02's timeline assumes a degree of market readiness we don't have in 3 of 4 priority markets."<div class="summary-quote-attr">— Sarah Kim, APAC</div></div>
-                <div class="summary-quote">"Topic 01 is the cleanest piece of strategic alignment I've seen in two years."<div class="summary-quote-attr">— Diana Rosario, NA</div></div>
-              </div>
-            </div>
-          </div>
-
-          <div class="summary-card summary-card-3">
-            <div class="summary-card-head">
-              <div>
-                <div class="summary-card-meta"><span class="summary-card-num">Section 03 · Regional perspective</span></div>
-                <h3 class="summary-card-title">Established markets aligned; APAC and emerging markets diverge</h3>
-              </div>
-            </div>
-            <div class="summary-card-body">
-              <p>NA and EU largely report the global direction <em>translates well</em>. APAC and LATAM consistently flag <em>pacing mismatches</em> and gaps in commercial readiness. Most-mentioned regional risk: <em>regulatory shifts in next 6–12 months</em>. Most-mentioned accelerator: existing patient-support pilots that could scale.</p>
-            </div>
-          </div>
-
-          <div class="summary-card summary-card-4">
-            <div class="summary-card-head">
-              <div>
-                <div class="summary-card-meta"><span class="summary-card-num">Section 04 · Friction points</span></div>
-                <h3 class="summary-card-title">Internal decision rights named more than customer or field friction combined</h3>
-              </div>
-            </div>
-            <div class="summary-card-body">
-              <p>Customer-facing friction concentrated around <em>access &amp; reimbursement timing</em> (mentioned 9×). Field friction: <em>sales-medical handoff</em> (7×) and <em>territory data quality</em> (5×). Internal friction dominated: <em>regional vs. global decision rights</em> mentioned in 12 of 14 responses.</p>
-            </div>
-          </div>
-
-          <div class="summary-card summary-card-5">
-            <div class="summary-card-head">
-              <div>
-                <div class="summary-card-meta"><span class="summary-card-num">Section 05 · Priorities &amp; trade-offs</span></div>
-                <h3 class="summary-card-title">Market access leads ranked priorities; Initiative D most-named to pause</h3>
-              </div>
-            </div>
-            <div class="summary-card-body">
-              <p>Most frequently top-ranked: <em>market access acceleration</em> (top 1 or 2 in 11 of 14 responses), then <em>commercial-medical interface</em> (top 3 in 9 responses).</p>
-              <p>What to pause: <em>Initiative D</em> (8 mentions), select <em>internal process work</em> (5), and one therapeutic-area expansion that several respondents called premature.</p>
-            </div>
-          </div>
-
-          <div class="summary-card summary-card-6">
-            <div class="summary-card-head">
-              <div>
-                <div class="summary-card-meta"><span class="summary-card-num">Section 06 · Personal commitments</span></div>
-                <h3 class="summary-card-title">14 commitments logged; cluster around regional readiness and cross-functional clarity</h3>
-              </div>
-            </div>
-            <div class="summary-card-body">
-              <p>The dominant commitment theme is <em>regional readiness reviews</em> (5 leaders), followed by <em>commercial-medical interface clarification</em> (3) and <em>field enablement</em> (3). Two leaders committed to <em>specific cross-functional roles</em> with global leadership. One committed to <em>removing Initiative D</em> from their region's plan within the quarter.</p>
-            </div>
-          </div>
-
-          <div class="summary-card summary-card-7">
-            <div class="summary-card-head">
-              <div>
-                <div class="summary-card-meta"><span class="summary-card-num">Section 07 · Open input</span></div>
-                <h3 class="summary-card-title">Recurring missing topics: talent, competitive positioning, pricing</h3>
-              </div>
-            </div>
-            <div class="summary-card-body">
-              <p>Three themes the survey didn't capture but came up repeatedly in open input: <em>talent &amp; succession planning</em> for regional commercial leads (6 mentions), <em>competitive positioning</em> (5), and <em>pricing strategy</em> (4 mentions, including a request for its own topic card).</p>
-            </div>
+            <div class="summary-card-head"><div><div class="summary-card-meta"><span class="summary-card-num">Section 01 · Meeting effectiveness</span></div>
+            <h3 class="summary-card-title">Aggregate insights will appear here once responses come in</h3></div></div>
+            <div class="summary-card-body"><p>Connect the AI summarization edge function to populate this view from real submitted responses.</p></div>
           </div>
 
           <div class="summary-regenerate">
-            <div class="summary-regenerate-text"><strong>Aggregate summary updates as new responses come in.</strong> Last refreshed: 2 minutes ago · 14 of 22 responses</div>
+            <div class="summary-regenerate-text"><strong>Aggregate updates as new responses come in.</strong> <span id="aggregateMeta">Last refreshed: just now</span></div>
             <button class="btn" id="regenerateAggregateBtn">↻ Refresh</button>
           </div>
         </div>
       </div>
-
     </section>
 
   </main>
 
-  <!-- ============ COMMENTS RAIL ============ -->
   <aside class="comments" id="commentsRail">
     <div class="comments-header">
       <div class="comments-title">
         <svg class="comments-title-icon" viewBox="0 0 16 16" fill="currentColor"><path d="M2 3a1 1 0 011-1h10a1 1 0 011 1v8a1 1 0 01-1 1H6l-3 3v-3H3a1 1 0 01-1-1V3z"/></svg>
         Discussion
       </div>
-      <div class="comments-count" id="commentCount">3</div>
+      <div class="comments-count" id="commentCount">0</div>
     </div>
-
-    <div class="comments-section-label" id="commentsContext">On: Reactions to topics</div>
-
-    <div class="comments-list" id="commentsList">
-
-      <div class="comment">
-        <div class="comment-head">
-          <div class="comment-author">
-            <div class="comment-avatar">SK</div>
-            <div class="comment-name">Sarah Kim</div>
-          </div>
-          <div class="comment-time">2h</div>
-        </div>
-        <div class="comment-body">For Topic 02, I'd push back — APAC was clear in their session that the timeline isn't realistic without market access support landing first. Want to make sure that gets reflected.</div>
-        <div class="comment-actions">
-          <button class="comment-action">Reply</button>
-          <button class="comment-action">👍 2</button>
-        </div>
-        <div class="comment-reply">
-          <span class="comment-reply-author">Marcus Webb:</span>Agreed. We saw the same thing in EU last quarter — sequencing matters.
-        </div>
-      </div>
-
-      <div class="comment">
-        <div class="comment-head">
-          <div class="comment-author">
-            <div class="comment-avatar c2">DR</div>
-            <div class="comment-name">Diana Rosario</div>
-          </div>
-          <div class="comment-time">5h</div>
-        </div>
-        <div class="comment-body">Should we add a topic card for the pricing discussion that came up at the end of Day 2? It didn't get full airtime but felt important.</div>
-        <div class="comment-actions">
-          <button class="comment-action">Reply</button>
-          <button class="comment-action">👍 4</button>
-        </div>
-      </div>
-
-      <div class="comment">
-        <div class="comment-head">
-          <div class="comment-author">
-            <div class="comment-avatar c3">JT</div>
-            <div class="comment-name">James Tanaka</div>
-          </div>
-          <div class="comment-time">Yesterday</div>
-        </div>
-        <div class="comment-body">+1 to Diana. Pricing &amp; access need their own line. I can draft a summary blurb if helpful.</div>
-        <div class="comment-actions">
-          <button class="comment-action">Reply</button>
-          <button class="comment-action">👍 1</button>
-        </div>
-      </div>
-
-    </div>
-
+    <div class="comments-section-label" id="commentsContext">On: Introduction</div>
+    <div class="comments-list" id="commentsList"></div>
     <div class="comment-input-area">
+      <input class="comment-name-input" id="commentNameInput" type="text" placeholder="Your name" />
       <textarea class="comment-input" id="commentInput" placeholder="Add a comment to this section…"></textarea>
       <div class="comment-input-actions">
         <span class="comment-input-meta">Visible to all leadership team</span>
@@ -2097,37 +805,32 @@
 
 </div>
 
+<!-- ============================================================ -->
+<!-- ============ APPLICATION SCRIPT ============================ -->
+<!-- ============================================================ -->
 <script>
+  // ============ SUPABASE INIT (top of script — available everywhere below) ============
+  const SUPABASE_URL = 'https://oalhkneudngexgexrhuz.supabase.co';
+  const SUPABASE_ANON_KEY = 'sb_publishable_-xttJft3l17iaxVlGFwrWA_8dpk-rP9';
+  const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  // Anonymous mode: generate a stable per-browser respondent ID stored in localStorage.
+  // This is how we identify "this respondent" without auth — each visitor gets a UUID
+  // on first load and reuses it on every subsequent visit from the same browser.
+  function getRespondentId() {
+    let id = localStorage.getItem('respondentId');
+    if (!id) {
+      id = crypto.randomUUID();
+      localStorage.setItem('respondentId', id);
+    }
+    return id;
+  }
+  const RESPONDENT_ID = getRespondentId();
+
+  // ============ NAV STATE ============
   const navButtons = document.querySelectorAll('.nav-list button');
   const sections = document.querySelectorAll('.section-panel');
   const sectionIds = Array.from(navButtons).map(b => b.dataset.target);
-
-  // ============ COMMENT DATA (mock — would come from API/Supabase) ============
-  const commentData = {
-    welcome: [],
-    pulse: [
-      { author: 'Marcus Webb', initials: 'MW', avatar: 'c4', time: '3h', body: "I'd add a question about whether the right people were in the room for each session. Cross-functional gaps showed up in a few places.", likes: 1, reply: null }
-    ],
-    reactions: [
-      { author: 'Sarah Kim', initials: 'SK', avatar: '', time: '2h', body: "For Topic 02, I'd push back — APAC was clear in their session that the timeline isn't realistic without market access support landing first. Want to make sure that gets reflected.", likes: 2, reply: { author: 'Marcus Webb', body: 'Agreed. We saw the same thing in EU last quarter — sequencing matters.' } },
-      { author: 'Diana Rosario', initials: 'DR', avatar: 'c2', time: '5h', body: "Should we add a topic card for the pricing discussion that came up at the end of Day 2? It didn't get full airtime but felt important.", likes: 4, reply: null },
-      { author: 'James Tanaka', initials: 'JT', avatar: 'c3', time: 'Yesterday', body: '+1 to Diana. Pricing & access need their own line. I can draft a summary blurb if helpful.', likes: 1, reply: null }
-    ],
-    region: [
-      { author: 'Priya Anand', initials: 'PA', avatar: 'c5', time: '1d', body: 'Worth flagging: the regional risk question may surface things that should escalate immediately rather than wait for synthesis. Should we add a "needs immediate attention" tag?', likes: 3, reply: null }
-    ],
-    friction: [],
-    priorities: [
-      { author: 'Diana Rosario', initials: 'DR', avatar: 'c2', time: '4h', body: 'The "stop, pause, de-prioritize" question is the most valuable one IMO. Suggest making it the first question in this section, not the last.', likes: 5, reply: null }
-    ],
-    commit: [
-      { author: 'James Tanaka', initials: 'JT', avatar: 'c3', time: '6h', body: 'Should commitments be visible to peers in real-time as they come in, or only after submission window closes? Worth deciding before launch.', likes: 2, reply: null }
-    ],
-    open: [],
-    summary: [
-      { author: 'Priya Anand', initials: 'PA', avatar: 'c5', time: '2h', body: "Smart that the aggregate is locked until you submit. Avoids the anchoring problem we discussed in the meeting. Maybe surface that reasoning in the locked-state copy itself so people don't think it's a bug.", likes: 3, reply: null }
-    ]
-  };
 
   const sectionLabels = {
     welcome: 'Introduction',
@@ -2141,39 +844,90 @@
     summary: 'Summary'
   };
 
-  function renderComments(sectionId) {
+  // ============ COMMENTS (Supabase-backed) ============
+  function escapeHtml(str) {
+    if (!str) return '';
+    return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  function timeAgo(timestamp) {
+    const diff = Date.now() - new Date(timestamp).getTime();
+    const mins = Math.floor(diff / 60000);
+    if (mins < 1) return 'just now';
+    if (mins < 60) return mins + 'm';
+    const hours = Math.floor(mins / 60);
+    if (hours < 24) return hours + 'h';
+    const days = Math.floor(hours / 24);
+    if (days < 7) return days + 'd';
+    return new Date(timestamp).toLocaleDateString();
+  }
+
+  function initialsFromName(name) {
+    if (!name) return '??';
+    const parts = name.trim().split(/\s+/);
+    if (parts.length === 1) return parts[0].slice(0,2).toUpperCase();
+    return (parts[0][0] + parts[parts.length-1][0]).toUpperCase();
+  }
+
+  function avatarColorClass(name) {
+    if (!name) return '';
+    const hash = Array.from(name).reduce((a,c) => a + c.charCodeAt(0), 0);
+    const colors = ['', 'c2', 'c3', 'c4', 'c5'];
+    return colors[hash % colors.length];
+  }
+
+  async function renderComments(sectionId) {
     const list = document.getElementById('commentsList');
     const count = document.getElementById('commentCount');
     const ctx = document.getElementById('commentsContext');
-    const items = commentData[sectionId] || [];
-
     ctx.textContent = 'On: ' + (sectionLabels[sectionId] || sectionId);
-    count.textContent = items.length;
 
-    if (items.length === 0) {
+    const { data, error } = await db
+      .from('comments')
+      .select('*')
+      .eq('section_id', sectionId)
+      .order('created_at', { ascending: false });
+
+    if (error) {
+      console.error('Failed to load comments:', error);
+      list.innerHTML = '<div class="comments-empty"><span class="comments-empty-icon">⚠️</span>Could not load comments.<br/>Check Supabase setup.</div>';
+      count.textContent = '0';
+      return;
+    }
+
+    count.textContent = data.length;
+
+    if (data.length === 0) {
       list.innerHTML = '<div class="comments-empty"><span class="comments-empty-icon">💬</span>No comments yet on this section.<br/>Be the first to add feedback.</div>';
       return;
     }
 
-    list.innerHTML = items.map(c => `
+    list.innerHTML = data.map(c => `
       <div class="comment">
         <div class="comment-head">
           <div class="comment-author">
-            <div class="comment-avatar ${c.avatar}">${c.initials}</div>
-            <div class="comment-name">${c.author}</div>
+            <div class="comment-avatar ${avatarColorClass(c.author_name)}">${escapeHtml(initialsFromName(c.author_name))}</div>
+            <div class="comment-name">${escapeHtml(c.author_name || 'Anonymous')}</div>
           </div>
-          <div class="comment-time">${c.time}</div>
+          <div class="comment-time">${timeAgo(c.created_at)}</div>
         </div>
-        <div class="comment-body">${c.body}</div>
-        <div class="comment-actions">
-          <button class="comment-action">Reply</button>
-          <button class="comment-action">👍 ${c.likes}</button>
-        </div>
-        ${c.reply ? `<div class="comment-reply"><span class="comment-reply-author">${c.reply.author}:</span>${c.reply.body}</div>` : ''}
+        <div class="comment-body">${escapeHtml(c.body)}</div>
       </div>
     `).join('');
   }
 
+  async function postComment(sectionId, authorName, body) {
+    const { error } = await db.from('comments').insert({
+      respondent_id: RESPONDENT_ID,
+      author_name: authorName || 'Anonymous',
+      section_id: sectionId,
+      body: body
+    });
+    if (error) { console.error('Failed to post comment:', error); alert('Could not post comment. Check the console for details.'); return false; }
+    return true;
+  }
+
+  // ============ SHOW SECTION ============
   function showSection(id) {
     sections.forEach(s => s.classList.toggle('active', s.id === id));
     navButtons.forEach(b => b.classList.toggle('active', b.dataset.target === id));
@@ -2182,6 +936,7 @@
     document.getElementById('progressFill').style.width = pct + '%';
     document.getElementById('progressText').textContent = (idx + 1) + ' of ' + sectionIds.length + ' sections';
     renderComments(id);
+    saveDraft(); // save when navigating away from a section
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
@@ -2190,11 +945,13 @@
     b.addEventListener('click', () => showSection(b.dataset.next));
   });
 
+  // ============ UI INTERACTIONS ============
   document.querySelectorAll('.rating-scale').forEach(scale => {
     scale.querySelectorAll('.rating-option').forEach(opt => {
       opt.addEventListener('click', () => {
         scale.querySelectorAll('.rating-option').forEach(o => o.classList.remove('selected'));
         opt.classList.add('selected');
+        triggerSave();
       });
     });
   });
@@ -2204,47 +961,139 @@
     pills.forEach(p => p.addEventListener('click', () => {
       pills.forEach(o => o.classList.remove('active'));
       p.classList.add('active');
+      triggerSave();
     }));
   });
 
   document.querySelectorAll('.anon-toggle').forEach(t => {
     const cb = t.querySelector('input');
-    cb.addEventListener('change', () => t.classList.toggle('checked', cb.checked));
+    cb.addEventListener('change', () => {
+      t.classList.toggle('checked', cb.checked);
+      triggerSave();
+    });
   });
 
   // ============ COMMENT SUBMISSION ============
   const commentInput = document.getElementById('commentInput');
+  const commentNameInput = document.getElementById('commentNameInput');
   const commentSubmit = document.getElementById('commentSubmit');
 
-  commentSubmit.addEventListener('click', () => {
-    const text = commentInput.value.trim();
-    if (!text) return;
-    const activeSection = sectionIds.find(id =>
-      document.getElementById(id).classList.contains('active')
-    );
-    commentData[activeSection].unshift({
-      author: 'You',
-      initials: 'YO',
-      avatar: '',
-      time: 'Just now',
-      body: text,
-      likes: 0,
-      reply: null
-    });
-    commentInput.value = '';
-    renderComments(activeSection);
+  // Pre-fill name if user already entered it in the survey
+  document.getElementById('fullName').addEventListener('input', (e) => {
+    if (!commentNameInput.value) commentNameInput.value = e.target.value;
   });
 
-  // mobile toggle
+  commentSubmit.addEventListener('click', async () => {
+    const text = commentInput.value.trim();
+    const name = commentNameInput.value.trim();
+    if (!text) return;
+    const activeSection = sectionIds.find(id => document.getElementById(id).classList.contains('active'));
+    commentSubmit.disabled = true;
+    commentSubmit.textContent = 'Posting…';
+    const ok = await postComment(activeSection, name, text);
+    commentSubmit.disabled = false;
+    commentSubmit.textContent = 'Post';
+    if (ok) {
+      commentInput.value = '';
+      renderComments(activeSection);
+    }
+  });
+
+  // ============ MOBILE COMMENTS TOGGLE ============
   const commentsRail = document.getElementById('commentsRail');
   const commentsToggle = document.getElementById('commentsToggle');
-  commentsToggle.addEventListener('click', () => {
-    commentsRail.classList.toggle('open');
+  commentsToggle.addEventListener('click', () => commentsRail.classList.toggle('open'));
+
+  // ============ SUPABASE PERSISTENCE: GATHER + AUTO-SAVE ============
+  function gatherResponses() {
+    const ratingEl = document.querySelector('#meetingRating .rating-option.selected');
+    return {
+      respondent_id: RESPONDENT_ID,
+      name: document.getElementById('fullName').value || null,
+      region: (document.getElementById('region').value !== 'Region / market') ? document.getElementById('region').value : null,
+      function_role: (document.getElementById('function').value !== 'Function') ? document.getElementById('function').value : null,
+      business_unit: document.getElementById('businessUnit').value || null,
+
+      meeting_rating: ratingEl ? parseInt(ratingEl.dataset.value) : null,
+      meeting_landed: document.getElementById('meetingLanded').value || null,
+      meeting_unresolved: document.getElementById('meetingUnresolved').value || null,
+      meeting_unresolved_anon: document.getElementById('meetingUnresolvedAnon').checked,
+
+      topic_reactions: Array.from(document.querySelectorAll('#reactions .topic')).map(card => ({
+        topic_index: parseInt(card.dataset.topic),
+        reaction: card.querySelector('.reaction-pill.active')?.dataset.value || null,
+        rationale: card.querySelector('.topic-why textarea').value || null
+      })),
+
+      region_translates_well: document.getElementById('regionTranslatesWell').value || null,
+      region_translates_poorly: document.getElementById('regionTranslatesPoorly').value || null,
+      region_risk: document.getElementById('regionRisk').value || null,
+      region_risk_anon: document.getElementById('regionRiskAnon').checked,
+      region_accelerator: document.getElementById('regionAccelerator').value || null,
+
+      friction_customer: document.getElementById('frictionCustomer').value || null,
+      friction_customer_anon: document.getElementById('frictionCustomerAnon').checked,
+      friction_field: document.getElementById('frictionField').value || null,
+      friction_field_anon: document.getElementById('frictionFieldAnon').checked,
+      friction_internal: document.getElementById('frictionInternal').value || null,
+      friction_internal_anon: document.getElementById('frictionInternalAnon').checked,
+
+      priority_ranking: Array.from(document.querySelectorAll('#priorities .rank-item .rank-text')).map(el => el.textContent),
+      top_three: [
+        document.getElementById('topThree1').value,
+        document.getElementById('topThree2').value,
+        document.getElementById('topThree3').value
+      ],
+      stop_doing: document.getElementById('stopDoing').value || null,
+      stop_doing_anon: document.getElementById('stopDoingAnon').checked,
+
+      commitment: document.getElementById('commitment').value || null,
+      commitment_needs: document.getElementById('commitmentNeeds').value || null,
+
+      open_missing: document.getElementById('openMissing').value || null,
+      open_missing_anon: document.getElementById('openMissingAnon').checked,
+      open_unsaid: document.getElementById('openUnsaid').value || null,
+      open_unsaid_anon: document.getElementById('openUnsaidAnon').checked,
+
+      updated_at: new Date()
+    };
+  }
+
+  let isSaving = false;
+  async function saveDraft() {
+    if (isSaving) return;
+    isSaving = true;
+    const statusText = document.getElementById('saveStatusText');
+    statusText.textContent = 'Saving…';
+
+    const payload = { ...gatherResponses(), submitted: false };
+
+    const { error } = await db
+      .from('responses')
+      .upsert(payload, { onConflict: 'respondent_id' });
+
+    isSaving = false;
+    if (error) {
+      console.error('Save failed:', error);
+      statusText.textContent = 'Save failed';
+    } else {
+      statusText.textContent = 'Auto-saved';
+    }
+  }
+
+  // Debounced auto-save: 2s after last change
+  let saveTimer;
+  function triggerSave() {
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(saveDraft, 2000);
+  }
+  document.querySelectorAll('input, textarea, select').forEach(el => {
+    el.addEventListener('input', triggerSave);
+    el.addEventListener('change', triggerSave);
   });
 
-  // ============ SUMMARY: TABS, LOCK STATE, EDIT LINKS, SUBMIT ============
-  let userHasSubmitted = false; // flips to true on submit; aggregate unlocks
-
+  // ============ SUMMARY: TABS + LOCK + SUBMIT ============
+  let userHasSubmitted = false;
   const tabs = document.querySelectorAll('.summary-tab');
   const summaryMine = document.getElementById('summaryMine');
   const summaryTeam = document.getElementById('summaryTeam');
@@ -2258,22 +1107,18 @@
     if (view === 'team') {
       aggregateLocked.style.display = userHasSubmitted ? 'none' : 'block';
       aggregateContent.style.display = userHasSubmitted ? 'block' : 'none';
+      if (userHasSubmitted) loadAggregateStats();
     }
   }
 
   tabs.forEach(t => t.addEventListener('click', () => switchSummaryView(t.dataset.view)));
-
-  // "view your responses" button inside locked panel
   document.querySelectorAll('[data-view-switch]').forEach(b => {
     b.addEventListener('click', () => switchSummaryView(b.dataset.viewSwitch));
   });
-
-  // edit-section links jump back to the relevant section
   document.querySelectorAll('[data-edit]').forEach(b => {
     b.addEventListener('click', () => showSection(b.dataset.edit));
   });
 
-  // regenerate (mock — would call edge function in production)
   const regenerateBtn = document.getElementById('regenerateBtn');
   if (regenerateBtn) {
     regenerateBtn.addEventListener('click', () => {
@@ -2282,27 +1127,128 @@
     });
   }
 
-  // final submit
-  const finalSubmit = document.getElementById('finalSubmit');
-  if (finalSubmit) {
-    finalSubmit.addEventListener('click', () => {
-      userHasSubmitted = true;
-      finalSubmit.textContent = '✓ Submitted';
-      finalSubmit.disabled = true;
-      finalSubmit.style.background = 'var(--teal)';
-      finalSubmit.style.borderColor = 'var(--teal)';
-      // bump aggregate count
-      const aggCount = document.getElementById('aggregateCount');
-      const submittedStat = document.getElementById('statSubmitted');
-      if (aggCount) aggCount.textContent = '15';
-      if (submittedStat) submittedStat.textContent = '15';
-      // auto-switch to team view to reveal the unlocked aggregate
-      setTimeout(() => switchSummaryView('team'), 600);
-    });
+  async function loadAggregateStats() {
+    const { data, error } = await db
+      .from('responses')
+      .select('meeting_rating')
+      .eq('submitted', true);
+    if (error) return;
+    const submitted = data.length;
+    const ratings = data.map(d => d.meeting_rating).filter(r => r !== null);
+    const avg = ratings.length ? (ratings.reduce((a,b)=>a+b,0) / ratings.length).toFixed(1) : '—';
+    document.getElementById('statSubmitted').textContent = submitted;
+    document.getElementById('statAvgRating').textContent = avg;
+    document.getElementById('aggregateCount').textContent = submitted;
   }
 
-  // initial progress
-  showSection('welcome');
+  // Final submit — writes submitted=true to Supabase
+  const finalSubmit = document.getElementById('finalSubmit');
+  finalSubmit.addEventListener('click', async () => {
+    finalSubmit.disabled = true;
+    finalSubmit.textContent = 'Submitting…';
+
+    const payload = { ...gatherResponses(), submitted: true };
+    const { error } = await db
+      .from('responses')
+      .upsert(payload, { onConflict: 'respondent_id' });
+
+    if (error) {
+      console.error('Submit failed:', error);
+      finalSubmit.textContent = 'Error — try again';
+      finalSubmit.disabled = false;
+      return;
+    }
+
+    userHasSubmitted = true;
+    finalSubmit.textContent = '✓ Submitted';
+    finalSubmit.style.background = 'var(--teal)';
+    finalSubmit.style.borderColor = 'var(--teal)';
+    setTimeout(() => switchSummaryView('team'), 600);
+  });
+
+  // ============ INITIAL LOAD ============
+  // If respondent already has a draft saved, load it back into the form
+  async function loadExistingDraft() {
+    const { data, error } = await db
+      .from('responses')
+      .select('*')
+      .eq('respondent_id', RESPONDENT_ID)
+      .maybeSingle();
+
+    if (error || !data) return;
+    if (data.submitted) userHasSubmitted = true;
+
+    // Identity fields
+    if (data.name) document.getElementById('fullName').value = data.name;
+    if (data.region) document.getElementById('region').value = data.region;
+    if (data.function_role) document.getElementById('function').value = data.function_role;
+    if (data.business_unit) document.getElementById('businessUnit').value = data.business_unit;
+
+    // Meeting effectiveness
+    if (data.meeting_rating) {
+      const opt = document.querySelector(`#meetingRating .rating-option[data-value="${data.meeting_rating}"]`);
+      if (opt) opt.classList.add('selected');
+    }
+    if (data.meeting_landed) document.getElementById('meetingLanded').value = data.meeting_landed;
+    if (data.meeting_unresolved) document.getElementById('meetingUnresolved').value = data.meeting_unresolved;
+    if (data.meeting_unresolved_anon) {
+      const cb = document.getElementById('meetingUnresolvedAnon');
+      cb.checked = true; cb.closest('.anon-toggle').classList.add('checked');
+    }
+
+    // Topic reactions
+    if (Array.isArray(data.topic_reactions)) {
+      data.topic_reactions.forEach(t => {
+        const card = document.querySelector(`#reactions .topic[data-topic="${t.topic_index}"]`);
+        if (!card) return;
+        if (t.reaction) {
+          const pill = card.querySelector(`.reaction-pill[data-value="${t.reaction}"]`);
+          if (pill) pill.classList.add('active');
+        }
+        if (t.rationale) card.querySelector('.topic-why textarea').value = t.rationale;
+      });
+    }
+
+    // Region
+    if (data.region_translates_well) document.getElementById('regionTranslatesWell').value = data.region_translates_well;
+    if (data.region_translates_poorly) document.getElementById('regionTranslatesPoorly').value = data.region_translates_poorly;
+    if (data.region_risk) document.getElementById('regionRisk').value = data.region_risk;
+    if (data.region_risk_anon) { const cb = document.getElementById('regionRiskAnon'); cb.checked = true; cb.closest('.anon-toggle').classList.add('checked'); }
+    if (data.region_accelerator) document.getElementById('regionAccelerator').value = data.region_accelerator;
+
+    // Friction
+    if (data.friction_customer) document.getElementById('frictionCustomer').value = data.friction_customer;
+    if (data.friction_customer_anon) { const cb = document.getElementById('frictionCustomerAnon'); cb.checked = true; cb.closest('.anon-toggle').classList.add('checked'); }
+    if (data.friction_field) document.getElementById('frictionField').value = data.friction_field;
+    if (data.friction_field_anon) { const cb = document.getElementById('frictionFieldAnon'); cb.checked = true; cb.closest('.anon-toggle').classList.add('checked'); }
+    if (data.friction_internal) document.getElementById('frictionInternal').value = data.friction_internal;
+    if (data.friction_internal_anon) { const cb = document.getElementById('frictionInternalAnon'); cb.checked = true; cb.closest('.anon-toggle').classList.add('checked'); }
+
+    // Priorities
+    if (Array.isArray(data.top_three)) {
+      if (data.top_three[0]) document.getElementById('topThree1').value = data.top_three[0];
+      if (data.top_three[1]) document.getElementById('topThree2').value = data.top_three[1];
+      if (data.top_three[2]) document.getElementById('topThree3').value = data.top_three[2];
+    }
+    if (data.stop_doing) document.getElementById('stopDoing').value = data.stop_doing;
+    if (data.stop_doing_anon) { const cb = document.getElementById('stopDoingAnon'); cb.checked = true; cb.closest('.anon-toggle').classList.add('checked'); }
+
+    // Commitment
+    if (data.commitment) document.getElementById('commitment').value = data.commitment;
+    if (data.commitment_needs) document.getElementById('commitmentNeeds').value = data.commitment_needs;
+
+    // Open
+    if (data.open_missing) document.getElementById('openMissing').value = data.open_missing;
+    if (data.open_missing_anon) { const cb = document.getElementById('openMissingAnon'); cb.checked = true; cb.closest('.anon-toggle').classList.add('checked'); }
+    if (data.open_unsaid) document.getElementById('openUnsaid').value = data.open_unsaid;
+    if (data.open_unsaid_anon) { const cb = document.getElementById('openUnsaidAnon'); cb.checked = true; cb.closest('.anon-toggle').classList.add('checked'); }
+  }
+
+  // Boot the app
+  (async () => {
+    await loadExistingDraft();
+    showSection('welcome');
+  })();
 </script>
 
 </body>
