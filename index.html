@@ -1428,6 +1428,32 @@
     document.getElementById('aggregateCount').textContent = submitted;
   }
 
+  // Visual state when the response has been submitted (used by both click handler
+  // and page reload, so the UI is consistent whether the user just submitted
+  // or is returning to a previously-submitted response).
+  function applySubmittedUiState() {
+    const finalSubmit = document.getElementById('finalSubmit');
+    if (finalSubmit) {
+      finalSubmit.disabled = true;
+      finalSubmit.textContent = '✓ Submitted';
+      finalSubmit.style.background = 'var(--teal)';
+      finalSubmit.style.borderColor = 'var(--teal)';
+    }
+    // Show an "already submitted" notice at the top of the summary view
+    const banner = document.querySelector('#summaryMine .summary-banner');
+    if (banner && !banner.dataset.submittedNotice) {
+      banner.dataset.submittedNotice = 'true';
+      banner.innerHTML = `
+        <span class="summary-banner-icon">✓</span>
+        <span><strong>You've already submitted your response.</strong> You can still edit your answers in any section — changes save automatically and are reflected in the team aggregate. Switch to the <em>Team aggregate</em> tab above to see what others are saying.</span>
+      `;
+      banner.style.borderLeftColor = 'var(--teal)';
+    }
+    // The aggregate count should also reflect that *you* count as submitted
+    const aggCount = document.getElementById('aggregateCount');
+    if (aggCount && aggCount.textContent === '—') aggCount.textContent = '1+';
+  }
+
   // Final submit — writes submitted=true to Supabase
   const finalSubmit = document.getElementById('finalSubmit');
   finalSubmit.addEventListener('click', async () => {
@@ -1447,9 +1473,7 @@
     }
 
     userHasSubmitted = true;
-    finalSubmit.textContent = '✓ Submitted';
-    finalSubmit.style.background = 'var(--teal)';
-    finalSubmit.style.borderColor = 'var(--teal)';
+    applySubmittedUiState();
     setTimeout(() => switchSummaryView('team'), 600);
   });
 
@@ -1463,7 +1487,10 @@
       .maybeSingle();
 
     if (error || !data) return;
-    if (data.submitted) userHasSubmitted = true;
+    if (data.submitted) {
+      userHasSubmitted = true;
+      applySubmittedUiState();
+    }
 
     // Identity fields
     if (data.name) document.getElementById('fullName').value = data.name;
