@@ -170,9 +170,9 @@
   .comments-list::-webkit-scrollbar { width: 6px; }
   .comments-list::-webkit-scrollbar-track { background: transparent; }
   .comments-list::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 3px; }
-  .comment { padding: 14px 18px; border-bottom: 1px solid var(--border); }
+  .comment { padding: 14px 18px; border-bottom: 1px solid var(--border); position: relative; }
   .comment:last-child { border-bottom: none; }
-  .comment-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+  .comment-head { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px; gap: 6px; }
   .comment-author { display: flex; align-items: center; gap: 8px; }
   .comment-avatar { width: 22px; height: 22px; border-radius: 50%; background: var(--purple); color: white; font-size: 10px; font-weight: 600; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
   .comment-avatar.c2 { background: var(--blue); }
@@ -181,6 +181,25 @@
   .comment-avatar.c5 { background: var(--gold); color: var(--ink); }
   .comment-name { font-size: 12px; font-weight: 600; color: var(--ink); }
   .comment-time { font-size: 10px; color: var(--ink-faint); }
+  .comment-edited { font-size: 9px; color: var(--ink-faint); font-style: italic; margin-left: 4px; }
+  .comment-meta-right { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+  .comment-menu-wrapper { position: relative; }
+  .comment-menu-btn { background: none; border: none; color: var(--ink-faint); cursor: pointer; font-size: 14px; padding: 2px 6px; border-radius: 4px; line-height: 1; font-family: inherit; font-weight: 700; }
+  .comment-menu-btn:hover { background: var(--purple-pale); color: var(--purple); }
+  .comment-menu { position: absolute; right: 0; top: 100%; margin-top: 4px; background: var(--white); border: 1px solid var(--border); border-radius: 6px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); z-index: 20; min-width: 110px; overflow: hidden; display: none; }
+  .comment-menu.open { display: block; }
+  .comment-menu button { display: block; width: 100%; text-align: left; background: none; border: none; padding: 8px 12px; font-family: inherit; font-size: 12px; color: var(--ink); cursor: pointer; }
+  .comment-menu button:hover { background: var(--purple-mist); color: var(--purple); }
+  .comment-menu button.danger { color: #B43A3A; }
+  .comment-menu button.danger:hover { background: #FDECEC; color: #B43A3A; }
+  .comment-edit-area { margin-left: 30px; margin-top: 8px; }
+  .comment-edit-textarea { width: 100%; background: var(--white); border: 1px solid var(--purple); padding: 8px 10px; font-family: inherit; font-size: 13px; border-radius: 6px; resize: vertical; min-height: 50px; line-height: 1.4; color: var(--ink); }
+  .comment-edit-textarea:focus { outline: none; box-shadow: 0 0 0 3px var(--purple-pale); }
+  .comment-edit-actions { display: flex; gap: 6px; margin-top: 6px; justify-content: flex-end; }
+  .comment-edit-btn { padding: 5px 10px; font-family: inherit; font-size: 11px; font-weight: 500; border-radius: 4px; cursor: pointer; border: 1px solid var(--border-strong); background: var(--white); color: var(--ink); }
+  .comment-edit-btn:hover { border-color: var(--purple); color: var(--purple); }
+  .comment-edit-btn.primary { background: var(--purple); color: white; border-color: var(--purple); }
+  .comment-edit-btn.primary:hover { background: var(--purple-deep); color: white; }
   .comment-body { font-size: 13px; color: var(--ink-soft); line-height: 1.45; margin-left: 30px; word-wrap: break-word; }
   .comment-actions { margin-left: 30px; margin-top: 6px; display: flex; gap: 12px; font-size: 11px; color: var(--ink-mute); }
   .comment-action { background: none; border: none; color: var(--ink-mute); cursor: pointer; font-family: inherit; font-size: 11px; padding: 0; display: inline-flex; align-items: center; gap: 4px; }
@@ -242,6 +261,86 @@
   .summary-loading-dot:nth-child(2) { animation-delay: 0.2s; }
   .summary-loading-dot:nth-child(3) { animation-delay: 0.4s; }
   @keyframes pulse { 0%, 80%, 100% { opacity: 0.3; transform: scale(0.8); } 40% { opacity: 1; transform: scale(1); } }
+
+  /* ============ LEADERSHIP VIEW ============ */
+  .leadership-toolbar { background: var(--white); border: 1px solid var(--border); border-radius: 8px; padding: 16px 20px; margin-bottom: 20px; display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+  .leadership-search { flex: 1; min-width: 200px; background: var(--white); border: 1px solid var(--border-strong); padding: 8px 12px; font-family: inherit; font-size: 13px; border-radius: 6px; color: var(--ink); }
+  .leadership-search:focus { outline: none; border-color: var(--purple); box-shadow: 0 0 0 3px var(--purple-pale); }
+  .leadership-filter { background: var(--white); border: 1px solid var(--border-strong); padding: 8px 28px 8px 12px; font-family: inherit; font-size: 13px; border-radius: 6px; color: var(--ink); appearance: none; background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'><path d='M3 4.5L6 7.5L9 4.5' stroke='%237E7585' stroke-width='1.5' fill='none'/></svg>"); background-repeat: no-repeat; background-position: right 10px center; cursor: pointer; }
+  .leadership-filter:focus { outline: none; border-color: var(--purple); }
+  .leadership-toggle { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--ink-soft); cursor: pointer; user-select: none; padding: 8px 12px; border: 1px solid var(--border); border-radius: 6px; background: var(--white); }
+  .leadership-toggle input { accent-color: var(--purple); }
+  .leadership-toggle:hover { border-color: var(--purple-soft); color: var(--purple); }
+  .leadership-actions { display: flex; gap: 6px; margin-left: auto; }
+  .leadership-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 24px; }
+  .leadership-stat { background: var(--white); border: 1px solid var(--border); border-radius: 8px; padding: 18px 20px; }
+  .leadership-stat-label { font-size: 10px; color: var(--ink-mute); text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600; margin-bottom: 6px; }
+  .leadership-stat-value { font-family: 'Source Serif 4', serif; font-size: 28px; font-weight: 500; color: var(--ink); line-height: 1; letter-spacing: -0.01em; }
+  .leadership-stat-detail { font-size: 11px; color: var(--ink-mute); margin-top: 4px; }
+  .leadership-view-tabs { display: flex; gap: 4px; background: var(--white); border: 1px solid var(--border); border-radius: 8px; padding: 4px; margin-bottom: 16px; width: fit-content; }
+  .leadership-view-tab { background: transparent; border: none; padding: 8px 14px; font-family: inherit; font-size: 13px; font-weight: 500; color: var(--ink-soft); cursor: pointer; border-radius: 6px; transition: all 0.15s; }
+  .leadership-view-tab:hover { color: var(--purple); }
+  .leadership-view-tab.active { background: var(--purple); color: white; }
+  .leadership-empty { background: var(--white); border: 1px dashed var(--border-strong); border-radius: 8px; padding: 60px 32px; text-align: center; color: var(--ink-mute); }
+  .leadership-empty-icon { font-size: 32px; color: var(--ink-faint); margin-bottom: 10px; }
+  .leadership-empty-title { font-family: 'Source Serif 4', serif; font-size: 18px; color: var(--ink); margin-bottom: 6px; font-weight: 500; }
+  .leadership-empty-body { font-size: 13px; line-height: 1.5; max-width: 380px; margin: 0 auto; }
+
+  /* Question-grouped view */
+  .lq-block { background: var(--white); border: 1px solid var(--border); border-radius: 8px; margin-bottom: 16px; overflow: hidden; }
+  .lq-header { padding: 16px 22px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; gap: 12px; cursor: pointer; transition: background 0.15s; }
+  .lq-header:hover { background: var(--bg); }
+  .lq-section-tag { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--purple); margin-bottom: 4px; }
+  .lq-question { font-family: 'Source Serif 4', serif; font-size: 17px; font-weight: 500; color: var(--ink); line-height: 1.3; }
+  .lq-meta { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+  .lq-count { font-size: 11px; color: var(--purple); background: var(--purple-pale); padding: 3px 9px; border-radius: 999px; font-weight: 600; }
+  .lq-toggle { color: var(--ink-faint); font-size: 12px; transition: transform 0.2s; }
+  .lq-block.collapsed .lq-toggle { transform: rotate(-90deg); }
+  .lq-block.collapsed .lq-answers { display: none; }
+  .lq-answers { padding: 4px 0; }
+  .lq-answer { padding: 14px 22px; border-bottom: 1px solid var(--border); display: flex; gap: 14px; align-items: flex-start; }
+  .lq-answer:last-child { border-bottom: none; }
+  .lq-respondent { flex-shrink: 0; min-width: 140px; }
+  .lq-respondent-name { font-size: 12px; font-weight: 600; color: var(--ink); }
+  .lq-respondent-meta { font-size: 11px; color: var(--ink-mute); margin-top: 2px; }
+  .lq-respondent-anon { font-size: 11px; color: var(--ink-mute); font-style: italic; margin-top: 2px; }
+  .lq-answer-body { flex: 1; font-size: 13px; color: var(--ink-soft); line-height: 1.5; min-width: 0; word-wrap: break-word; }
+  .lq-answer-body em { background: var(--purple-pale); color: var(--purple); padding: 0 4px; border-radius: 3px; font-style: normal; font-weight: 500; }
+  .lq-answer-empty { font-style: italic; color: var(--ink-faint); font-size: 12px; }
+  .lq-rating { display: inline-flex; align-items: center; gap: 8px; }
+  .lq-rating-num { font-family: 'Source Serif 4', serif; font-size: 17px; font-weight: 500; color: var(--purple); }
+  .lq-rating-label { font-size: 11px; color: var(--ink-mute); }
+  .lq-pill { display: inline-block; padding: 3px 9px; border-radius: 999px; font-size: 11px; font-weight: 500; background: var(--purple-pale); color: var(--purple); }
+  .lq-pill.aligned { background: #E0F4EE; color: var(--teal); }
+  .lq-pill.discuss { background: #FCE9D9; color: var(--orange); }
+  .lq-pill.building { background: var(--purple-pale); color: var(--purple); }
+  .lq-pill.not_enough { background: #F0E6D9; color: var(--gold); }
+  .lq-list { list-style: none; padding: 0; margin: 4px 0 0 0; display: flex; flex-direction: column; gap: 3px; }
+  .lq-list li { font-size: 13px; color: var(--ink-soft); padding-left: 16px; position: relative; }
+  .lq-list li::before { content: '·'; position: absolute; left: 4px; color: var(--ink-faint); font-weight: bold; }
+
+  /* Per-respondent view */
+  .lr-card { background: var(--white); border: 1px solid var(--border); border-radius: 8px; margin-bottom: 14px; overflow: hidden; }
+  .lr-header { padding: 18px 22px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; gap: 12px; cursor: pointer; transition: background 0.15s; }
+  .lr-header:hover { background: var(--bg); }
+  .lr-name { font-family: 'Source Serif 4', serif; font-size: 19px; font-weight: 500; color: var(--ink); letter-spacing: -0.005em; }
+  .lr-meta { font-size: 12px; color: var(--ink-mute); margin-top: 3px; }
+  .lr-status { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; padding: 3px 9px; border-radius: 4px; }
+  .lr-status.submitted { background: #E0F4EE; color: var(--teal); }
+  .lr-status.draft { background: var(--bg); color: var(--ink-mute); }
+  .lr-card.collapsed .lr-body { display: none; }
+  .lr-card.collapsed .lr-toggle { transform: rotate(-90deg); }
+  .lr-toggle { color: var(--ink-faint); font-size: 12px; transition: transform 0.2s; }
+  .lr-body { padding: 18px 22px; }
+  .lr-section { margin-bottom: 18px; padding-bottom: 18px; border-bottom: 1px dashed var(--border); }
+  .lr-section:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .lr-section-title { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--purple); margin-bottom: 10px; }
+  .lr-field { margin-bottom: 10px; }
+  .lr-field-label { font-size: 12px; font-weight: 600; color: var(--ink-soft); margin-bottom: 3px; }
+  .lr-field-value { font-size: 13px; color: var(--ink); line-height: 1.5; }
+  .lr-field-value.empty { color: var(--ink-faint); font-style: italic; }
+  .lr-field-anon { display: inline-block; font-size: 10px; color: var(--purple); background: var(--purple-pale); padding: 1px 6px; border-radius: 3px; margin-left: 6px; font-weight: 600; vertical-align: middle; }
+
   @media (max-width: 1100px) {
     .layout { grid-template-columns: 160px 1fr 250px; gap: 14px; padding: 20px 14px 80px; }
     .section-title { font-size: 30px; }
@@ -303,6 +402,7 @@
       <li><button data-target="commit"><span class="nav-num">06</span> Commitment</button></li>
       <li><button data-target="open"><span class="nav-num">07</span> Open input</button></li>
       <li><button data-target="summary"><span class="nav-num">08</span> Summary <span class="nav-badge">AI</span></button></li>
+      <li><button data-target="leadership"><span class="nav-num">09</span> All responses</button></li>
     </ul>
     <div class="nav-progress">
       <div class="progress-label">Progress</div>
@@ -779,6 +879,80 @@
       </div>
     </section>
 
+    <!-- ============ 9 · LEADERSHIP VIEW (ALL RESPONSES) ============ -->
+    <section class="section-panel" id="leadership">
+      <div class="section-header">
+        <div class="section-eyebrow">Section 09 · Leadership view</div>
+        <h1 class="section-title">All responses.</h1>
+        <p class="section-desc">Read every response submitted by the global commercial leadership team. Filter, search, switch between question-grouped and per-respondent views. Anonymous fields are honored — names are hidden where respondents requested.</p>
+      </div>
+
+      <div class="leadership-stats" id="leadershipStats">
+        <div class="leadership-stat">
+          <div class="leadership-stat-label">Submitted</div>
+          <div class="leadership-stat-value" id="lstatSubmitted">—</div>
+          <div class="leadership-stat-detail" id="lstatSubmittedPct">—</div>
+        </div>
+        <div class="leadership-stat">
+          <div class="leadership-stat-label">Drafts in progress</div>
+          <div class="leadership-stat-value" id="lstatDrafts">—</div>
+          <div class="leadership-stat-detail">Not yet submitted</div>
+        </div>
+        <div class="leadership-stat">
+          <div class="leadership-stat-label">Avg meeting rating</div>
+          <div class="leadership-stat-value" id="lstatRating">—</div>
+          <div class="leadership-stat-detail">Across submitted</div>
+        </div>
+        <div class="leadership-stat">
+          <div class="leadership-stat-label">Regions represented</div>
+          <div class="leadership-stat-value" id="lstatRegions">—</div>
+          <div class="leadership-stat-detail" id="lstatRegionsList">—</div>
+        </div>
+      </div>
+
+      <div class="leadership-toolbar">
+        <input type="text" class="leadership-search" id="leadershipSearch" placeholder="Search names, regions, or response text…" />
+        <select class="leadership-filter" id="leadershipRegionFilter">
+          <option value="">All regions</option>
+          <option value="North America">North America</option>
+          <option value="Europe">Europe</option>
+          <option value="Asia-Pacific">Asia-Pacific</option>
+          <option value="Latin America">Latin America</option>
+          <option value="Global / cross-region">Global / cross-region</option>
+        </select>
+        <select class="leadership-filter" id="leadershipFunctionFilter">
+          <option value="">All functions</option>
+          <option value="Sales leadership">Sales leadership</option>
+          <option value="Marketing leadership">Marketing leadership</option>
+          <option value="Commercial operations">Commercial operations</option>
+          <option value="Market access">Market access</option>
+          <option value="Medical affairs">Medical affairs</option>
+          <option value="General management">General management</option>
+        </select>
+        <label class="leadership-toggle">
+          <input type="checkbox" id="leadershipIncludeDrafts" /> Include drafts
+        </label>
+        <div class="leadership-actions">
+          <button class="btn" id="leadershipRefresh">↻ Refresh</button>
+          <button class="btn" id="leadershipExportCsv">↓ Export CSV</button>
+        </div>
+      </div>
+
+      <div class="leadership-view-tabs">
+        <button class="leadership-view-tab active" data-lview="by-question">By question</button>
+        <button class="leadership-view-tab" data-lview="by-respondent">By respondent</button>
+      </div>
+
+      <div id="leadershipContent">
+        <div class="leadership-empty">
+          <div class="leadership-empty-icon">⏳</div>
+          <div class="leadership-empty-title">Loading responses…</div>
+          <div class="leadership-empty-body">Pulling all submitted responses from the database.</div>
+        </div>
+      </div>
+
+    </section>
+
   </main>
 
   <aside class="comments" id="commentsRail">
@@ -811,7 +985,7 @@
 <script>
   // ============ SUPABASE INIT (top of script — available everywhere below) ============
   const SUPABASE_URL = 'https://oalhkneudngexgexrhuz.supabase.co';
-  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9hbGhrbmV1ZG5nZXhnZXhyaHV6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc5MjM5MTksImV4cCI6MjA5MzQ5OTkxOX0.aLp3sRT1GFCPEQq3jpDbZy9KRY7SzeIU4XSckl-asDY';
+  const SUPABASE_ANON_KEY = 'sb_publishable_-xttJft3l17iaxVlGFwrWA_8dpk-rP9';
   const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
   // Anonymous mode: generate a stable per-browser respondent ID stored in localStorage.
@@ -902,18 +1076,33 @@
       return;
     }
 
-    list.innerHTML = data.map(c => `
-      <div class="comment">
+    list.innerHTML = data.map(c => {
+      const isMine = c.respondent_id === RESPONDENT_ID;
+      const wasEdited = c.updated_at && c.created_at && (new Date(c.updated_at) - new Date(c.created_at) > 2000);
+      return `
+      <div class="comment" data-comment-id="${c.id}" data-author="${escapeHtml(c.author_name || 'Anonymous')}">
         <div class="comment-head">
           <div class="comment-author">
             <div class="comment-avatar ${avatarColorClass(c.author_name)}">${escapeHtml(initialsFromName(c.author_name))}</div>
             <div class="comment-name">${escapeHtml(c.author_name || 'Anonymous')}</div>
           </div>
-          <div class="comment-time">${timeAgo(c.created_at)}</div>
+          <div class="comment-meta-right">
+            <div class="comment-time">${timeAgo(c.created_at)}${wasEdited ? '<span class="comment-edited"> · edited</span>' : ''}</div>
+            ${isMine ? `
+              <div class="comment-menu-wrapper">
+                <button class="comment-menu-btn" data-action="toggle-menu" aria-label="More options">⋯</button>
+                <div class="comment-menu">
+                  <button data-action="edit">Edit</button>
+                  <button class="danger" data-action="delete">Delete</button>
+                </div>
+              </div>
+            ` : ''}
+          </div>
         </div>
-        <div class="comment-body">${escapeHtml(c.body)}</div>
+        <div class="comment-body" data-role="body">${escapeHtml(c.body)}</div>
       </div>
-    `).join('');
+    `;
+    }).join('');
   }
 
   async function postComment(sectionId, authorName, body) {
@@ -926,6 +1115,104 @@
     if (error) { console.error('Failed to post comment:', error); alert('Could not post comment. Check the console for details.'); return false; }
     return true;
   }
+
+  async function updateCommentInDb(commentId, newBody) {
+    const { error } = await db
+      .from('comments')
+      .update({ body: newBody, updated_at: new Date() })
+      .eq('id', commentId)
+      .eq('respondent_id', RESPONDENT_ID);  // safety: only update own comments
+    if (error) { console.error('Failed to edit comment:', error); alert('Could not save edit.'); return false; }
+    return true;
+  }
+
+  async function deleteCommentInDb(commentId) {
+    const { error } = await db
+      .from('comments')
+      .delete()
+      .eq('id', commentId)
+      .eq('respondent_id', RESPONDENT_ID);  // safety: only delete own comments
+    if (error) { console.error('Failed to delete comment:', error); alert('Could not delete comment.'); return false; }
+    return true;
+  }
+
+  function getActiveSectionId() {
+    return sectionIds.find(id => document.getElementById(id).classList.contains('active'));
+  }
+
+  // Event delegation for the comments list — handles menu, edit, delete clicks
+  // on dynamically-rendered content.
+  document.getElementById('commentsList').addEventListener('click', async (e) => {
+    const action = e.target.dataset.action;
+    if (!action) return;
+
+    const commentEl = e.target.closest('.comment');
+    if (!commentEl) return;
+    const commentId = commentEl.dataset.commentId;
+
+    if (action === 'toggle-menu') {
+      e.stopPropagation();
+      const menu = commentEl.querySelector('.comment-menu');
+      // Close any other open menus first
+      document.querySelectorAll('.comment-menu.open').forEach(m => { if (m !== menu) m.classList.remove('open'); });
+      menu.classList.toggle('open');
+      return;
+    }
+
+    if (action === 'edit') {
+      commentEl.querySelector('.comment-menu').classList.remove('open');
+      const bodyEl = commentEl.querySelector('[data-role="body"]');
+      const currentText = bodyEl.textContent;
+      bodyEl.style.display = 'none';
+      const editArea = document.createElement('div');
+      editArea.className = 'comment-edit-area';
+      editArea.innerHTML = `
+        <textarea class="comment-edit-textarea">${escapeHtml(currentText)}</textarea>
+        <div class="comment-edit-actions">
+          <button class="comment-edit-btn" data-action="cancel-edit">Cancel</button>
+          <button class="comment-edit-btn primary" data-action="save-edit">Save</button>
+        </div>
+      `;
+      commentEl.appendChild(editArea);
+      editArea.querySelector('textarea').focus();
+      return;
+    }
+
+    if (action === 'cancel-edit') {
+      const editArea = commentEl.querySelector('.comment-edit-area');
+      if (editArea) editArea.remove();
+      const bodyEl = commentEl.querySelector('[data-role="body"]');
+      if (bodyEl) bodyEl.style.display = '';
+      return;
+    }
+
+    if (action === 'save-edit') {
+      const textarea = commentEl.querySelector('.comment-edit-textarea');
+      const newText = textarea.value.trim();
+      if (!newText) return;
+      e.target.disabled = true;
+      e.target.textContent = 'Saving…';
+      const ok = await updateCommentInDb(commentId, newText);
+      if (ok) renderComments(getActiveSectionId());
+      else { e.target.disabled = false; e.target.textContent = 'Save'; }
+      return;
+    }
+
+    if (action === 'delete') {
+      commentEl.querySelector('.comment-menu').classList.remove('open');
+      if (!confirm('Delete this comment? This cannot be undone.')) return;
+      const ok = await deleteCommentInDb(commentId);
+      if (ok) renderComments(getActiveSectionId());
+      return;
+    }
+  });
+
+  // Close menus when clicking elsewhere
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.comment-menu-wrapper')) {
+      document.querySelectorAll('.comment-menu.open').forEach(m => m.classList.remove('open'));
+    }
+  });
 
   // ============ SHOW SECTION ============
   function showSection(id) {
@@ -1119,95 +1406,13 @@
     b.addEventListener('click', () => showSection(b.dataset.edit));
   });
 
-async function callSummarize(mode) {
-  const r = await fetch(`${SUPABASE_URL}/functions/v1/summarize`, {
-    method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ mode, respondent_id: RESPONDENT_ID }),
-  });
-  if (!r.ok) {
-    const err = await r.text();
-    console.error('Summarize call failed:', err);
-    return null;
+  const regenerateBtn = document.getElementById('regenerateBtn');
+  if (regenerateBtn) {
+    regenerateBtn.addEventListener('click', () => {
+      regenerateBtn.innerHTML = '<span class="summary-loading"><span class="summary-loading-dot"></span><span class="summary-loading-dot"></span><span class="summary-loading-dot"></span> Regenerating</span>';
+      setTimeout(() => { regenerateBtn.innerHTML = '↻ Regenerate'; }, 1800);
+    });
   }
-  const json = await r.json();
-  return json.summary;
-}
-
-function parseSummaryCards(text) {
-  // Splits Claude's response (CARD ... --- CARD ...) into structured cards
-  return text.split(/^---\s*$/m).map(block => {
-    const section = block.match(/SECTION:\s*(.+)/)?.[1]?.trim();
-    const title = block.match(/TITLE:\s*(.+)/)?.[1]?.trim();
-    const bodyMatch = block.match(/BODY:\s*([\s\S]*?)(?=\nQUOTES:|$)/);
-    const body = bodyMatch?.[1]?.trim();
-    const quotesMatch = block.match(/QUOTES:\s*([\s\S]*?)$/);
-    const quotes = quotesMatch?.[1]?.trim();
-    return section && title && body ? { section, title, body, quotes } : null;
-  }).filter(Boolean);
-}
-
-function renderSummaryCards(cards, containerSelector) {
-  const container = document.querySelector(containerSelector);
-  if (!container) return;
-  // Find existing cards (1-7) and replace their content
-  cards.forEach((card, i) => {
-    const cardEl = container.querySelector(`.summary-card-${i + 1}`);
-    if (!cardEl) return;
-    const titleEl = cardEl.querySelector('.summary-card-title');
-    const bodyEl = cardEl.querySelector('.summary-card-body');
-    const numEl = cardEl.querySelector('.summary-card-num');
-    if (numEl) numEl.textContent = card.section;
-    if (titleEl) titleEl.textContent = card.title;
-    if (bodyEl) {
-      let html = card.body.split('\n\n').map(p => `<p>${p}</p>`).join('');
-      if (card.quotes) {
-        const quoteLines = card.quotes.split('\n').filter(l => l.trim());
-        const quoteHtml = quoteLines.map(line => {
-          const m = line.match(/^"(.+)"\s*—\s*(.+)$/);
-          if (m) return `<div class="summary-quote">"${m[1]}"<div class="summary-quote-attr">— ${m[2]}</div></div>`;
-          return `<div class="summary-quote">${line}</div>`;
-        }).join('');
-        html += `<div class="summary-quote-list">${quoteHtml}</div>`;
-      }
-      bodyEl.innerHTML = html;
-    }
-  });
-}
-
-const regenerateBtn = document.getElementById('regenerateBtn');
-if (regenerateBtn) {
-  regenerateBtn.addEventListener('click', async () => {
-    regenerateBtn.disabled = true;
-    regenerateBtn.innerHTML = '<span class="summary-loading"><span class="summary-loading-dot"></span><span class="summary-loading-dot"></span><span class="summary-loading-dot"></span> Generating</span>';
-    await saveDraft(); // make sure latest data is in the DB first
-    const summary = await callSummarize('individual');
-    if (summary) {
-      const cards = parseSummaryCards(summary);
-      renderSummaryCards(cards, '#summaryMine');
-    }
-    regenerateBtn.disabled = false;
-    regenerateBtn.innerHTML = '↻ Regenerate';
-  });
-}
-
-const regenerateAggregateBtn = document.getElementById('regenerateAggregateBtn');
-if (regenerateAggregateBtn) {
-  regenerateAggregateBtn.addEventListener('click', async () => {
-    regenerateAggregateBtn.disabled = true;
-    regenerateAggregateBtn.innerHTML = '<span class="summary-loading"><span class="summary-loading-dot"></span><span class="summary-loading-dot"></span><span class="summary-loading-dot"></span> Refreshing</span>';
-    const summary = await callSummarize('aggregate');
-    if (summary) {
-      const cards = parseSummaryCards(summary);
-      renderSummaryCards(cards, '#aggregateContent');
-    }
-    regenerateAggregateBtn.disabled = false;
-    regenerateAggregateBtn.innerHTML = '↻ Refresh';
-  });
-}
 
   async function loadAggregateStats() {
     const { data, error } = await db
@@ -1325,6 +1530,318 @@ if (regenerateAggregateBtn) {
     if (data.open_unsaid) document.getElementById('openUnsaid').value = data.open_unsaid;
     if (data.open_unsaid_anon) { const cb = document.getElementById('openUnsaidAnon'); cb.checked = true; cb.closest('.anon-toggle').classList.add('checked'); }
   }
+
+  // ============ LEADERSHIP VIEW ============
+  let leadershipResponses = [];
+  let leadershipView = 'by-question';
+
+  const QUESTION_DEFS = [
+    { id: 'meeting_rating',           section: 'Section 01 · Meeting effectiveness', label: 'Overall rating of last week\'s meetings',  type: 'rating' },
+    { id: 'meeting_landed',           section: 'Section 01 · Meeting effectiveness', label: 'What landed most clearly?',                 type: 'text' },
+    { id: 'meeting_unresolved',       section: 'Section 01 · Meeting effectiveness', label: 'What felt unresolved?',                     type: 'text', anonField: 'meeting_unresolved_anon' },
+    { id: 'topic_reactions',          section: 'Section 02 · Reactions to topics',   label: 'Reactions to topics discussed',             type: 'topics' },
+    { id: 'region_translates_well',   section: 'Section 03 · Regional perspective',  label: 'What translates well to your market?',      type: 'text' },
+    { id: 'region_translates_poorly', section: 'Section 03 · Regional perspective',  label: 'What translates poorly?',                   type: 'text' },
+    { id: 'region_risk',              section: 'Section 03 · Regional perspective',  label: 'One regional risk',                         type: 'text', anonField: 'region_risk_anon' },
+    { id: 'region_accelerator',       section: 'Section 03 · Regional perspective',  label: 'One regional accelerator',                  type: 'text' },
+    { id: 'friction_customer',        section: 'Section 04 · Friction points',       label: 'Customer-facing friction',                  type: 'text', anonField: 'friction_customer_anon' },
+    { id: 'friction_field',           section: 'Section 04 · Friction points',       label: 'Field & commercial friction',               type: 'text', anonField: 'friction_field_anon' },
+    { id: 'friction_internal',        section: 'Section 04 · Friction points',       label: 'Internal & enablement friction',            type: 'text', anonField: 'friction_internal_anon' },
+    { id: 'top_three',                section: 'Section 05 · Priorities & trade-offs', label: 'If you could only do three things…',     type: 'list' },
+    { id: 'stop_doing',               section: 'Section 05 · Priorities & trade-offs', label: 'What should we stop, pause, or de-prioritize?', type: 'text', anonField: 'stop_doing_anon' },
+    { id: 'commitment',               section: 'Section 06 · Personal commitment',   label: 'The one initiative I will personally drive',type: 'text' },
+    { id: 'commitment_needs',         section: 'Section 06 · Personal commitment',   label: 'What you need from the team',               type: 'text' },
+    { id: 'open_missing',             section: 'Section 07 · Open input',            label: 'What is this survey missing?',              type: 'text', anonField: 'open_missing_anon' },
+    { id: 'open_unsaid',              section: 'Section 07 · Open input',            label: 'Anything you wanted to raise but didn\'t?', type: 'text', anonField: 'open_unsaid_anon' },
+  ];
+
+  const RATING_LABELS = { 1: 'Poor', 2: 'Below avg.', 3: 'Average', 4: 'Strong', 5: 'Excellent' };
+  const REACTION_LABELS = { aligned: 'Aligned', discuss: 'Need to discuss', building: 'Building on this', not_enough: 'Not enough yet' };
+
+  async function loadAllResponses() {
+    const container = document.getElementById('leadershipContent');
+    container.innerHTML = '<div class="leadership-empty"><div class="leadership-empty-icon">⏳</div><div class="leadership-empty-title">Loading responses…</div><div class="leadership-empty-body">Pulling all submitted responses from the database.</div></div>';
+
+    const { data, error } = await db
+      .from('responses')
+      .select('*')
+      .order('updated_at', { ascending: false });
+
+    if (error) {
+      console.error('Failed to load responses:', error);
+      container.innerHTML = '<div class="leadership-empty"><div class="leadership-empty-icon">⚠️</div><div class="leadership-empty-title">Could not load responses</div><div class="leadership-empty-body">Check the browser console for details.</div></div>';
+      return;
+    }
+
+    leadershipResponses = data || [];
+    updateLeadershipStats();
+    renderLeadershipView();
+  }
+
+  function updateLeadershipStats() {
+    const submitted = leadershipResponses.filter(r => r.submitted);
+    const drafts = leadershipResponses.filter(r => !r.submitted);
+    const ratings = submitted.map(r => r.meeting_rating).filter(x => x != null);
+    const regions = [...new Set(submitted.map(r => r.region).filter(Boolean))];
+
+    document.getElementById('lstatSubmitted').textContent = submitted.length;
+    document.getElementById('lstatSubmittedPct').textContent = `of ${leadershipResponses.length} responses`;
+    document.getElementById('lstatDrafts').textContent = drafts.length;
+    document.getElementById('lstatRating').textContent = ratings.length ? (ratings.reduce((a,b)=>a+b,0) / ratings.length).toFixed(1) : '—';
+    document.getElementById('lstatRegions').textContent = regions.length;
+    document.getElementById('lstatRegionsList').textContent = regions.length ? regions.join(', ') : '—';
+  }
+
+  function applyFilters(responses) {
+    const search = document.getElementById('leadershipSearch').value.toLowerCase().trim();
+    const region = document.getElementById('leadershipRegionFilter').value;
+    const fn = document.getElementById('leadershipFunctionFilter').value;
+    const includeDrafts = document.getElementById('leadershipIncludeDrafts').checked;
+
+    return responses.filter(r => {
+      if (!includeDrafts && !r.submitted) return false;
+      if (region && r.region !== region) return false;
+      if (fn && r.function_role !== fn) return false;
+      if (search) {
+        const haystack = JSON.stringify(r).toLowerCase();
+        if (!haystack.includes(search)) return false;
+      }
+      return true;
+    });
+  }
+
+  function getDisplayName(r, anonField) {
+    if (anonField && r[anonField]) {
+      return { name: 'Anonymous', meta: r.region || '' };
+    }
+    return {
+      name: r.name || 'Unnamed',
+      meta: [r.region, r.function_role].filter(Boolean).join(' · ')
+    };
+  }
+
+  function renderQuestionView(filtered) {
+    const container = document.getElementById('leadershipContent');
+    if (filtered.length === 0) {
+      container.innerHTML = '<div class="leadership-empty"><div class="leadership-empty-icon">📭</div><div class="leadership-empty-title">No responses match your filters</div><div class="leadership-empty-body">Try clearing the search or expanding to include drafts.</div></div>';
+      return;
+    }
+
+    const html = QUESTION_DEFS.map(q => {
+      const answers = filtered.map(r => {
+        const value = r[q.id];
+        const display = getDisplayName(r, q.anonField);
+        const isAnon = q.anonField && r[q.anonField];
+
+        let answerHtml = '';
+        if (q.type === 'rating') {
+          if (value == null) answerHtml = '<span class="lq-answer-empty">No rating</span>';
+          else answerHtml = `<span class="lq-rating"><span class="lq-rating-num">${value}</span><span class="lq-rating-label">${RATING_LABELS[value] || ''}</span></span>`;
+        } else if (q.type === 'topics') {
+          if (!Array.isArray(value) || value.every(t => !t.reaction && !t.rationale)) {
+            answerHtml = '<span class="lq-answer-empty">Not yet answered</span>';
+          } else {
+            answerHtml = '<div>' + value.map(t => {
+              const pillClass = t.reaction ? `lq-pill ${t.reaction}` : 'lq-pill';
+              const pillText = t.reaction ? REACTION_LABELS[t.reaction] : '—';
+              return `<div style="margin-bottom:6px;"><strong style="font-size:11px;color:var(--ink-mute);">Topic ${t.topic_index}:</strong> <span class="${pillClass}">${pillText}</span>${t.rationale ? `<div style="margin-top:3px;font-size:13px;">${escapeHtml(t.rationale)}</div>` : ''}</div>`;
+            }).join('') + '</div>';
+          }
+        } else if (q.type === 'list') {
+          if (!Array.isArray(value) || value.every(v => !v || !v.trim())) {
+            answerHtml = '<span class="lq-answer-empty">Not yet answered</span>';
+          } else {
+            const items = value.filter(v => v && v.trim());
+            answerHtml = '<ol class="lq-list">' + items.map(v => `<li>${escapeHtml(v)}</li>`).join('') + '</ol>';
+          }
+        } else {
+          if (!value || !value.trim()) answerHtml = '<span class="lq-answer-empty">Not yet answered</span>';
+          else answerHtml = escapeHtml(value);
+        }
+
+        return `
+          <div class="lq-answer">
+            <div class="lq-respondent">
+              <div class="lq-respondent-name">${escapeHtml(display.name)}</div>
+              <div class="lq-respondent-meta">${escapeHtml(display.meta)}</div>
+              ${isAnon ? '<div class="lq-respondent-anon">submitted anonymously</div>' : ''}
+            </div>
+            <div class="lq-answer-body">${answerHtml}</div>
+          </div>
+        `;
+      }).join('');
+
+      const answeredCount = filtered.filter(r => {
+        const v = r[q.id];
+        if (q.type === 'topics') return Array.isArray(v) && v.some(t => t.reaction || t.rationale);
+        if (q.type === 'list') return Array.isArray(v) && v.some(x => x && x.trim());
+        return v != null && (typeof v !== 'string' || v.trim());
+      }).length;
+
+      return `
+        <div class="lq-block">
+          <div class="lq-header" data-lq-toggle>
+            <div>
+              <div class="lq-section-tag">${q.section}</div>
+              <div class="lq-question">${q.label}</div>
+            </div>
+            <div class="lq-meta">
+              <span class="lq-count">${answeredCount} / ${filtered.length} answered</span>
+              <span class="lq-toggle">▼</span>
+            </div>
+          </div>
+          <div class="lq-answers">${answers}</div>
+        </div>
+      `;
+    }).join('');
+
+    container.innerHTML = html;
+
+    container.querySelectorAll('[data-lq-toggle]').forEach(h => {
+      h.addEventListener('click', () => h.closest('.lq-block').classList.toggle('collapsed'));
+    });
+  }
+
+  function renderRespondentView(filtered) {
+    const container = document.getElementById('leadershipContent');
+    if (filtered.length === 0) {
+      container.innerHTML = '<div class="leadership-empty"><div class="leadership-empty-icon">📭</div><div class="leadership-empty-title">No responses match your filters</div><div class="leadership-empty-body">Try clearing the search or expanding to include drafts.</div></div>';
+      return;
+    }
+
+    const html = filtered.map(r => {
+      const sections = QUESTION_DEFS.reduce((acc, q) => {
+        if (!acc[q.section]) acc[q.section] = [];
+        acc[q.section].push(q);
+        return acc;
+      }, {});
+
+      const sectionsHtml = Object.entries(sections).map(([sectionName, questions]) => {
+        const fieldsHtml = questions.map(q => {
+          const value = r[q.id];
+          const isAnon = q.anonField && r[q.anonField];
+          let valueHtml = '';
+
+          if (q.type === 'rating') {
+            valueHtml = value != null ? `${value} — ${RATING_LABELS[value] || ''}` : '<span class="empty">Not yet answered</span>';
+          } else if (q.type === 'topics') {
+            if (Array.isArray(value) && value.some(t => t.reaction || t.rationale)) {
+              valueHtml = value.map(t => `Topic ${t.topic_index}: <strong>${t.reaction ? REACTION_LABELS[t.reaction] : '—'}</strong>${t.rationale ? ` — ${escapeHtml(t.rationale)}` : ''}`).join('<br/>');
+            } else valueHtml = '<span class="empty">Not yet answered</span>';
+          } else if (q.type === 'list') {
+            if (Array.isArray(value) && value.some(v => v && v.trim())) {
+              valueHtml = value.filter(v => v && v.trim()).map((v,i) => `${i+1}. ${escapeHtml(v)}`).join('<br/>');
+            } else valueHtml = '<span class="empty">Not yet answered</span>';
+          } else {
+            valueHtml = value && value.trim() ? escapeHtml(value) : '<span class="empty">Not yet answered</span>';
+          }
+
+          return `
+            <div class="lr-field">
+              <div class="lr-field-label">${q.label}${isAnon ? '<span class="lr-field-anon">ANON</span>' : ''}</div>
+              <div class="lr-field-value">${valueHtml}</div>
+            </div>
+          `;
+        }).join('');
+
+        return `<div class="lr-section"><div class="lr-section-title">${sectionName}</div>${fieldsHtml}</div>`;
+      }).join('');
+
+      const meta = [r.region, r.function_role, r.business_unit].filter(Boolean).join(' · ');
+
+      return `
+        <div class="lr-card collapsed">
+          <div class="lr-header" data-lr-toggle>
+            <div>
+              <div class="lr-name">${escapeHtml(r.name || 'Unnamed respondent')}</div>
+              <div class="lr-meta">${escapeHtml(meta) || 'No identity info provided'}</div>
+            </div>
+            <div class="lq-meta">
+              <span class="lr-status ${r.submitted ? 'submitted' : 'draft'}">${r.submitted ? 'Submitted' : 'Draft'}</span>
+              <span class="lr-toggle">▼</span>
+            </div>
+          </div>
+          <div class="lr-body">${sectionsHtml}</div>
+        </div>
+      `;
+    }).join('');
+
+    container.innerHTML = html;
+
+    container.querySelectorAll('[data-lr-toggle]').forEach(h => {
+      h.addEventListener('click', () => h.closest('.lr-card').classList.toggle('collapsed'));
+    });
+  }
+
+  function renderLeadershipView() {
+    const filtered = applyFilters(leadershipResponses);
+    if (leadershipView === 'by-question') renderQuestionView(filtered);
+    else renderRespondentView(filtered);
+  }
+
+  function exportResponsesAsCsv() {
+    const filtered = applyFilters(leadershipResponses);
+    if (filtered.length === 0) { alert('No responses to export with current filters.'); return; }
+
+    const headers = ['name','region','function','business_unit','submitted','meeting_rating','meeting_landed','meeting_unresolved','meeting_unresolved_anon','topic_reactions','region_translates_well','region_translates_poorly','region_risk','region_risk_anon','region_accelerator','friction_customer','friction_customer_anon','friction_field','friction_field_anon','friction_internal','friction_internal_anon','top_three','stop_doing','stop_doing_anon','commitment','commitment_needs','open_missing','open_missing_anon','open_unsaid','open_unsaid_anon','created_at','updated_at'];
+
+    const escape = (v) => {
+      if (v == null) return '';
+      if (typeof v === 'object') v = JSON.stringify(v);
+      v = String(v);
+      if (/[",\n]/.test(v)) v = '"' + v.replace(/"/g, '""') + '"';
+      return v;
+    };
+
+    const rows = filtered.map(r => [
+      r.name, r.region, r.function_role, r.business_unit, r.submitted,
+      r.meeting_rating, r.meeting_landed, r.meeting_unresolved, r.meeting_unresolved_anon,
+      r.topic_reactions,
+      r.region_translates_well, r.region_translates_poorly, r.region_risk, r.region_risk_anon, r.region_accelerator,
+      r.friction_customer, r.friction_customer_anon, r.friction_field, r.friction_field_anon, r.friction_internal, r.friction_internal_anon,
+      r.top_three, r.stop_doing, r.stop_doing_anon,
+      r.commitment, r.commitment_needs,
+      r.open_missing, r.open_missing_anon, r.open_unsaid, r.open_unsaid_anon,
+      r.created_at, r.updated_at
+    ].map(escape).join(','));
+
+    const csv = headers.join(',') + '\n' + rows.join('\n');
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `jazz-survey-responses-${new Date().toISOString().slice(0,10)}.csv`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+
+  // Wire up controls
+  document.getElementById('leadershipSearch').addEventListener('input', renderLeadershipView);
+  document.getElementById('leadershipRegionFilter').addEventListener('change', renderLeadershipView);
+  document.getElementById('leadershipFunctionFilter').addEventListener('change', renderLeadershipView);
+  document.getElementById('leadershipIncludeDrafts').addEventListener('change', () => {
+    updateLeadershipStats();
+    renderLeadershipView();
+  });
+  document.getElementById('leadershipRefresh').addEventListener('click', loadAllResponses);
+  document.getElementById('leadershipExportCsv').addEventListener('click', exportResponsesAsCsv);
+  document.querySelectorAll('.leadership-view-tab').forEach(t => {
+    t.addEventListener('click', () => {
+      document.querySelectorAll('.leadership-view-tab').forEach(x => x.classList.remove('active'));
+      t.classList.add('active');
+      leadershipView = t.dataset.lview;
+      renderLeadershipView();
+    });
+  });
+
+  // Auto-load when navigating to the leadership section
+  const originalShowSection = showSection;
+  showSection = function(id) {
+    originalShowSection(id);
+    if (id === 'leadership') loadAllResponses();
+  };
 
   // Boot the app
   (async () => {
