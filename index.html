@@ -1119,13 +1119,95 @@
     b.addEventListener('click', () => showSection(b.dataset.edit));
   });
 
-  const regenerateBtn = document.getElementById('regenerateBtn');
-  if (regenerateBtn) {
-    regenerateBtn.addEventListener('click', () => {
-      regenerateBtn.innerHTML = '<span class="summary-loading"><span class="summary-loading-dot"></span><span class="summary-loading-dot"></span><span class="summary-loading-dot"></span> Regenerating</span>';
-      setTimeout(() => { regenerateBtn.innerHTML = '↻ Regenerate'; }, 1800);
-    });
+async function callSummarize(mode) {
+  const r = await fetch(`${SUPABASE_URL}/functions/v1/summarize`, {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ mode, respondent_id: RESPONDENT_ID }),
+  });
+  if (!r.ok) {
+    const err = await r.text();
+    console.error('Summarize call failed:', err);
+    return null;
   }
+  const json = await r.json();
+  return json.summary;
+}
+
+function parseSummaryCards(text) {
+  // Splits Claude's response (CARD ... --- CARD ...) into structured cards
+  return text.split(/^---\s*$/m).map(block => {
+    const section = block.match(/SECTION:\s*(.+)/)?.[1]?.trim();
+    const title = block.match(/TITLE:\s*(.+)/)?.[1]?.trim();
+    const bodyMatch = block.match(/BODY:\s*([\s\S]*?)(?=\nQUOTES:|$)/);
+    const body = bodyMatch?.[1]?.trim();
+    const quotesMatch = block.match(/QUOTES:\s*([\s\S]*?)$/);
+    const quotes = quotesMatch?.[1]?.trim();
+    return section && title && body ? { section, title, body, quotes } : null;
+  }).filter(Boolean);
+}
+
+function renderSummaryCards(cards, containerSelector) {
+  const container = document.querySelector(containerSelector);
+  if (!container) return;
+  // Find existing cards (1-7) and replace their content
+  cards.forEach((card, i) => {
+    const cardEl = container.querySelector(`.summary-card-${i + 1}`);
+    if (!cardEl) return;
+    const titleEl = cardEl.querySelector('.summary-card-title');
+    const bodyEl = cardEl.querySelector('.summary-card-body');
+    const numEl = cardEl.querySelector('.summary-card-num');
+    if (numEl) numEl.textContent = card.section;
+    if (titleEl) titleEl.textContent = card.title;
+    if (bodyEl) {
+      let html = card.body.split('\n\n').map(p => `<p>${p}</p>`).join('');
+      if (card.quotes) {
+        const quoteLines = card.quotes.split('\n').filter(l => l.trim());
+        const quoteHtml = quoteLines.map(line => {
+          const m = line.match(/^"(.+)"\s*—\s*(.+)$/);
+          if (m) return `<div class="summary-quote">"${m[1]}"<div class="summary-quote-attr">— ${m[2]}</div></div>`;
+          return `<div class="summary-quote">${line}</div>`;
+        }).join('');
+        html += `<div class="summary-quote-list">${quoteHtml}</div>`;
+      }
+      bodyEl.innerHTML = html;
+    }
+  });
+}
+
+const regenerateBtn = document.getElementById('regenerateBtn');
+if (regenerateBtn) {
+  regenerateBtn.addEventListener('click', async () => {
+    regenerateBtn.disabled = true;
+    regenerateBtn.innerHTML = '<span class="summary-loading"><span class="summary-loading-dot"></span><span class="summary-loading-dot"></span><span class="summary-loading-dot"></span> Generating</span>';
+    await saveDraft(); // make sure latest data is in the DB first
+    const summary = await callSummarize('individual');
+    if (summary) {
+      const cards = parseSummaryCards(summary);
+      renderSummaryCards(cards, '#summaryMine');
+    }
+    regenerateBtn.disabled = false;
+    regenerateBtn.innerHTML = '↻ Regenerate';
+  });
+}
+
+const regenerateAggregateBtn = document.getElementById('regenerateAggregateBtn');
+if (regenerateAggregateBtn) {
+  regenerateAggregateBtn.addEventListener('click', async () => {
+    regenerateAggregateBtn.disabled = true;
+    regenerateAggregateBtn.innerHTML = '<span class="summary-loading"><span class="summary-loading-dot"></span><span class="summary-loading-dot"></span><span class="summary-loading-dot"></span> Refreshing</span>';
+    const summary = await callSummarize('aggregate');
+    if (summary) {
+      const cards = parseSummaryCards(summary);
+      renderSummaryCards(cards, '#aggregateContent');
+    }
+    regenerateAggregateBtn.disabled = false;
+    regenerateAggregateBtn.innerHTML = '↻ Refresh';
+  });
+}
 
   async function loadAggregateStats() {
     const { data, error } = await db
