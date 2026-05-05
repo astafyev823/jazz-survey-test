@@ -1305,17 +1305,32 @@
     finalSubmit.textContent = 'Submitting…';
 
     const payload = { ...gatherResponses(), submitted: true };
-    const { error } = await db
+    console.log('[Survey] Submitting payload:', payload);
+
+    const { data, error } = await db
       .from('responses')
-      .upsert(payload, { onConflict: 'respondent_id' });
+      .upsert(payload, { onConflict: 'respondent_id' })
+      .select()
+      .single();
 
     if (error) {
-      console.error('Submit failed:', error);
+      console.error('[Survey] Submit failed:', error);
       finalSubmit.textContent = 'Error — try again';
       finalSubmit.disabled = false;
+      alert('Submit failed: ' + (error.message || 'unknown error') + '\n\nCheck the browser console for details.');
       return;
     }
 
+    // Verify the write actually persisted submitted=true
+    if (!data || data.submitted !== true) {
+      console.error('[Survey] Submit returned but submitted flag is not true:', data);
+      finalSubmit.textContent = 'Error — try again';
+      finalSubmit.disabled = false;
+      alert('Submission may not have saved correctly. Check the browser console for details.');
+      return;
+    }
+
+    console.log('[Survey] Submit confirmed. Row in DB:', data);
     userHasSubmitted = true;
     applySubmittedUiState();
     setTimeout(() => switchSummaryView('team'), 600);
