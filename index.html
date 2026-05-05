@@ -61,7 +61,7 @@
   .topbar-meta { display: flex; gap: 24px; align-items: center; font-size: 12px; color: var(--ink-mute); }
   .meta-item strong { color: var(--ink); font-weight: 500; }
   .meta-divider { width: 1px; height: 18px; background: var(--border); }
-  .layout { max-width: 1400px; margin: 0 auto; padding: 24px 24px 80px; display: grid; grid-template-columns: 180px 1fr 280px; gap: 20px; align-items: start; }
+  .layout { max-width: 1180px; margin: 0 auto; padding: 24px 24px 80px; display: grid; grid-template-columns: 220px 1fr; gap: 32px; align-items: start; }
   .sidebar { position: sticky; top: 122px; }
   .sidebar-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-mute); margin-bottom: 14px; padding-left: 4px; }
   .nav-list { list-style: none; border-left: 1px solid var(--border); }
@@ -160,62 +160,6 @@
   .btn-arrow { font-size: 14px; line-height: 1; }
   .save-status { font-size: 12px; color: var(--ink-mute); display: flex; align-items: center; gap: 6px; }
   .save-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--teal); }
-  .comments { position: sticky; top: 122px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; max-height: calc(100vh - 140px); display: flex; flex-direction: column; overflow: hidden; }
-  .comments-header { padding: 16px 18px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
-  .comments-title { font-size: 13px; font-weight: 600; color: var(--ink); display: flex; align-items: center; gap: 8px; }
-  .comments-title-icon { width: 16px; height: 16px; color: var(--purple); }
-  .comments-count { font-size: 11px; background: var(--purple-pale); color: var(--purple); padding: 2px 8px; border-radius: 999px; font-weight: 600; }
-  .comments-section-label { padding: 10px 18px; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-mute); background: var(--bg); border-bottom: 1px solid var(--border); flex-shrink: 0; }
-  .comments-list { flex: 1; overflow-y: auto; padding: 8px 0; }
-  .comments-list::-webkit-scrollbar { width: 6px; }
-  .comments-list::-webkit-scrollbar-track { background: transparent; }
-  .comments-list::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 3px; }
-  .comment { padding: 14px 18px; border-bottom: 1px solid var(--border); position: relative; }
-  .comment:last-child { border-bottom: none; }
-  .comment-head { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px; gap: 6px; }
-  .comment-author { display: flex; align-items: center; gap: 8px; }
-  .comment-avatar { width: 22px; height: 22px; border-radius: 50%; background: var(--purple); color: white; font-size: 10px; font-weight: 600; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-  .comment-avatar.c2 { background: var(--blue); }
-  .comment-avatar.c3 { background: var(--teal); }
-  .comment-avatar.c4 { background: var(--orange); }
-  .comment-avatar.c5 { background: var(--gold); color: var(--ink); }
-  .comment-name { font-size: 12px; font-weight: 600; color: var(--ink); }
-  .comment-time { font-size: 10px; color: var(--ink-faint); }
-  .comment-edited { font-size: 9px; color: var(--ink-faint); font-style: italic; margin-left: 4px; }
-  .comment-meta-right { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
-  .comment-menu-wrapper { position: relative; }
-  .comment-menu-btn { background: none; border: none; color: var(--ink-faint); cursor: pointer; font-size: 14px; padding: 2px 6px; border-radius: 4px; line-height: 1; font-family: inherit; font-weight: 700; }
-  .comment-menu-btn:hover { background: var(--purple-pale); color: var(--purple); }
-  .comment-menu { position: absolute; right: 0; top: 100%; margin-top: 4px; background: var(--white); border: 1px solid var(--border); border-radius: 6px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); z-index: 20; min-width: 110px; overflow: hidden; display: none; }
-  .comment-menu.open { display: block; }
-  .comment-menu button { display: block; width: 100%; text-align: left; background: none; border: none; padding: 8px 12px; font-family: inherit; font-size: 12px; color: var(--ink); cursor: pointer; }
-  .comment-menu button:hover { background: var(--purple-mist); color: var(--purple); }
-  .comment-menu button.danger { color: #B43A3A; }
-  .comment-menu button.danger:hover { background: #FDECEC; color: #B43A3A; }
-  .comment-edit-area { margin-left: 30px; margin-top: 8px; }
-  .comment-edit-textarea { width: 100%; background: var(--white); border: 1px solid var(--purple); padding: 8px 10px; font-family: inherit; font-size: 13px; border-radius: 6px; resize: vertical; min-height: 50px; line-height: 1.4; color: var(--ink); }
-  .comment-edit-textarea:focus { outline: none; box-shadow: 0 0 0 3px var(--purple-pale); }
-  .comment-edit-actions { display: flex; gap: 6px; margin-top: 6px; justify-content: flex-end; }
-  .comment-edit-btn { padding: 5px 10px; font-family: inherit; font-size: 11px; font-weight: 500; border-radius: 4px; cursor: pointer; border: 1px solid var(--border-strong); background: var(--white); color: var(--ink); }
-  .comment-edit-btn:hover { border-color: var(--purple); color: var(--purple); }
-  .comment-edit-btn.primary { background: var(--purple); color: white; border-color: var(--purple); }
-  .comment-edit-btn.primary:hover { background: var(--purple-deep); color: white; }
-  .comment-body { font-size: 13px; color: var(--ink-soft); line-height: 1.45; margin-left: 30px; word-wrap: break-word; }
-  .comment-actions { margin-left: 30px; margin-top: 6px; display: flex; gap: 12px; font-size: 11px; color: var(--ink-mute); }
-  .comment-action { background: none; border: none; color: var(--ink-mute); cursor: pointer; font-family: inherit; font-size: 11px; padding: 0; display: inline-flex; align-items: center; gap: 4px; }
-  .comment-action:hover { color: var(--purple); }
-  .comment-input-area { border-top: 1px solid var(--border); padding: 12px; background: var(--bg); flex-shrink: 0; }
-  .comment-input { width: 100%; background: var(--white); border: 1px solid var(--border-strong); color: var(--ink); padding: 8px 10px; font-family: inherit; font-size: 13px; border-radius: 6px; resize: none; min-height: 60px; line-height: 1.4; }
-  .comment-input:focus { outline: none; border-color: var(--purple); box-shadow: 0 0 0 3px var(--purple-pale); }
-  .comment-input-actions { display: flex; justify-content: space-between; align-items: center; margin-top: 8px; }
-  .comment-input-meta { font-size: 11px; color: var(--ink-mute); }
-  .comment-name-input { background: var(--white); border: 1px solid var(--border); padding: 6px 10px; font-family: inherit; font-size: 12px; border-radius: 4px; width: 100%; margin-bottom: 6px; color: var(--ink); }
-  .comment-name-input:focus { outline: none; border-color: var(--purple); }
-  .comment-submit { background: var(--purple); color: white; border: none; padding: 6px 12px; border-radius: 4px; font-family: inherit; font-size: 12px; font-weight: 500; cursor: pointer; }
-  .comment-submit:hover { background: var(--purple-deep); }
-  .comment-submit:disabled { background: var(--border-strong); cursor: not-allowed; }
-  .comments-empty { padding: 32px 18px; text-align: center; color: var(--ink-mute); font-size: 12px; line-height: 1.5; }
-  .comments-empty-icon { font-size: 24px; color: var(--ink-faint); margin-bottom: 8px; display: block; }
   .summary-tabs { display: flex; gap: 4px; background: var(--white); border: 1px solid var(--border); border-radius: 8px; padding: 4px; margin-bottom: 24px; width: fit-content; }
   .summary-tab { background: transparent; border: none; padding: 8px 16px; font-family: inherit; font-size: 13px; font-weight: 500; color: var(--ink-soft); cursor: pointer; border-radius: 6px; transition: all 0.15s; display: inline-flex; align-items: center; gap: 8px; }
   .summary-tab:hover { color: var(--purple); }
@@ -223,6 +167,9 @@
   .summary-tab-count { background: rgba(255,255,255,0.25); padding: 1px 7px; border-radius: 999px; font-size: 11px; font-weight: 600; }
   .summary-tab:not(.active) .summary-tab-count { background: var(--purple-pale); color: var(--purple); }
   .summary-banner { background: linear-gradient(135deg, rgba(92,31,97,0.04) 0%, rgba(61,123,203,0.04) 100%); border: 1px solid var(--border); border-left: 3px solid var(--purple); padding: 14px 18px; border-radius: 0 8px 8px 0; margin-bottom: 20px; display: flex; gap: 12px; align-items: flex-start; font-size: 13px; color: var(--ink-soft); line-height: 1.5; }
+  .future-state-notice { background: linear-gradient(135deg, #FFF8E1 0%, #FBEFC8 100%); border: 1px solid #E8D896; border-radius: 8px; padding: 12px 18px; margin-bottom: 20px; display: flex; align-items: center; gap: 14px; }
+  .future-state-label { flex-shrink: 0; font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); background: var(--white); padding: 4px 10px; border-radius: 4px; border: 1px solid #E8D896; }
+  .future-state-body { font-size: 13px; color: var(--ink-soft); font-style: italic; line-height: 1.4; }
   .summary-banner-icon { color: var(--purple); font-size: 16px; flex-shrink: 0; line-height: 1.4; }
   .summary-banner strong { color: var(--ink); font-weight: 600; }
   .summary-locked { background: var(--white); border: 1px dashed var(--border-strong); border-radius: 8px; padding: 48px 32px; text-align: center; }
@@ -342,19 +289,12 @@
   .lr-field-anon { display: inline-block; font-size: 10px; color: var(--purple); background: var(--purple-pale); padding: 1px 6px; border-radius: 3px; margin-left: 6px; font-weight: 600; vertical-align: middle; }
 
   @media (max-width: 1100px) {
-    .layout { grid-template-columns: 160px 1fr 250px; gap: 14px; padding: 20px 14px 80px; }
+    .layout { grid-template-columns: 200px 1fr; gap: 24px; padding: 20px 20px 80px; }
     .section-title { font-size: 30px; }
-    .nav-list button { padding: 8px 12px; font-size: 12px; }
   }
-  @media (max-width: 900px) {
-    .layout { grid-template-columns: 1fr 280px; gap: 16px; }
-    .sidebar { display: none; }
-  }
-  @media (max-width: 700px) {
+  @media (max-width: 800px) {
     .layout { grid-template-columns: 1fr; gap: 24px; padding: 20px 16px 80px; }
-    .comments { position: fixed; right: -340px; top: 100px; width: 320px; max-height: calc(100vh - 120px); transition: right 0.25s; box-shadow: -8px 0 24px rgba(0,0,0,0.06); z-index: 90; }
-    .comments.open { right: 16px; }
-    .comments-toggle { display: flex; position: fixed; right: 16px; bottom: 16px; background: var(--purple); color: white; border: none; width: 52px; height: 52px; border-radius: 50%; cursor: pointer; box-shadow: 0 4px 12px rgba(92,31,97,0.3); z-index: 95; font-size: 18px; align-items: center; justify-content: center; }
+    .sidebar { display: none; }
     .topbar-inner { padding: 0 16px; }
     .three-lens { grid-template-columns: 1fr; }
     .input-row { grid-template-columns: 1fr; }
@@ -362,7 +302,6 @@
     .section-title { font-size: 26px; }
     .topbar-meta { display: none; }
   }
-  .comments-toggle { display: none; }
 </style>
 </head>
 <body>
@@ -396,13 +335,14 @@
       <li><button class="active" data-target="welcome"><span class="nav-num">00</span> Introduction</button></li>
       <li><button data-target="pulse"><span class="nav-num">01</span> Meeting effectiveness</button></li>
       <li><button data-target="reactions"><span class="nav-num">02</span> Reactions to topics</button></li>
-      <li><button data-target="region"><span class="nav-num">03</span> Regional perspective</button></li>
-      <li><button data-target="friction"><span class="nav-num">04</span> Friction points</button></li>
-      <li><button data-target="priorities"><span class="nav-num">05</span> Priorities &amp; trade-offs</button></li>
-      <li><button data-target="commit"><span class="nav-num">06</span> Commitment</button></li>
-      <li><button data-target="open"><span class="nav-num">07</span> Open input</button></li>
-      <li><button data-target="summary"><span class="nav-num">08</span> Summary <span class="nav-badge">AI</span></button></li>
-      <li><button data-target="leadership"><span class="nav-num">09</span> All responses</button></li>
+      <li><button data-target="region"><span class="nav-num">03</span> Regional/Market perspective</button></li>
+      <li><button data-target="functional"><span class="nav-num">04</span> Functional perspective</button></li>
+      <li><button data-target="risks"><span class="nav-num">05</span> Risks ahead</button></li>
+      <li><button data-target="priorities"><span class="nav-num">06</span> 60-day priorities</button></li>
+      <li><button data-target="commit"><span class="nav-num">07</span> Commitment</button></li>
+      <li><button data-target="open"><span class="nav-num">08</span> Open input</button></li>
+      <li><button data-target="summary"><span class="nav-num">09</span> Summary <span class="nav-badge">AI</span></button></li>
+      <li><button data-target="leadership"><span class="nav-num">10</span> All responses</button></li>
     </ul>
     <div class="nav-progress">
       <div class="progress-label">Progress</div>
@@ -429,30 +369,8 @@
           <div class="q-label">About you</div>
           <div class="q-required">Required</div>
         </div>
-        <div class="q-helper">Responses are attributed by default. Where candor is more useful than attribution, individual fields offer an "answer anonymously" option.</div>
-        <div class="input-row">
-          <input class="input" id="fullName" type="text" placeholder="Full name" />
-          <select class="select" id="region">
-            <option>Region / market</option>
-            <option>North America</option>
-            <option>Europe</option>
-            <option>Asia-Pacific</option>
-            <option>Latin America</option>
-            <option>Global / cross-region</option>
-          </select>
-        </div>
-        <div class="input-row">
-          <select class="select" id="function">
-            <option>Function</option>
-            <option>Sales leadership</option>
-            <option>Marketing leadership</option>
-            <option>Commercial operations</option>
-            <option>Market access</option>
-            <option>Medical affairs</option>
-            <option>General management</option>
-          </select>
-          <input class="input" id="businessUnit" type="text" placeholder="Therapeutic area / business unit" />
-        </div>
+        <div class="q-helper">Your responses are attributed by default. Where candor is more useful than attribution, individual fields offer an "answer anonymously" option.</div>
+        <input class="input" id="fullName" type="text" placeholder="Your name" />
       </div>
 
       <div class="action-bar">
@@ -509,9 +427,9 @@
       </div>
 
       <div class="topic" data-topic="1">
-        <div class="topic-meta"><span class="topic-tag">Topic 01</span><span class="topic-dot"></span><span class="topic-status">Decision · placeholder</span></div>
-        <h3 class="topic-title">[Topic name to be inserted]</h3>
-        <p class="topic-summary">One- or two-sentence summary of what was discussed and where the conversation landed in the room.</p>
+        <div class="topic-meta"><span class="topic-tag">Topic 01</span><span class="topic-dot"></span><span class="topic-status">CX Update</span></div>
+        <h3 class="topic-title">CX Update — recap of BOLD, progress update</h3>
+        <p class="topic-summary">Where we are on the CX transformation: BOLD recap, progress against milestones, and what's coming next.</p>
         <div class="reaction-row">
           <div class="reaction-pill" data-value="aligned">Aligned</div>
           <div class="reaction-pill" data-value="discuss">Need to discuss</div>
@@ -522,9 +440,9 @@
       </div>
 
       <div class="topic" data-topic="2">
-        <div class="topic-meta"><span class="topic-tag">Topic 02</span><span class="topic-dot"></span><span class="topic-status">Workstream · placeholder</span></div>
-        <h3 class="topic-title">[Topic name to be inserted]</h3>
-        <p class="topic-summary">Summary line — what was proposed, who owns it, what's expected to shift.</p>
+        <div class="topic-meta"><span class="topic-tag">Topic 02</span><span class="topic-dot"></span><span class="topic-status">CXO Organization</span></div>
+        <h3 class="topic-title">CXO organization deep dive</h3>
+        <p class="topic-summary">The proposed CXO organization structure, roles, and operating model.</p>
         <div class="reaction-row">
           <div class="reaction-pill" data-value="aligned">Aligned</div>
           <div class="reaction-pill" data-value="discuss">Need to discuss</div>
@@ -535,9 +453,9 @@
       </div>
 
       <div class="topic" data-topic="3">
-        <div class="topic-meta"><span class="topic-tag">Topic 03</span><span class="topic-dot"></span><span class="topic-status">Strategic theme · placeholder</span></div>
-        <h3 class="topic-title">[Topic name to be inserted]</h3>
-        <p class="topic-summary">Summary line — the tension named in the room and where leadership leaned.</p>
+        <div class="topic-meta"><span class="topic-tag">Topic 03</span><span class="topic-dot"></span><span class="topic-status">Change Management</span></div>
+        <h3 class="topic-title">Change Management</h3>
+        <p class="topic-summary">How we'll bring the organization through this transition — pace, communications, capability building.</p>
         <div class="reaction-row">
           <div class="reaction-pill" data-value="aligned">Aligned</div>
           <div class="reaction-pill" data-value="discuss">Need to discuss</div>
@@ -548,9 +466,9 @@
       </div>
 
       <div class="topic" data-topic="4">
-        <div class="topic-meta"><span class="topic-tag">Topic 04</span><span class="topic-dot"></span><span class="topic-status">Investment area · placeholder</span></div>
-        <h3 class="topic-title">[Topic name to be inserted]</h3>
-        <p class="topic-summary">Summary line — the proposal and its implications across regions and functions.</p>
+        <div class="topic-meta"><span class="topic-tag">Topic 04</span><span class="topic-dot"></span><span class="topic-status">CRM Update</span></div>
+        <h3 class="topic-title">CRM Update</h3>
+        <p class="topic-summary">Status of the CRM workstream and how it integrates with the broader CX agenda.</p>
         <div class="reaction-row">
           <div class="reaction-pill" data-value="aligned">Aligned</div>
           <div class="reaction-pill" data-value="discuss">Need to discuss</div>
@@ -569,125 +487,144 @@
     <section class="section-panel" id="region">
       <div class="section-header">
         <div class="section-eyebrow">Section 03 · 2 minutes</div>
-        <h1 class="section-title">Regional perspective.</h1>
-        <p class="section-desc">Global strategy depends on regional truths. Identify where the global view aligns or diverges from your market.</p>
+        <h1 class="section-title">Regional/Market perspective.</h1>
+        <p class="section-desc">CX transformation lands across regions and markets differently. Identify where the proposed direction aligns or diverges from your geography.</p>
       </div>
 
       <div class="question">
-        <div class="q-label">What translates well to your market?</div>
-        <div class="q-helper">Where the global direction fits your regional context naturally.</div>
-        <textarea class="textarea" id="regionTranslatesWell" placeholder="In our market, this works because…"></textarea>
+        <div class="q-label">What translates well to your region or market?</div>
+        <div class="q-helper">Where the CX direction fits naturally with your local context.</div>
+        <textarea class="textarea" id="regionTranslatesWell" placeholder="In our region/market, this works because…"></textarea>
       </div>
 
       <div class="question">
         <div class="q-label">What translates poorly or requires adaptation?</div>
-        <div class="q-helper">Where the global plan will not land as-is and needs local modification.</div>
+        <div class="q-helper">Where the plan needs local modification or rethink to land.</div>
         <textarea class="textarea" id="regionTranslatesPoorly" placeholder="The piece that needs adjustment is…"></textarea>
       </div>
 
       <div class="question">
-        <div class="q-label">One regional risk leadership should know about.</div>
-        <div class="q-helper">Specific to your geography or market — not visible in the global discussion.</div>
-        <textarea class="textarea" id="regionRisk" placeholder="A risk specific to our region is…"></textarea>
+        <div class="q-label">One regional or market risk leadership should know about.</div>
+        <div class="q-helper">Specific to your geography — not visible from the broader transformation lens.</div>
+        <textarea class="textarea" id="regionRisk" placeholder="A risk specific to our region/market is…"></textarea>
         <label class="anon-toggle"><input type="checkbox" id="regionRiskAnon" /> <span class="lock">🔒</span> Submit this response anonymously</label>
       </div>
 
       <div class="question">
-        <div class="q-label">One regional accelerator we could lean into.</div>
-        <div class="q-helper">Something working locally that could scale globally.</div>
+        <div class="q-label">One regional or market accelerator we could lean into.</div>
+        <div class="q-helper">Something working locally that could scale across the transformation.</div>
         <textarea class="textarea" id="regionAccelerator" placeholder="What we could lean into is…"></textarea>
       </div>
 
       <div class="action-bar">
         <button class="btn" data-next="reactions">← Back</button>
-        <button class="btn btn-primary" data-next="friction">Continue <span class="btn-arrow">→</span></button>
+        <button class="btn btn-primary" data-next="functional">Continue <span class="btn-arrow">→</span></button>
       </div>
     </section>
 
-    <section class="section-panel" id="friction">
+    <section class="section-panel" id="functional">
       <div class="section-header">
         <div class="section-eyebrow">Section 04 · 2 minutes</div>
-        <h1 class="section-title">Friction points.</h1>
-        <p class="section-desc">Identify obstacles across three dimensions. The objective is to name issues clearly, not solve them here.</p>
+        <h1 class="section-title">Functional perspective.</h1>
+        <p class="section-desc">CX transformation lands across functions differently. Identify where the proposed direction aligns or diverges from your function — legal, finance, IT, HR, medical, regulatory, etc.</p>
+      </div>
+
+      <div class="question">
+        <div class="q-label">What translates well to your function?</div>
+        <div class="q-helper">Where the CX direction fits naturally with how your function operates.</div>
+        <textarea class="textarea" id="functionTranslatesWell" placeholder="In our function, this works because…"></textarea>
+      </div>
+
+      <div class="question">
+        <div class="q-label">What translates poorly or requires adaptation?</div>
+        <div class="q-helper">Where the plan needs functional modification or rethink to land.</div>
+        <textarea class="textarea" id="functionTranslatesPoorly" placeholder="The piece that needs adjustment is…"></textarea>
+      </div>
+
+      <div class="question">
+        <div class="q-label">One functional risk leadership should know about.</div>
+        <div class="q-helper">Specific to your function — not visible from the broader transformation lens.</div>
+        <textarea class="textarea" id="functionRisk" placeholder="A risk specific to our function is…"></textarea>
+        <label class="anon-toggle"><input type="checkbox" id="functionRiskAnon" /> <span class="lock">🔒</span> Submit this response anonymously</label>
+      </div>
+
+      <div class="question">
+        <div class="q-label">One functional accelerator we could lean into.</div>
+        <div class="q-helper">Something working in your function that could scale across the transformation.</div>
+        <textarea class="textarea" id="functionAccelerator" placeholder="What we could lean into is…"></textarea>
+      </div>
+
+      <div class="action-bar">
+        <button class="btn" data-next="region">← Back</button>
+        <button class="btn btn-primary" data-next="risks">Continue <span class="btn-arrow">→</span></button>
+      </div>
+    </section>
+
+    <section class="section-panel" id="risks">
+      <div class="section-header">
+        <div class="section-eyebrow">Section 05 · 2 minutes</div>
+        <h1 class="section-title">Risks ahead.</h1>
+        <p class="section-desc">Identify the biggest risks across three dimensions. Name them clearly — solving comes later.</p>
       </div>
 
       <div class="three-lens">
         <div class="lens lens-1">
-          <div class="lens-name">Customer-facing</div>
-          <div class="lens-intro">Where patients, HCPs, and payers experience friction.</div>
-          <textarea class="textarea" id="frictionCustomer" placeholder="The primary friction is…"></textarea>
+          <div class="lens-name">Customer risk</div>
+          <div class="lens-intro">Where patients, HCPs, and payers are most at risk during the transition.</div>
+          <textarea class="textarea" id="frictionCustomer" placeholder="The biggest risk is…"></textarea>
           <label class="anon-toggle"><input type="checkbox" id="frictionCustomerAnon" /> <span class="lock">🔒</span> Anonymous</label>
         </div>
         <div class="lens lens-2">
-          <div class="lens-name">Field &amp; commercial</div>
-          <div class="lens-intro">What slows the people executing in market.</div>
-          <textarea class="textarea" id="frictionField" placeholder="The primary friction is…"></textarea>
+          <div class="lens-name">Field &amp; team risk</div>
+          <div class="lens-intro">Where the people executing in market are most at risk.</div>
+          <textarea class="textarea" id="frictionField" placeholder="The biggest risk is…"></textarea>
           <label class="anon-toggle"><input type="checkbox" id="frictionFieldAnon" /> <span class="lock">🔒</span> Anonymous</label>
         </div>
         <div class="lens lens-3">
-          <div class="lens-name">Internal &amp; enablement</div>
-          <div class="lens-intro">Process, tooling, decision rights, handoffs.</div>
-          <textarea class="textarea" id="frictionInternal" placeholder="The primary friction is…"></textarea>
+          <div class="lens-name">Internal risk</div>
+          <div class="lens-intro">Process, decision rights, handoffs, capability gaps.</div>
+          <textarea class="textarea" id="frictionInternal" placeholder="The biggest risk is…"></textarea>
           <label class="anon-toggle"><input type="checkbox" id="frictionInternalAnon" /> <span class="lock">🔒</span> Anonymous</label>
         </div>
       </div>
 
       <div class="action-bar">
-        <button class="btn" data-next="region">← Back</button>
+        <button class="btn" data-next="functional">← Back</button>
         <button class="btn btn-primary" data-next="priorities">Continue <span class="btn-arrow">→</span></button>
       </div>
     </section>
 
     <section class="section-panel" id="priorities">
       <div class="section-header">
-        <div class="section-eyebrow">Section 05 · 3 minutes</div>
-        <h1 class="section-title">Priorities &amp; trade-offs.</h1>
-        <p class="section-desc">Allocate focus across the proposed priorities and identify what should be de-prioritized.</p>
+        <div class="section-eyebrow">Section 06 · 2 minutes</div>
+        <h1 class="section-title">60-day priorities.</h1>
+        <p class="section-desc">Where should we limit disruption while the broader transformation rolls forward?</p>
       </div>
 
       <div class="question">
-        <div class="q-label">Rank these priorities for the next quarter.</div>
-        <div class="q-helper">Drag to reorder. Top of list is highest priority. Items shown are placeholders.</div>
-        <div class="rank-list">
-          <div class="rank-item"><span class="rank-num">1</span><span class="rank-text">[Priority A — placeholder text]</span><span class="rank-handle">⋮⋮</span></div>
-          <div class="rank-item"><span class="rank-num">2</span><span class="rank-text">[Priority B — placeholder text]</span><span class="rank-handle">⋮⋮</span></div>
-          <div class="rank-item"><span class="rank-num">3</span><span class="rank-text">[Priority C — placeholder text]</span><span class="rank-handle">⋮⋮</span></div>
-          <div class="rank-item"><span class="rank-num">4</span><span class="rank-text">[Priority D — placeholder text]</span><span class="rank-handle">⋮⋮</span></div>
-          <div class="rank-item"><span class="rank-num">5</span><span class="rank-text">[Priority E — placeholder text]</span><span class="rank-handle">⋮⋮</span></div>
-        </div>
-      </div>
-
-      <div class="question">
-        <div class="q-label">If you could only do three things next quarter, what would they be?</div>
-        <div class="q-helper">Your top three. Does not need to match the list above.</div>
+        <div class="q-label">Your top 3 priorities for the next 60 days where we should limit disruption.</div>
+        <div class="q-helper">What absolutely needs to keep working as-is during this window. Be specific.</div>
         <input class="input" id="topThree1" type="text" placeholder="1." style="margin-bottom: 8px;" />
         <input class="input" id="topThree2" type="text" placeholder="2." style="margin-bottom: 8px;" />
         <input class="input" id="topThree3" type="text" placeholder="3." />
       </div>
 
-      <div class="question">
-        <div class="q-label">What should we stop, pause, or de-prioritize?</div>
-        <div class="q-helper">Subtraction is a strategic act. What is currently consuming capacity that shouldn't be?</div>
-        <textarea class="textarea" id="stopDoing" placeholder="Consider stopping or pausing…"></textarea>
-        <label class="anon-toggle"><input type="checkbox" id="stopDoingAnon" /> <span class="lock">🔒</span> Submit this response anonymously</label>
-      </div>
-
       <div class="action-bar">
-        <button class="btn" data-next="friction">← Back</button>
+        <button class="btn" data-next="risks">← Back</button>
         <button class="btn btn-primary" data-next="commit">Continue <span class="btn-arrow">→</span></button>
       </div>
     </section>
 
     <section class="section-panel" id="commit">
       <div class="section-header">
-        <div class="section-eyebrow">Section 06 · 1 minute</div>
+        <div class="section-eyebrow">Section 07 · 1 minute</div>
         <h1 class="section-title">Personal commitment.</h1>
-        <p class="section-desc">A single, specific commitment you will personally drive coming out of last week's sessions.</p>
+        <p class="section-desc">A single, specific CX initiative you will personally drive coming out of last week's sessions.</p>
       </div>
 
       <div class="commit-block">
         <div class="commit-eyebrow">Your commitment</div>
-        <h2 class="commit-title">The one initiative I will personally drive is…</h2>
+        <h2 class="commit-title">The one CX initiative I will personally drive is…</h2>
         <p class="commit-sub">Specific. Owned. Visible to peers in the synthesis. This section is attributed — commitments belong to the people making them.</p>
         <input class="commit-input" id="commitment" type="text" placeholder="I will…" />
         <div class="commit-note">Visible to peer leadership in the response synthesis</div>
@@ -707,22 +644,22 @@
 
     <section class="section-panel" id="open">
       <div class="section-header">
-        <div class="section-eyebrow">Section 07 · Final</div>
+        <div class="section-eyebrow">Section 08 · Final</div>
         <h1 class="section-title">Open input.</h1>
-        <p class="section-desc">Anything the structured questions did not capture.</p>
+        <p class="section-desc">Anything else worth surfacing.</p>
       </div>
 
       <div class="question">
-        <div class="q-label">What is this survey missing?</div>
-        <div class="q-helper">A topic, question, or perspective the structure did not cover.</div>
-        <textarea class="textarea" id="openMissing" placeholder="A question you should have asked…"></textarea>
+        <div class="q-label">Any other topics you want us to bring?</div>
+        <div class="q-helper">Topics not yet on the agenda that should be — for upcoming sessions or working group time.</div>
+        <textarea class="textarea" id="openMissing" placeholder="A topic worth raising…"></textarea>
         <label class="anon-toggle"><input type="checkbox" id="openMissingAnon" /> <span class="lock">🔒</span> Submit this response anonymously</label>
       </div>
 
       <div class="question">
-        <div class="q-label">Anything you wanted to raise in the meetings but did not?</div>
-        <div class="q-helper">Use this space for points that didn't get the right airtime in the room.</div>
-        <textarea class="textarea" id="openUnsaid" placeholder="What I would have raised…"></textarea>
+        <div class="q-label">Any better ideas on how we should be engaging with you?</div>
+        <div class="q-helper">Format, cadence, prep, follow-through — anything that would make these sessions more useful.</div>
+        <textarea class="textarea" id="openUnsaid" placeholder="A better way to engage would be…"></textarea>
         <label class="anon-toggle"><input type="checkbox" id="openUnsaidAnon" /> <span class="lock">🔒</span> Submit this response anonymously</label>
       </div>
 
@@ -734,9 +671,14 @@
 
     <section class="section-panel" id="summary">
       <div class="section-header">
-        <div class="section-eyebrow">Section 08 · Review &amp; submit</div>
+        <div class="section-eyebrow">Section 09 · Review &amp; submit</div>
         <h1 class="section-title">Summary.</h1>
         <p class="section-desc">An AI-generated summary of what you've shared, plus what the broader leadership team is saying. Review your responses, edit any section, then submit.</p>
+      </div>
+
+      <div class="future-state-notice">
+        <div class="future-state-label">Future state</div>
+        <div class="future-state-body">To be discussed with Jazz AI council. For illustrative purposes only.</div>
       </div>
 
       <div class="summary-tabs" id="summaryTabs">
@@ -776,7 +718,7 @@
 
         <div class="summary-card summary-card-3">
           <div class="summary-card-head">
-            <div><div class="summary-card-meta"><span class="summary-card-num">Section 03 · Regional perspective</span></div>
+            <div><div class="summary-card-meta"><span class="summary-card-num">Section 03 · Regional/Market perspective</span></div>
             <h3 class="summary-card-title">Translates well in core markets, less so in newer ones</h3></div>
             <button class="summary-edit-link" data-edit="region">Edit section</button>
           </div>
@@ -882,7 +824,7 @@
     <!-- ============ 9 · LEADERSHIP VIEW (ALL RESPONSES) ============ -->
     <section class="section-panel" id="leadership">
       <div class="section-header">
-        <div class="section-eyebrow">Section 09 · Leadership view</div>
+        <div class="section-eyebrow">Section 10 · Leadership view</div>
         <h1 class="section-title">All responses.</h1>
         <p class="section-desc">Read every response submitted by the global commercial leadership team. Filter, search, switch between question-grouped and per-respondent views. Anonymous fields are honored — names are hidden where respondents requested.</p>
       </div>
@@ -904,31 +846,14 @@
           <div class="leadership-stat-detail">Across submitted</div>
         </div>
         <div class="leadership-stat">
-          <div class="leadership-stat-label">Regions represented</div>
-          <div class="leadership-stat-value" id="lstatRegions">—</div>
-          <div class="leadership-stat-detail" id="lstatRegionsList">—</div>
+          <div class="leadership-stat-label">Anonymous fields</div>
+          <div class="leadership-stat-value" id="lstatAnon">—</div>
+          <div class="leadership-stat-detail">Total flagged anonymous</div>
         </div>
       </div>
 
       <div class="leadership-toolbar">
-        <input type="text" class="leadership-search" id="leadershipSearch" placeholder="Search names, regions, or response text…" />
-        <select class="leadership-filter" id="leadershipRegionFilter">
-          <option value="">All regions</option>
-          <option value="North America">North America</option>
-          <option value="Europe">Europe</option>
-          <option value="Asia-Pacific">Asia-Pacific</option>
-          <option value="Latin America">Latin America</option>
-          <option value="Global / cross-region">Global / cross-region</option>
-        </select>
-        <select class="leadership-filter" id="leadershipFunctionFilter">
-          <option value="">All functions</option>
-          <option value="Sales leadership">Sales leadership</option>
-          <option value="Marketing leadership">Marketing leadership</option>
-          <option value="Commercial operations">Commercial operations</option>
-          <option value="Market access">Market access</option>
-          <option value="Medical affairs">Medical affairs</option>
-          <option value="General management">General management</option>
-        </select>
+        <input type="text" class="leadership-search" id="leadershipSearch" placeholder="Search names or response text…" />
         <label class="leadership-toggle">
           <input type="checkbox" id="leadershipIncludeDrafts" /> Include drafts
         </label>
@@ -954,28 +879,6 @@
     </section>
 
   </main>
-
-  <aside class="comments" id="commentsRail">
-    <div class="comments-header">
-      <div class="comments-title">
-        <svg class="comments-title-icon" viewBox="0 0 16 16" fill="currentColor"><path d="M2 3a1 1 0 011-1h10a1 1 0 011 1v8a1 1 0 01-1 1H6l-3 3v-3H3a1 1 0 01-1-1V3z"/></svg>
-        Discussion
-      </div>
-      <div class="comments-count" id="commentCount">0</div>
-    </div>
-    <div class="comments-section-label" id="commentsContext">On: Introduction</div>
-    <div class="comments-list" id="commentsList"></div>
-    <div class="comment-input-area">
-      <input class="comment-name-input" id="commentNameInput" type="text" placeholder="Your name" />
-      <textarea class="comment-input" id="commentInput" placeholder="Add a comment to this section…"></textarea>
-      <div class="comment-input-actions">
-        <span class="comment-input-meta">Visible to all leadership team</span>
-        <button class="comment-submit" id="commentSubmit">Post</button>
-      </div>
-    </div>
-  </aside>
-
-  <button class="comments-toggle" id="commentsToggle" aria-label="Toggle comments">💬</button>
 
 </div>
 
@@ -1010,7 +913,7 @@
     welcome: 'Introduction',
     pulse: 'Meeting effectiveness',
     reactions: 'Reactions to topics',
-    region: 'Regional perspective',
+    region: 'Regional/Market perspective',
     friction: 'Friction points',
     priorities: 'Priorities & trade-offs',
     commit: 'Commitment',
@@ -1018,201 +921,11 @@
     summary: 'Summary'
   };
 
-  // ============ COMMENTS (Supabase-backed) ============
+  // ============ HTML ESCAPE (used across leadership view + summary) ============
   function escapeHtml(str) {
     if (!str) return '';
     return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
   }
-
-  function timeAgo(timestamp) {
-    const diff = Date.now() - new Date(timestamp).getTime();
-    const mins = Math.floor(diff / 60000);
-    if (mins < 1) return 'just now';
-    if (mins < 60) return mins + 'm';
-    const hours = Math.floor(mins / 60);
-    if (hours < 24) return hours + 'h';
-    const days = Math.floor(hours / 24);
-    if (days < 7) return days + 'd';
-    return new Date(timestamp).toLocaleDateString();
-  }
-
-  function initialsFromName(name) {
-    if (!name) return '??';
-    const parts = name.trim().split(/\s+/);
-    if (parts.length === 1) return parts[0].slice(0,2).toUpperCase();
-    return (parts[0][0] + parts[parts.length-1][0]).toUpperCase();
-  }
-
-  function avatarColorClass(name) {
-    if (!name) return '';
-    const hash = Array.from(name).reduce((a,c) => a + c.charCodeAt(0), 0);
-    const colors = ['', 'c2', 'c3', 'c4', 'c5'];
-    return colors[hash % colors.length];
-  }
-
-  async function renderComments(sectionId) {
-    const list = document.getElementById('commentsList');
-    const count = document.getElementById('commentCount');
-    const ctx = document.getElementById('commentsContext');
-    ctx.textContent = 'On: ' + (sectionLabels[sectionId] || sectionId);
-
-    const { data, error } = await db
-      .from('comments')
-      .select('*')
-      .eq('section_id', sectionId)
-      .order('created_at', { ascending: false });
-
-    if (error) {
-      console.error('Failed to load comments:', error);
-      list.innerHTML = '<div class="comments-empty"><span class="comments-empty-icon">⚠️</span>Could not load comments.<br/>Check Supabase setup.</div>';
-      count.textContent = '0';
-      return;
-    }
-
-    count.textContent = data.length;
-
-    if (data.length === 0) {
-      list.innerHTML = '<div class="comments-empty"><span class="comments-empty-icon">💬</span>No comments yet on this section.<br/>Be the first to add feedback.</div>';
-      return;
-    }
-
-    list.innerHTML = data.map(c => {
-      const isMine = c.respondent_id === RESPONDENT_ID;
-      const wasEdited = c.updated_at && c.created_at && (new Date(c.updated_at) - new Date(c.created_at) > 2000);
-      return `
-      <div class="comment" data-comment-id="${c.id}" data-author="${escapeHtml(c.author_name || 'Anonymous')}">
-        <div class="comment-head">
-          <div class="comment-author">
-            <div class="comment-avatar ${avatarColorClass(c.author_name)}">${escapeHtml(initialsFromName(c.author_name))}</div>
-            <div class="comment-name">${escapeHtml(c.author_name || 'Anonymous')}</div>
-          </div>
-          <div class="comment-meta-right">
-            <div class="comment-time">${timeAgo(c.created_at)}${wasEdited ? '<span class="comment-edited"> · edited</span>' : ''}</div>
-            ${isMine ? `
-              <div class="comment-menu-wrapper">
-                <button class="comment-menu-btn" data-action="toggle-menu" aria-label="More options">⋯</button>
-                <div class="comment-menu">
-                  <button data-action="edit">Edit</button>
-                  <button class="danger" data-action="delete">Delete</button>
-                </div>
-              </div>
-            ` : ''}
-          </div>
-        </div>
-        <div class="comment-body" data-role="body">${escapeHtml(c.body)}</div>
-      </div>
-    `;
-    }).join('');
-  }
-
-  async function postComment(sectionId, authorName, body) {
-    const { error } = await db.from('comments').insert({
-      respondent_id: RESPONDENT_ID,
-      author_name: authorName || 'Anonymous',
-      section_id: sectionId,
-      body: body
-    });
-    if (error) { console.error('Failed to post comment:', error); alert('Could not post comment. Check the console for details.'); return false; }
-    return true;
-  }
-
-  async function updateCommentInDb(commentId, newBody) {
-    const { error } = await db
-      .from('comments')
-      .update({ body: newBody, updated_at: new Date() })
-      .eq('id', commentId)
-      .eq('respondent_id', RESPONDENT_ID);  // safety: only update own comments
-    if (error) { console.error('Failed to edit comment:', error); alert('Could not save edit.'); return false; }
-    return true;
-  }
-
-  async function deleteCommentInDb(commentId) {
-    const { error } = await db
-      .from('comments')
-      .delete()
-      .eq('id', commentId)
-      .eq('respondent_id', RESPONDENT_ID);  // safety: only delete own comments
-    if (error) { console.error('Failed to delete comment:', error); alert('Could not delete comment.'); return false; }
-    return true;
-  }
-
-  function getActiveSectionId() {
-    return sectionIds.find(id => document.getElementById(id).classList.contains('active'));
-  }
-
-  // Event delegation for the comments list — handles menu, edit, delete clicks
-  // on dynamically-rendered content.
-  document.getElementById('commentsList').addEventListener('click', async (e) => {
-    const action = e.target.dataset.action;
-    if (!action) return;
-
-    const commentEl = e.target.closest('.comment');
-    if (!commentEl) return;
-    const commentId = commentEl.dataset.commentId;
-
-    if (action === 'toggle-menu') {
-      e.stopPropagation();
-      const menu = commentEl.querySelector('.comment-menu');
-      // Close any other open menus first
-      document.querySelectorAll('.comment-menu.open').forEach(m => { if (m !== menu) m.classList.remove('open'); });
-      menu.classList.toggle('open');
-      return;
-    }
-
-    if (action === 'edit') {
-      commentEl.querySelector('.comment-menu').classList.remove('open');
-      const bodyEl = commentEl.querySelector('[data-role="body"]');
-      const currentText = bodyEl.textContent;
-      bodyEl.style.display = 'none';
-      const editArea = document.createElement('div');
-      editArea.className = 'comment-edit-area';
-      editArea.innerHTML = `
-        <textarea class="comment-edit-textarea">${escapeHtml(currentText)}</textarea>
-        <div class="comment-edit-actions">
-          <button class="comment-edit-btn" data-action="cancel-edit">Cancel</button>
-          <button class="comment-edit-btn primary" data-action="save-edit">Save</button>
-        </div>
-      `;
-      commentEl.appendChild(editArea);
-      editArea.querySelector('textarea').focus();
-      return;
-    }
-
-    if (action === 'cancel-edit') {
-      const editArea = commentEl.querySelector('.comment-edit-area');
-      if (editArea) editArea.remove();
-      const bodyEl = commentEl.querySelector('[data-role="body"]');
-      if (bodyEl) bodyEl.style.display = '';
-      return;
-    }
-
-    if (action === 'save-edit') {
-      const textarea = commentEl.querySelector('.comment-edit-textarea');
-      const newText = textarea.value.trim();
-      if (!newText) return;
-      e.target.disabled = true;
-      e.target.textContent = 'Saving…';
-      const ok = await updateCommentInDb(commentId, newText);
-      if (ok) renderComments(getActiveSectionId());
-      else { e.target.disabled = false; e.target.textContent = 'Save'; }
-      return;
-    }
-
-    if (action === 'delete') {
-      commentEl.querySelector('.comment-menu').classList.remove('open');
-      if (!confirm('Delete this comment? This cannot be undone.')) return;
-      const ok = await deleteCommentInDb(commentId);
-      if (ok) renderComments(getActiveSectionId());
-      return;
-    }
-  });
-
-  // Close menus when clicking elsewhere
-  document.addEventListener('click', (e) => {
-    if (!e.target.closest('.comment-menu-wrapper')) {
-      document.querySelectorAll('.comment-menu.open').forEach(m => m.classList.remove('open'));
-    }
-  });
 
   // ============ SHOW SECTION ============
   function showSection(id) {
@@ -1222,7 +935,6 @@
     const pct = ((idx + 1) / sectionIds.length) * 100;
     document.getElementById('progressFill').style.width = pct + '%';
     document.getElementById('progressText').textContent = (idx + 1) + ' of ' + sectionIds.length + ' sections';
-    renderComments(id);
     saveDraft(); // save when navigating away from a section
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
@@ -1260,46 +972,12 @@
     });
   });
 
-  // ============ COMMENT SUBMISSION ============
-  const commentInput = document.getElementById('commentInput');
-  const commentNameInput = document.getElementById('commentNameInput');
-  const commentSubmit = document.getElementById('commentSubmit');
-
-  // Pre-fill name if user already entered it in the survey
-  document.getElementById('fullName').addEventListener('input', (e) => {
-    if (!commentNameInput.value) commentNameInput.value = e.target.value;
-  });
-
-  commentSubmit.addEventListener('click', async () => {
-    const text = commentInput.value.trim();
-    const name = commentNameInput.value.trim();
-    if (!text) return;
-    const activeSection = sectionIds.find(id => document.getElementById(id).classList.contains('active'));
-    commentSubmit.disabled = true;
-    commentSubmit.textContent = 'Posting…';
-    const ok = await postComment(activeSection, name, text);
-    commentSubmit.disabled = false;
-    commentSubmit.textContent = 'Post';
-    if (ok) {
-      commentInput.value = '';
-      renderComments(activeSection);
-    }
-  });
-
-  // ============ MOBILE COMMENTS TOGGLE ============
-  const commentsRail = document.getElementById('commentsRail');
-  const commentsToggle = document.getElementById('commentsToggle');
-  commentsToggle.addEventListener('click', () => commentsRail.classList.toggle('open'));
-
   // ============ SUPABASE PERSISTENCE: GATHER + AUTO-SAVE ============
   function gatherResponses() {
     const ratingEl = document.querySelector('#meetingRating .rating-option.selected');
     return {
       respondent_id: RESPONDENT_ID,
       name: document.getElementById('fullName').value || null,
-      region: (document.getElementById('region').value !== 'Region / market') ? document.getElementById('region').value : null,
-      function_role: (document.getElementById('function').value !== 'Function') ? document.getElementById('function').value : null,
-      business_unit: document.getElementById('businessUnit').value || null,
 
       meeting_rating: ratingEl ? parseInt(ratingEl.dataset.value) : null,
       meeting_landed: document.getElementById('meetingLanded').value || null,
@@ -1318,6 +996,12 @@
       region_risk_anon: document.getElementById('regionRiskAnon').checked,
       region_accelerator: document.getElementById('regionAccelerator').value || null,
 
+      function_translates_well: document.getElementById('functionTranslatesWell').value || null,
+      function_translates_poorly: document.getElementById('functionTranslatesPoorly').value || null,
+      function_risk: document.getElementById('functionRisk').value || null,
+      function_risk_anon: document.getElementById('functionRiskAnon').checked,
+      function_accelerator: document.getElementById('functionAccelerator').value || null,
+
       friction_customer: document.getElementById('frictionCustomer').value || null,
       friction_customer_anon: document.getElementById('frictionCustomerAnon').checked,
       friction_field: document.getElementById('frictionField').value || null,
@@ -1325,14 +1009,11 @@
       friction_internal: document.getElementById('frictionInternal').value || null,
       friction_internal_anon: document.getElementById('frictionInternalAnon').checked,
 
-      priority_ranking: Array.from(document.querySelectorAll('#priorities .rank-item .rank-text')).map(el => el.textContent),
       top_three: [
         document.getElementById('topThree1').value,
         document.getElementById('topThree2').value,
         document.getElementById('topThree3').value
       ],
-      stop_doing: document.getElementById('stopDoing').value || null,
-      stop_doing_anon: document.getElementById('stopDoingAnon').checked,
 
       commitment: document.getElementById('commitment').value || null,
       commitment_needs: document.getElementById('commitmentNeeds').value || null,
@@ -1494,9 +1175,6 @@
 
     // Identity fields
     if (data.name) document.getElementById('fullName').value = data.name;
-    if (data.region) document.getElementById('region').value = data.region;
-    if (data.function_role) document.getElementById('function').value = data.function_role;
-    if (data.business_unit) document.getElementById('businessUnit').value = data.business_unit;
 
     // Meeting effectiveness
     if (data.meeting_rating) {
@@ -1530,7 +1208,14 @@
     if (data.region_risk_anon) { const cb = document.getElementById('regionRiskAnon'); cb.checked = true; cb.closest('.anon-toggle').classList.add('checked'); }
     if (data.region_accelerator) document.getElementById('regionAccelerator').value = data.region_accelerator;
 
-    // Friction
+    // Functional
+    if (data.function_translates_well) document.getElementById('functionTranslatesWell').value = data.function_translates_well;
+    if (data.function_translates_poorly) document.getElementById('functionTranslatesPoorly').value = data.function_translates_poorly;
+    if (data.function_risk) document.getElementById('functionRisk').value = data.function_risk;
+    if (data.function_risk_anon) { const cb = document.getElementById('functionRiskAnon'); cb.checked = true; cb.closest('.anon-toggle').classList.add('checked'); }
+    if (data.function_accelerator) document.getElementById('functionAccelerator').value = data.function_accelerator;
+
+    // Risks (was Friction — DB columns kept the original names for stability)
     if (data.friction_customer) document.getElementById('frictionCustomer').value = data.friction_customer;
     if (data.friction_customer_anon) { const cb = document.getElementById('frictionCustomerAnon'); cb.checked = true; cb.closest('.anon-toggle').classList.add('checked'); }
     if (data.friction_field) document.getElementById('frictionField').value = data.friction_field;
@@ -1538,14 +1223,12 @@
     if (data.friction_internal) document.getElementById('frictionInternal').value = data.friction_internal;
     if (data.friction_internal_anon) { const cb = document.getElementById('frictionInternalAnon'); cb.checked = true; cb.closest('.anon-toggle').classList.add('checked'); }
 
-    // Priorities
+    // 60-day Priorities
     if (Array.isArray(data.top_three)) {
       if (data.top_three[0]) document.getElementById('topThree1').value = data.top_three[0];
       if (data.top_three[1]) document.getElementById('topThree2').value = data.top_three[1];
       if (data.top_three[2]) document.getElementById('topThree3').value = data.top_three[2];
     }
-    if (data.stop_doing) document.getElementById('stopDoing').value = data.stop_doing;
-    if (data.stop_doing_anon) { const cb = document.getElementById('stopDoingAnon'); cb.checked = true; cb.closest('.anon-toggle').classList.add('checked'); }
 
     // Commitment
     if (data.commitment) document.getElementById('commitment').value = data.commitment;
@@ -1567,19 +1250,22 @@
     { id: 'meeting_landed',           section: 'Section 01 · Meeting effectiveness', label: 'What landed most clearly?',                 type: 'text' },
     { id: 'meeting_unresolved',       section: 'Section 01 · Meeting effectiveness', label: 'What felt unresolved?',                     type: 'text', anonField: 'meeting_unresolved_anon' },
     { id: 'topic_reactions',          section: 'Section 02 · Reactions to topics',   label: 'Reactions to topics discussed',             type: 'topics' },
-    { id: 'region_translates_well',   section: 'Section 03 · Regional perspective',  label: 'What translates well to your market?',      type: 'text' },
-    { id: 'region_translates_poorly', section: 'Section 03 · Regional perspective',  label: 'What translates poorly?',                   type: 'text' },
-    { id: 'region_risk',              section: 'Section 03 · Regional perspective',  label: 'One regional risk',                         type: 'text', anonField: 'region_risk_anon' },
-    { id: 'region_accelerator',       section: 'Section 03 · Regional perspective',  label: 'One regional accelerator',                  type: 'text' },
-    { id: 'friction_customer',        section: 'Section 04 · Friction points',       label: 'Customer-facing friction',                  type: 'text', anonField: 'friction_customer_anon' },
-    { id: 'friction_field',           section: 'Section 04 · Friction points',       label: 'Field & commercial friction',               type: 'text', anonField: 'friction_field_anon' },
-    { id: 'friction_internal',        section: 'Section 04 · Friction points',       label: 'Internal & enablement friction',            type: 'text', anonField: 'friction_internal_anon' },
-    { id: 'top_three',                section: 'Section 05 · Priorities & trade-offs', label: 'If you could only do three things…',     type: 'list' },
-    { id: 'stop_doing',               section: 'Section 05 · Priorities & trade-offs', label: 'What should we stop, pause, or de-prioritize?', type: 'text', anonField: 'stop_doing_anon' },
-    { id: 'commitment',               section: 'Section 06 · Personal commitment',   label: 'The one initiative I will personally drive',type: 'text' },
-    { id: 'commitment_needs',         section: 'Section 06 · Personal commitment',   label: 'What you need from the team',               type: 'text' },
-    { id: 'open_missing',             section: 'Section 07 · Open input',            label: 'What is this survey missing?',              type: 'text', anonField: 'open_missing_anon' },
-    { id: 'open_unsaid',              section: 'Section 07 · Open input',            label: 'Anything you wanted to raise but didn\'t?', type: 'text', anonField: 'open_unsaid_anon' },
+    { id: 'region_translates_well',   section: 'Section 03 · Regional/Market perspective',  label: 'What translates well to your region?',      type: 'text' },
+    { id: 'region_translates_poorly', section: 'Section 03 · Regional/Market perspective',  label: 'What translates poorly to your region?',    type: 'text' },
+    { id: 'region_risk',              section: 'Section 03 · Regional/Market perspective',  label: 'One regional risk',                         type: 'text', anonField: 'region_risk_anon' },
+    { id: 'region_accelerator',       section: 'Section 03 · Regional/Market perspective',  label: 'One regional accelerator',                  type: 'text' },
+    { id: 'function_translates_well', section: 'Section 04 · Functional perspective',label: 'What translates well to your function?',    type: 'text' },
+    { id: 'function_translates_poorly',section:'Section 04 · Functional perspective',label: 'What translates poorly to your function?',  type: 'text' },
+    { id: 'function_risk',            section: 'Section 04 · Functional perspective',label: 'One functional risk',                       type: 'text', anonField: 'function_risk_anon' },
+    { id: 'function_accelerator',     section: 'Section 04 · Functional perspective',label: 'One functional accelerator',                type: 'text' },
+    { id: 'friction_customer',        section: 'Section 05 · Risks ahead',           label: 'Customer risk',                             type: 'text', anonField: 'friction_customer_anon' },
+    { id: 'friction_field',           section: 'Section 05 · Risks ahead',           label: 'Field & team risk',                         type: 'text', anonField: 'friction_field_anon' },
+    { id: 'friction_internal',        section: 'Section 05 · Risks ahead',           label: 'Internal risk',                             type: 'text', anonField: 'friction_internal_anon' },
+    { id: 'top_three',                section: 'Section 06 · 60-day priorities',     label: 'Top 3 priorities for next 60 days (limit disruption)', type: 'list' },
+    { id: 'commitment',               section: 'Section 07 · Personal commitment',   label: 'The one CX initiative I will personally drive',type: 'text' },
+    { id: 'commitment_needs',         section: 'Section 07 · Personal commitment',   label: 'What you need from the team',               type: 'text' },
+    { id: 'open_missing',             section: 'Section 08 · Open input',            label: 'Any other topics you want us to bring?',    type: 'text', anonField: 'open_missing_anon' },
+    { id: 'open_unsaid',              section: 'Section 08 · Open input',            label: 'Any better ideas on engaging with you?',    type: 'text', anonField: 'open_unsaid_anon' },
   ];
 
   const RATING_LABELS = { 1: 'Poor', 2: 'Below avg.', 3: 'Average', 4: 'Strong', 5: 'Excellent' };
@@ -1609,26 +1295,22 @@
     const submitted = leadershipResponses.filter(r => r.submitted);
     const drafts = leadershipResponses.filter(r => !r.submitted);
     const ratings = submitted.map(r => r.meeting_rating).filter(x => x != null);
-    const regions = [...new Set(submitted.map(r => r.region).filter(Boolean))];
+    const anonFields = ['meeting_unresolved_anon', 'region_risk_anon', 'function_risk_anon', 'friction_customer_anon', 'friction_field_anon', 'friction_internal_anon', 'open_missing_anon', 'open_unsaid_anon'];
+    const anonCount = submitted.reduce((sum, r) => sum + anonFields.filter(f => r[f]).length, 0);
 
     document.getElementById('lstatSubmitted').textContent = submitted.length;
     document.getElementById('lstatSubmittedPct').textContent = `of ${leadershipResponses.length} responses`;
     document.getElementById('lstatDrafts').textContent = drafts.length;
     document.getElementById('lstatRating').textContent = ratings.length ? (ratings.reduce((a,b)=>a+b,0) / ratings.length).toFixed(1) : '—';
-    document.getElementById('lstatRegions').textContent = regions.length;
-    document.getElementById('lstatRegionsList').textContent = regions.length ? regions.join(', ') : '—';
+    document.getElementById('lstatAnon').textContent = anonCount;
   }
 
   function applyFilters(responses) {
     const search = document.getElementById('leadershipSearch').value.toLowerCase().trim();
-    const region = document.getElementById('leadershipRegionFilter').value;
-    const fn = document.getElementById('leadershipFunctionFilter').value;
     const includeDrafts = document.getElementById('leadershipIncludeDrafts').checked;
 
     return responses.filter(r => {
       if (!includeDrafts && !r.submitted) return false;
-      if (region && r.region !== region) return false;
-      if (fn && r.function_role !== fn) return false;
       if (search) {
         const haystack = JSON.stringify(r).toLowerCase();
         if (!haystack.includes(search)) return false;
@@ -1639,11 +1321,11 @@
 
   function getDisplayName(r, anonField) {
     if (anonField && r[anonField]) {
-      return { name: 'Anonymous', meta: r.region || '' };
+      return { name: 'Anonymous', meta: '' };
     }
     return {
       name: r.name || 'Unnamed',
-      meta: [r.region, r.function_role].filter(Boolean).join(' · ')
+      meta: r.submitted ? 'Submitted' : 'Draft'
     };
   }
 
@@ -1774,14 +1456,14 @@
         return `<div class="lr-section"><div class="lr-section-title">${sectionName}</div>${fieldsHtml}</div>`;
       }).join('');
 
-      const meta = [r.region, r.function_role, r.business_unit].filter(Boolean).join(' · ');
+      const meta = r.updated_at ? `Last updated ${new Date(r.updated_at).toLocaleString()}` : '';
 
       return `
         <div class="lr-card collapsed">
           <div class="lr-header" data-lr-toggle>
             <div>
               <div class="lr-name">${escapeHtml(r.name || 'Unnamed respondent')}</div>
-              <div class="lr-meta">${escapeHtml(meta) || 'No identity info provided'}</div>
+              <div class="lr-meta">${escapeHtml(meta)}</div>
             </div>
             <div class="lq-meta">
               <span class="lr-status ${r.submitted ? 'submitted' : 'draft'}">${r.submitted ? 'Submitted' : 'Draft'}</span>
@@ -1810,7 +1492,7 @@
     const filtered = applyFilters(leadershipResponses);
     if (filtered.length === 0) { alert('No responses to export with current filters.'); return; }
 
-    const headers = ['name','region','function','business_unit','submitted','meeting_rating','meeting_landed','meeting_unresolved','meeting_unresolved_anon','topic_reactions','region_translates_well','region_translates_poorly','region_risk','region_risk_anon','region_accelerator','friction_customer','friction_customer_anon','friction_field','friction_field_anon','friction_internal','friction_internal_anon','top_three','stop_doing','stop_doing_anon','commitment','commitment_needs','open_missing','open_missing_anon','open_unsaid','open_unsaid_anon','created_at','updated_at'];
+    const headers = ['name','submitted','meeting_rating','meeting_landed','meeting_unresolved','meeting_unresolved_anon','topic_reactions','region_translates_well','region_translates_poorly','region_risk','region_risk_anon','region_accelerator','function_translates_well','function_translates_poorly','function_risk','function_risk_anon','function_accelerator','customer_risk','customer_risk_anon','field_risk','field_risk_anon','internal_risk','internal_risk_anon','top_three_60day','commitment','commitment_needs','other_topics','other_topics_anon','engagement_ideas','engagement_ideas_anon','created_at','updated_at'];
 
     const escape = (v) => {
       if (v == null) return '';
@@ -1821,12 +1503,13 @@
     };
 
     const rows = filtered.map(r => [
-      r.name, r.region, r.function_role, r.business_unit, r.submitted,
+      r.name, r.submitted,
       r.meeting_rating, r.meeting_landed, r.meeting_unresolved, r.meeting_unresolved_anon,
       r.topic_reactions,
       r.region_translates_well, r.region_translates_poorly, r.region_risk, r.region_risk_anon, r.region_accelerator,
+      r.function_translates_well, r.function_translates_poorly, r.function_risk, r.function_risk_anon, r.function_accelerator,
       r.friction_customer, r.friction_customer_anon, r.friction_field, r.friction_field_anon, r.friction_internal, r.friction_internal_anon,
-      r.top_three, r.stop_doing, r.stop_doing_anon,
+      r.top_three,
       r.commitment, r.commitment_needs,
       r.open_missing, r.open_missing_anon, r.open_unsaid, r.open_unsaid_anon,
       r.created_at, r.updated_at
@@ -1846,8 +1529,6 @@
 
   // Wire up controls
   document.getElementById('leadershipSearch').addEventListener('input', renderLeadershipView);
-  document.getElementById('leadershipRegionFilter').addEventListener('change', renderLeadershipView);
-  document.getElementById('leadershipFunctionFilter').addEventListener('change', renderLeadershipView);
   document.getElementById('leadershipIncludeDrafts').addEventListener('change', () => {
     updateLeadershipStats();
     renderLeadershipView();
