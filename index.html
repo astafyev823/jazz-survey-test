@@ -1083,7 +1083,11 @@
     const statusText = document.getElementById('saveStatusText');
     statusText.textContent = 'Saving…';
 
-    const payload = { ...gatherResponses(), submitted: false };
+    // Critical: if the user has already submitted, every subsequent save must
+    // preserve submitted=true. Otherwise the auto-save firing after submit
+    // (e.g. when applySubmittedUiState toggles the button, or when the user
+    // edits any field afterwards) silently downgrades the response back to draft.
+    const payload = { ...gatherResponses(), submitted: userHasSubmitted };
 
     const { error } = await db
       .from('responses')
